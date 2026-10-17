@@ -1,0 +1,344 @@
+# LEX-CAT · Catálogo de relações normativas e vocabulários controlados
+# Ontologia da Legislação Brasileira (OLB) · v0.7 · 15 de outubro de 2026 (nome de arquivo mantido)
+# Gerson Rolim e Sueli Rolim · documento de trabalho
+# Namespace: https://w3id.org/olb (registro solicitado; ver LEX-W3ID).
+# Os doze tipos marcados como vocabulário oficial reproduzem valores do TipoRelacionamentoType do esquema
+# oficial oai_lexml.xsd (dezessete valores; arquivo conferido em 16 de outubro de 2026, com histórico até 2013).
+# Ficam fora do catálogo publicacao.oficial, emenda.de, parecer.de, peticao.inicial.de e sucessivo.ou.precedente.de.
+
+@prefix olb:  <https://w3id.org/olb#> .
+@prefix olbv: <https://w3id.org/olb/vocab#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/olb/vocab> a owl:Ontology ;
+    rdfs:label "OLB, catálogo de relações e vocabulários controlados"@pt ;
+    owl:versionInfo "0.7" ;
+    dcterms:created "2026-10-02"^^xsd:date ;
+    dcterms:creator "Gerson Rolim", "Sueli Rolim" .
+
+# Propriedades de anotação do catálogo
+olb:origemVocabulario a owl:AnnotationProperty ; rdfs:label "origem do vocabulário"@pt .
+olb:exigeProposta a owl:AnnotationProperty ; rdfs:label "exige proposta e decisão humana"@pt ;
+    rdfs:comment "Verdadeiro quando a relação, por natureza, não é declarada no texto e só pode nascer como proposta."@pt .
+olb:fundamentoTipico a owl:AnnotationProperty ; rdfs:label "fundamento típico"@pt .
+olb:sujeitoAAlertaHierarquico a owl:AnnotationProperty ; rdfs:label "sujeito a alerta hierárquico"@pt .
+
+olbv:vocabularioOficialLexML a skos:Concept ; skos:prefLabel "vocabulário oficial LexML (Parte 4)"@pt .
+olbv:extensaoDosAutores a skos:Concept ; skos:prefLabel "extensão declarada dos autores"@pt ;
+    skos:definition "Valor sem correspondente no vocabulário oficial; usado apenas para relações não declaradas pelo publicador."@pt .
+
+# ---------------------------------------------------------------- tipos de relação (14)
+olbv:esquemaTipoRelacao a skos:ConceptScheme ;
+    skos:prefLabel "Tipos de relação normativa"@pt ;
+    skos:definition "Doze valores do vocabulário oficial do LexML e duas extensões para relações implícitas (LINDB, art. 2º, § 1º, a verificar)."@pt .
+
+olbv:revoga a skos:Concept ; skos:inScheme olbv:esquemaTipoRelacao ; skos:notation "revoga" ;
+    skos:prefLabel "revoga"@pt ; skos:definition "A origem revoga integralmente a norma de destino."@pt ;
+    olb:origemVocabulario olbv:vocabularioOficialLexML ; olb:exigeProposta false ; olb:sujeitoAAlertaHierarquico true ;
+    olb:fundamentoTipico "Cláusula revogatória expressa (LC 95/1998, art. 9º, a verificar)" .
+olbv:revoga_dispositivo a skos:Concept ; skos:inScheme olbv:esquemaTipoRelacao ; skos:notation "revoga.dispositivo" ;
+    skos:prefLabel "revoga dispositivo"@pt ; skos:definition "A origem revoga um dispositivo determinado, ou um agrupador (parte, livro ou título), da norma de destino."@pt ;
+    olb:origemVocabulario olbv:vocabularioOficialLexML ; olb:exigeProposta false ; olb:sujeitoAAlertaHierarquico true ;
+    olb:fundamentoTipico "Cláusula revogatória expressa que enumera dispositivos ou agrupadores" .
+olbv:altera a skos:Concept ; skos:inScheme olbv:esquemaTipoRelacao ; skos:notation "altera" ;
+    skos:prefLabel "altera"@pt ; skos:definition "A origem dá nova redação, acrescenta ou suprime conteúdo no destino."@pt ;
+    olb:origemVocabulario olbv:vocabularioOficialLexML ; olb:exigeProposta false ; olb:sujeitoAAlertaHierarquico true ;
+    olb:fundamentoTipico "Comando de alteração (LC 95/1998, art. 12, a verificar)" .
+olbv:regulamenta a skos:Concept ; skos:inScheme olbv:esquemaTipoRelacao ; skos:notation "regulamenta" ;
+    skos:prefLabel "regulamenta"@pt ; skos:definition "A origem regulamenta a norma de destino."@pt ;
+    olb:origemVocabulario olbv:vocabularioOficialLexML ; olb:exigeProposta false ; olb:sujeitoAAlertaHierarquico false .
+olbv:referencia a skos:Concept ; skos:inScheme olbv:esquemaTipoRelacao ; skos:notation "referencia" ;
+    skos:prefLabel "referencia"@pt ; skos:definition "A origem cita o destino sem lhe produzir efeito."@pt ;
+    olb:origemVocabulario olbv:vocabularioOficialLexML ; olb:exigeProposta false ; olb:sujeitoAAlertaHierarquico false .
+olbv:correlato_a a skos:Concept ; skos:inScheme olbv:esquemaTipoRelacao ; skos:notation "correlato.a" ;
+    skos:prefLabel "correlato a"@pt ; skos:definition "Vínculo temático declarado entre documentos."@pt ;
+    olb:origemVocabulario olbv:vocabularioOficialLexML ; olb:exigeProposta false ; olb:sujeitoAAlertaHierarquico false .
+olbv:parte_de a skos:Concept ; skos:inScheme olbv:esquemaTipoRelacao ; skos:notation "parte.de" ;
+    skos:prefLabel "parte de"@pt ; skos:definition "Relação documental parte-todo entre documentos (não confundir com a mereologia de dispositivos, olb:parteDe)."@pt ;
+    olb:origemVocabulario olbv:vocabularioOficialLexML ; olb:exigeProposta false ; olb:sujeitoAAlertaHierarquico false .
+olbv:membro_de a skos:Concept ; skos:inScheme olbv:esquemaTipoRelacao ; skos:notation "membro.de" ;
+    skos:prefLabel "membro de"@pt ; skos:definition "Pertença de um documento a uma coleção ou série."@pt ;
+    olb:origemVocabulario olbv:vocabularioOficialLexML ; olb:exigeProposta false ; olb:sujeitoAAlertaHierarquico false .
+olbv:equivalente_a a skos:Concept ; skos:inScheme olbv:esquemaTipoRelacao ; skos:notation "equivalente.a" ;
+    skos:prefLabel "equivalente a"@pt ; skos:definition "Documentos que expressam o mesmo conteúdo."@pt ;
+    olb:origemVocabulario olbv:vocabularioOficialLexML ; olb:exigeProposta false ; olb:sujeitoAAlertaHierarquico false .
+olbv:sucessor_logico_de a skos:Concept ; skos:inScheme olbv:esquemaTipoRelacao ; skos:notation "sucessor.logico.de" ;
+    skos:prefLabel "sucessor lógico de"@pt ; skos:definition "A origem sucede o destino na mesma função, como uma Constituição em relação à anterior."@pt ;
+    olb:origemVocabulario olbv:vocabularioOficialLexML ; olb:exigeProposta false ; olb:sujeitoAAlertaHierarquico false .
+olbv:declara_inconstitucional a skos:Concept ; skos:inScheme olbv:esquemaTipoRelacao ; skos:notation "declara.inconstitucional" ;
+    skos:prefLabel "declara inconstitucional"@pt ; skos:definition "Decisão judicial que declara a inconstitucionalidade da norma de destino: eixo de invalidade, distinto da revogação."@pt ;
+    olb:origemVocabulario olbv:vocabularioOficialLexML ; olb:exigeProposta false ; olb:sujeitoAAlertaHierarquico false .
+olbv:declara_inconstitucional_dispositivo a skos:Concept ; skos:inScheme olbv:esquemaTipoRelacao ; skos:notation "declara.inconstitucional.dispositivo" ;
+    skos:prefLabel "declara inconstitucional dispositivo"@pt ; skos:definition "Idem, restrito a dispositivo determinado."@pt ;
+    olb:origemVocabulario olbv:vocabularioOficialLexML ; olb:exigeProposta false ; olb:sujeitoAAlertaHierarquico false .
+olbv:conflita_com a skos:Concept ; skos:inScheme olbv:esquemaTipoRelacao ; skos:notation "conflita_com" ;
+    skos:prefLabel "conflita com (antinomia)"@pt ; skos:definition "Duas normas vigentes tratam do mesmo objeto de forma incompatível, sem que uma revogue a outra. Exige critério de solução."@pt ;
+    olb:origemVocabulario olbv:extensaoDosAutores ; olb:exigeProposta true ; olb:sujeitoAAlertaHierarquico false ;
+    olb:fundamentoTipico "Critérios hierárquico, de especialidade e cronológico (doutrina, a referenciar)" .
+olbv:revoga_tacitamente a skos:Concept ; skos:inScheme olbv:esquemaTipoRelacao ; skos:notation "revoga_tacitamente" ;
+    skos:prefLabel "revoga tacitamente (candidata)"@pt ; skos:definition "Revogação por incompatibilidade ou por regulação integral da matéria, sem cláusula expressa."@pt ;
+    olb:origemVocabulario olbv:extensaoDosAutores ; olb:exigeProposta true ; olb:sujeitoAAlertaHierarquico true ;
+    olb:fundamentoTipico "LINDB, art. 2º, § 1º (a verificar no texto autêntico)" .
+
+# ---------------------------------------------------------------- estado da relação (Capítulo 17)
+olbv:esquemaEstado a skos:ConceptScheme ; skos:prefLabel "Estado da relação normativa"@pt .
+olbv:declarada a skos:Concept ; skos:inScheme olbv:esquemaEstado ; skos:prefLabel "Declarada"@pt ;
+    skos:definition "Declarada pelo publicador ou pelo texto, ainda não validada."@pt .
+olbv:pendente a skos:Concept ; skos:inScheme olbv:esquemaEstado ; skos:prefLabel "Pendente"@pt ;
+    skos:definition "Detectada, mas sem texto anterior do alvo ou com alvo não resolvido. Nada se materializa."@pt .
+olbv:proposta a skos:Concept ; skos:inScheme olbv:esquemaEstado ; skos:prefLabel "Proposta"@pt ;
+    skos:definition "Inferida por regra ou por inteligência artificial; aguarda decisão humana. Rejeitada, permanece arquivada com a decisão."@pt .
+olbv:canonica a skos:Concept ; skos:inScheme olbv:esquemaEstado ; skos:prefLabel "Canônica"@pt ;
+    skos:definition "Declarada e validada, ou proposta aprovada por decisão humana registrada."@pt .
+
+# ---------------------------------------------------------------- camada de origem
+olbv:esquemaCamada a skos:ConceptScheme ; skos:prefLabel "Camada de origem da relação"@pt .
+olbv:camadaDeclarada a skos:Concept ; skos:inScheme olbv:esquemaCamada ; skos:prefLabel "declarada pelo publicador ou pelo texto"@pt .
+olbv:camadaInferidaRegra a skos:Concept ; skos:inScheme olbv:esquemaCamada ; skos:prefLabel "inferida por regra"@pt .
+olbv:camadaInferidaIA a skos:Concept ; skos:inScheme olbv:esquemaCamada ; skos:prefLabel "inferida por inteligência artificial"@pt .
+olbv:camadaMista a skos:Concept ; skos:inScheme olbv:esquemaCamada ; skos:prefLabel "mista: sinal por regra e confirmação semântica"@pt .
+
+# ---------------------------------------------------------------- comando de alteração
+olbv:esquemaVerbo a skos:ConceptScheme ; skos:prefLabel "Verbo do comando de alteração"@pt .
+olbv:daNovaRedacao a skos:Concept ; skos:inScheme olbv:esquemaVerbo ; skos:prefLabel "dá nova redação"@pt .
+olbv:acrescenta a skos:Concept ; skos:inScheme olbv:esquemaVerbo ; skos:prefLabel "acrescenta"@pt .
+olbv:revogaVerbo a skos:Concept ; skos:inScheme olbv:esquemaVerbo ; skos:prefLabel "revoga"@pt .
+
+olbv:esquemaEstadoComando a skos:ConceptScheme ; skos:prefLabel "Estado do comando de alteração"@pt .
+olbv:cmdPendente a skos:Concept ; skos:inScheme olbv:esquemaEstadoComando ; skos:prefLabel "pendente"@pt ;
+    skos:definition "Texto anterior do alvo indisponível ou alvo não resolvido. Nenhuma versão é gerada."@pt .
+olbv:cmdMaterializado a skos:Concept ; skos:inScheme olbv:esquemaEstadoComando ; skos:prefLabel "materializado"@pt ;
+    skos:definition "A nova versão do alvo foi gerada a partir do texto citado, verbatim."@pt .
+olbv:cmdJaAplicado a skos:Concept ; skos:inScheme olbv:esquemaEstadoComando ; skos:prefLabel "já aplicado pela fonte"@pt ;
+    skos:definition "O texto carregado já incorpora a alteração (compilação do portal); o comando é conferido, não reaplicado."@pt .
+
+# ---------------------------------------------------------------- situação do dispositivo
+# Duas fontes: as expressões da LC 95/1998, art. 12, III, c, e o TipoSituacao do esquema LexML.
+# A correspondência entre elas está marcada para conferência.
+olbv:esquemaSituacao a skos:ConceptScheme ; skos:prefLabel "Situação do dispositivo"@pt ;
+    skos:note "Ausência de situação indica vigência normal."@pt .
+olbv:revogado a skos:Concept ; skos:inScheme olbv:esquemaSituacao ; skos:prefLabel "revogado"@pt ;
+    skos:note "LC 95/1998, art. 12, III, c, e TipoSituacao do LexML."@pt .
+olbv:vetado a skos:Concept ; skos:inScheme olbv:esquemaSituacao ; skos:prefLabel "vetado"@pt ;
+    skos:note "LC 95/1998, art. 12, III, c, e TipoSituacao do LexML."@pt .
+olbv:declaradoInconstitucional a skos:Concept ; skos:inScheme olbv:esquemaSituacao ; skos:prefLabel "declarado inconstitucional"@pt ;
+    skos:note "LC 95/1998, art. 12, III, c. Sem correspondente direto no TipoSituacao: a conferir."@pt .
+olbv:execucaoSuspensa a skos:Concept ; skos:inScheme olbv:esquemaSituacao ; skos:prefLabel "execução suspensa pelo Senado Federal"@pt ;
+    skos:note "LC 95/1998, art. 12, III, c. Possível correspondência com 'suspenso' do TipoSituacao: a conferir."@pt .
+olbv:suspenso a skos:Concept ; skos:inScheme olbv:esquemaSituacao ; skos:prefLabel "suspenso"@pt ; skos:note "TipoSituacao do LexML."@pt .
+olbv:superado a skos:Concept ; skos:inScheme olbv:esquemaSituacao ; skos:prefLabel "superado"@pt ; skos:note "TipoSituacao do LexML."@pt .
+olbv:omissis a skos:Concept ; skos:inScheme olbv:esquemaSituacao ; skos:prefLabel "omissis"@pt ;
+    skos:note "TipoSituacao do LexML: marca de trecho não alterado em texto de alteração."@pt .
+
+# ---------------------------------------------------------------- decisão humana
+olbv:esquemaResultado a skos:ConceptScheme ; skos:prefLabel "Resultado da decisão"@pt .
+olbv:aprovada a skos:Concept ; skos:inScheme olbv:esquemaResultado ; skos:prefLabel "aprovada"@pt .
+olbv:rejeitada a skos:Concept ; skos:inScheme olbv:esquemaResultado ; skos:prefLabel "rejeitada"@pt .
+
+# ---------------------------------------------------------------- critério de solução de antinomia
+olbv:esquemaCriterio a skos:ConceptScheme ; skos:prefLabel "Critério de solução de antinomia"@pt .
+olbv:criterioHierarquico a skos:Concept ; skos:inScheme olbv:esquemaCriterio ; skos:prefLabel "hierárquico"@pt .
+olbv:criterioEspecialidade a skos:Concept ; skos:inScheme olbv:esquemaCriterio ; skos:prefLabel "especialidade"@pt .
+olbv:criterioCronologico a skos:Concept ; skos:inScheme olbv:esquemaCriterio ; skos:prefLabel "cronológico"@pt .
+olbv:criterioCompetencia a skos:Concept ; skos:inScheme olbv:esquemaCriterio ; skos:prefLabel "competência"@pt ;
+    skos:definition "Prevalece o ato do órgão ou ente a que a lei ou a Constituição atribui a matéria. Resolve conflito entre pares, em que hierarquia nada decide (decisão 48). Exige olb:competenciaInvocada (R61)."@pt .
+
+# ---------------------------------------------------------------- tipo de documento (Capítulo 5)
+olbv:esquemaTipoDocumento a skos:ConceptScheme ; skos:prefLabel "Tipo de documento"@pt .
+olbv:publicacaoOficial a skos:Concept ; skos:inScheme olbv:esquemaTipoDocumento ; skos:prefLabel "publicação oficial"@pt .
+olbv:retificacao a skos:Concept ; skos:inScheme olbv:esquemaTipoDocumento ; skos:prefLabel "retificação"@pt ;
+    skos:note "Publicação que corrige texto já publicado; efeito pelo momento (LINDB, art. 1º, §§ 3º e 4º). Evento sobre o documento, não relação nova do catálogo."@pt .
+olbv:esquemaEfeitoRetificacao a skos:ConceptScheme ; skos:prefLabel "Efeito da retificação"@pt .
+olbv:reiniciaVacatio a skos:Concept ; skos:inScheme olbv:esquemaEfeitoRetificacao ; skos:prefLabel "reinicia a vacância"@pt .
+olbv:leiNova a skos:Concept ; skos:inScheme olbv:esquemaEfeitoRetificacao ; skos:prefLabel "lei nova"@pt .
+olbv:repristinacaoExpressa a skos:Concept ; skos:inScheme olbv:esquemaClausulaRevogatoria ; skos:prefLabel "restauração expressa"@pt ;
+    skos:note "Cláusula que restaura a lei revogada, exceção à regra do art. 2º, § 3º, da LINDB."@pt .
+olbv:compilacao a skos:Concept ; skos:inScheme olbv:esquemaTipoDocumento ; skos:prefLabel "compilação editorial"@pt .
+olbv:fichaMetadados a skos:Concept ; skos:inScheme olbv:esquemaTipoDocumento ; skos:prefLabel "ficha de metadados (não é corpo normativo)"@pt .
+
+# ================================================================ v0.2 · 3 de outubro de 2026
+# Cruzamento entre evolução legislativa e linguística (Capítulo 8A).
+
+# ---------------------------------------------------------------- regime ortográfico
+# A ortografia oficial é ela mesma matéria normativa: cada regime foi instituído ou revogado por norma.
+# Instrumentos e datas marcados para conferência no texto autêntico.
+olb:inicioRegimeBrasil a owl:AnnotationProperty ; rdfs:label "início do regime no Brasil"@pt .
+olb:instrumentoNormativo a owl:AnnotationProperty ; rdfs:label "instrumento normativo"@pt .
+
+olbv:esquemaRegimeOrtografico a skos:ConceptScheme ;
+    skos:prefLabel "Regime ortográfico do texto"@pt ;
+    skos:definition "Sistema ortográfico em que uma versão foi publicada. O texto oficial conserva a grafia da publicação; a grafia é dado da versão, não do dispositivo."@pt .
+olbv:regimeEtimologico a skos:Concept ; skos:inScheme olbv:esquemaRegimeOrtografico ;
+    skos:prefLabel "grafia etimológica, sem sistema oficial unificado"@pt ;
+    skos:note "Textos do Império e da Primeira República, como a Constituição de 1891 (Estados Unidos do Brazil). Delimitação a conferir."@pt .
+olbv:regimeABL1907 a skos:Concept ; skos:inScheme olbv:esquemaRegimeOrtografico ;
+    skos:prefLabel "ortografia simplificada da ABL (1907)"@pt ; olb:inicioRegimeBrasil "1907"^^xsd:gYear ;
+    skos:note "Restrita às publicações da Academia Brasileira de Letras; não é regime oficial de textos normativos."@pt .
+olbv:regimeAcordo1931 a skos:Concept ; skos:inScheme olbv:esquemaRegimeOrtografico ;
+    skos:prefLabel "Acordo ABL e Academia das Ciências de Lisboa (1931)"@pt ; olb:inicioRegimeBrasil "1931"^^xsd:gYear ;
+    olb:instrumentoNormativo "Oficialização no Brasil por decreto de 1931; intercorrências entre 1934 e 1938 (a conferir)" .
+olbv:regimeFormulario1943 a skos:Concept ; skos:inScheme olbv:esquemaRegimeOrtografico ;
+    skos:prefLabel "Formulário Ortográfico de 1943"@pt ; olb:inicioRegimeBrasil "1943"^^xsd:gYear ;
+    skos:note "Base do padrão brasileiro até 1990, com o ajuste de 1971."@pt .
+olbv:regimeConvencao1945 a skos:Concept ; skos:inScheme olbv:esquemaRegimeOrtografico ;
+    skos:prefLabel "Convenção Ortográfica de 1945"@pt ; olb:inicioRegimeBrasil "1945"^^xsd:gYear ;
+    olb:instrumentoNormativo "Vigente em Portugal; no Brasil, aprovada por decreto-lei em 1945 e revogada em 1955, com retorno ao sistema de 1943 (a conferir: Lei nº 2.623/1955)" .
+olbv:regimeAjuste1971 a skos:Concept ; skos:inScheme olbv:esquemaRegimeOrtografico ;
+    skos:prefLabel "Formulário de 1943 com o ajuste de 1971"@pt ; olb:inicioRegimeBrasil "1971"^^xsd:gYear ;
+    olb:instrumentoNormativo "Lei nº 5.765/1971 (a conferir): supressão de acentos diferenciais e subtônicos" .
+olbv:regimeAcordo1990 a skos:Concept ; skos:inScheme olbv:esquemaRegimeOrtografico ;
+    skos:prefLabel "Acordo Ortográfico da Língua Portuguesa (1990)"@pt ; olb:inicioRegimeBrasil "2009"^^xsd:gYear ;
+    olb:instrumentoNormativo "Promulgado pelo Decreto nº 6.583/2008; transição de 2009 a 2015; obrigatório desde 2016 (a conferir)" .
+
+# ---------------------------------------------------------------- forma de edição da Constituição
+olbv:esquemaFormaEdicao a skos:ConceptScheme ; skos:prefLabel "Forma de edição de Constituição"@pt .
+olbv:outorga a skos:Concept ; skos:inScheme olbv:esquemaFormaEdicao ; skos:prefLabel "outorgada"@pt ;
+    skos:definition "Imposta pelo detentor do poder, sem assembleia constituinte."@pt .
+olbv:promulgacao a skos:Concept ; skos:inScheme olbv:esquemaFormaEdicao ; skos:prefLabel "promulgada"@pt ;
+    skos:definition "Votada por assembleia ou congresso. Casos de qualificação controvertida ficam em nota."@pt .
+
+# ---------------------------------------------------------------- camada de origem: tese doutrinária
+olbv:camadaDoutrinaria a skos:Concept ; skos:inScheme olbv:esquemaCamada ;
+    skos:prefLabel "tese doutrinária"@pt ;
+    skos:definition "Relação sustentada por parte da doutrina e contestada por outra parte. Entra como proposta e só se torna canônica por decisão humana registrada."@pt .
+
+# ================================================================ v0.3 · cláusula de revogação (Capítulo 8B)
+olbv:esquemaClausulaRevogatoria a skos:ConceptScheme ; skos:prefLabel "Forma da cláusula de revogação"@pt .
+olbv:clausulaEnumerada a skos:Concept ; skos:inScheme olbv:esquemaClausulaRevogatoria ; skos:prefLabel "enumerada"@pt ;
+    skos:definition "A cláusula indica as normas ou dispositivos revogados. É a forma que a Lei Complementar nº 95/1998 pede (art. 9º, a conferir)."@pt .
+olbv:clausulaGenerica a skos:Concept ; skos:inScheme olbv:esquemaClausulaRevogatoria ; skos:prefLabel "genérica"@pt ;
+    skos:definition "Fórmula 'revogam-se as disposições em contrário'. Não indica destino: o que ela revoga só se descobre por comparação, e toda relação derivada dela nasce como proposta."@pt .
+
+# ================================================================ v0.4 · causas de pendência do comando
+olbv:esquemaCausaPendencia a skos:ConceptScheme ; skos:prefLabel "Causa da pendência do comando"@pt .
+olbv:causaTextoAnteriorAusente a skos:Concept ; skos:inScheme olbv:esquemaCausaPendencia ;
+    skos:prefLabel "texto anterior do alvo ausente"@pt ;
+    skos:definition "A norma citada foi resolvida, mas o texto anterior do dispositivo alvo não foi carregado na base. Sai quando o texto oficial é carregado."@pt .
+olbv:causaAlvoNaoResolvido a skos:Concept ; skos:inScheme olbv:esquemaCausaPendencia ;
+    skos:prefLabel "alvo não resolvido"@pt ;
+    skos:definition "O texto da norma citada está carregado, mas o dispositivo citado não foi encontrado nele. Pede revisão humana: sai quando uma pessoa resolve o alvo."@pt .
+olbv:causaCitacaoIncompleta a skos:Concept ; skos:inScheme olbv:esquemaCausaPendencia ;
+    skos:prefLabel "citação incompleta"@pt ;
+    skos:definition "A citação não traz os elementos para derivar a URN (por exemplo, sem a data). A busca só pode propor candidatos, como proposta, para decisão humana."@pt .
+
+# ================================================================ v0.5 · ambiguidade: ler não é resolver (Capítulo 8, seção 8.7; decisão 38)
+olbv:causaAlvoAmbiguo a skos:Concept ; skos:inScheme olbv:esquemaCausaPendencia ;
+    skos:prefLabel "alvo ambíguo"@pt ;
+    skos:definition "A frase foi lida sem dúvida, mas ao resolver o alvo há mais de um candidato. É problema de resolução, não de leitura. Pede decisão humana entre os candidatos."@pt .
+olbv:causaLeituraAmbigua a skos:Concept ; skos:inScheme olbv:esquemaCausaPendencia ;
+    skos:prefLabel "leitura ambígua"@pt ;
+    skos:definition "A frase de comando admite mais de um sentido jurídico, por exemplo a quais itens de uma enumeração se aplica a única citação de norma ('os arts. 3º e 5º e o art. 7º da Lei X'). As leituras possíveis ficam registradas; a usual entra como relação proposta, nunca canônica, até decisão humana."@pt .
+olbv:causaLeituraAmbiguaPorLimite a skos:Concept ; skos:inScheme olbv:esquemaCausaPendencia ;
+    skos:prefLabel "leitura ambígua por limite"@pt ;
+    skos:definition "A frase admite mais leituras do que o teto (oito). Nenhuma é escolhida nem proposta: a frase vai inteira para leitura humana."@pt .
+
+# ================================================================ v0.6 · 15 de outubro de 2026 · DECISÕES 48 E 49
+
+# ---------------------------------------------------------------- dimensões (eixos de consulta e de conflito)
+olbv:esquemaDimensao a skos:ConceptScheme ; skos:prefLabel "Dimensões"@pt ;
+    skos:definition "Eixos pelos quais o ordenamento é filtrado e pelos quais um conflito é resolvido. Não são módulos da ontologia."@pt .
+olbv:dimTempo a skos:Concept ; skos:inScheme olbv:esquemaDimensao ; skos:prefLabel "tempo"@pt ; skos:definition "Vigência, efeito, versão vigente na data perguntada."@pt .
+olbv:dimEspecie a skos:Concept ; skos:inScheme olbv:esquemaDimensao ; skos:prefLabel "espécie"@pt ; skos:definition "Espécie normativa e seu nível hierárquico."@pt .
+olbv:dimEmissor a skos:Concept ; skos:inScheme olbv:esquemaDimensao ; skos:prefLabel "emissor"@pt ; skos:definition "Órgão que edita o ato e competência que o sustenta."@pt .
+olbv:dimEspaco a skos:Concept ; skos:inScheme olbv:esquemaDimensao ; skos:prefLabel "espaço"@pt ; skos:definition "Ente emissor e âmbito territorial de validade."@pt .
+olbv:dimMateria a skos:Concept ; skos:inScheme olbv:esquemaDimensao ; skos:prefLabel "matéria"@pt ; skos:definition "Assunto regulado, de vocabulário controlado."@pt .
+
+# ---------------------------------------------------------------- domínios (módulos da ontologia)
+olbv:esquemaDominio a skos:ConceptScheme ; skos:prefLabel "Domínios ontológicos"@pt ;
+    skos:definition "Módulos da ontologia. 'Domínio' nunca designa matéria."@pt .
+olbv:domIdentidade a skos:Concept ; skos:inScheme olbv:esquemaDominio ; skos:prefLabel "identidade"@pt ; skos:definition "Norma, documento, URN, espécie, matéria."@pt .
+olbv:domEstrutura a skos:Concept ; skos:inScheme olbv:esquemaDominio ; skos:prefLabel "estrutura"@pt ; skos:definition "Dispositivos, agrupadores, zonas e perfis gramaticais."@pt .
+olbv:domRelacao a skos:Concept ; skos:inScheme olbv:esquemaDominio ; skos:prefLabel "relação"@pt ; skos:definition "Relações reificadas e comandos de alteração."@pt .
+olbv:domTempo a skos:Concept ; skos:inScheme olbv:esquemaDominio ; skos:prefLabel "tempo"@pt ; skos:definition "Versões, seis datas, vigência e efeito."@pt .
+olbv:domDecisao a skos:Concept ; skos:inScheme olbv:esquemaDominio ; skos:prefLabel "decisão"@pt ; skos:definition "Decisões humanas, estados e auditoria."@pt .
+olbv:domLingua a skos:Concept ; skos:inScheme olbv:esquemaDominio ; skos:prefLabel "língua"@pt ; skos:definition "Regime ortográfico e texto modernizado."@pt .
+olbv:domInstituicao a skos:Concept ; skos:inScheme olbv:esquemaDominio ; skos:prefLabel "instituição"@pt ; skos:definition "Entes federativos, órgãos e competências (acrescentado na v0.6)."@pt .
+
+# ---------------------------------------------------------------- esfera do ente
+olbv:esquemaEsfera a skos:ConceptScheme ; skos:prefLabel "Esfera federativa"@pt .
+olbv:esferaFederal a skos:Concept ; skos:inScheme olbv:esquemaEsfera ; skos:prefLabel "federal"@pt .
+olbv:esferaEstadual a skos:Concept ; skos:inScheme olbv:esquemaEsfera ; skos:prefLabel "estadual"@pt .
+olbv:esferaDistrital a skos:Concept ; skos:inScheme olbv:esquemaEsfera ; skos:prefLabel "distrital"@pt .
+olbv:esferaMunicipal a skos:Concept ; skos:inScheme olbv:esquemaEsfera ; skos:prefLabel "municipal"@pt .
+
+# ---------------------------------------------------------------- tipo de competência (CF, arts. 21 a 24 e 30, a conferir)
+olbv:esquemaTipoCompetencia a skos:ConceptScheme ; skos:prefLabel "Tipo de competência"@pt .
+olb:compartilhada a owl:AnnotationProperty ; rdfs:label "competência compartilhada"@pt ;
+    rdfs:comment "Verdadeiro quando mais de um órgão ou ente pode atuar na matéria: o conflito nasce como proposta (R62)."@pt .
+olbv:compPrivativa a skos:Concept ; skos:inScheme olbv:esquemaTipoCompetencia ; skos:prefLabel "privativa"@pt ; olb:compartilhada false ;
+    skos:note "CF, art. 22 (legislativa da União), a conferir."@pt .
+olbv:compExclusiva a skos:Concept ; skos:inScheme olbv:esquemaTipoCompetencia ; skos:prefLabel "exclusiva"@pt ; olb:compartilhada false ;
+    skos:note "CF, art. 21 (material da União), a conferir."@pt .
+olbv:compComum a skos:Concept ; skos:inScheme olbv:esquemaTipoCompetencia ; skos:prefLabel "comum"@pt ; olb:compartilhada true ;
+    skos:note "CF, art. 23, a conferir."@pt .
+olbv:compConcorrente a skos:Concept ; skos:inScheme olbv:esquemaTipoCompetencia ; skos:prefLabel "concorrente"@pt ; olb:compartilhada true ;
+    skos:note "CF, art. 24. Exceção do § 4º: a lei federal superveniente sobre normas gerais suspende a eficácia da lei estadual no que lhe for contrário (a conferir)."@pt .
+olbv:compSuplementar a skos:Concept ; skos:inScheme olbv:esquemaTipoCompetencia ; skos:prefLabel "suplementar"@pt ; olb:compartilhada true ;
+    skos:note "CF, art. 24, § 2º, e art. 30, II, a conferir."@pt .
+olbv:compLocal a skos:Concept ; skos:inScheme olbv:esquemaTipoCompetencia ; skos:prefLabel "interesse local"@pt ; olb:compartilhada false ;
+    skos:note "CF, art. 30, I, a conferir."@pt .
+
+# ---------------------------------------------------------------- matéria (semente; alinhamento a tesauro oficial a decidir)
+olbv:esquemaMateria a skos:ConceptScheme ; skos:prefLabel "Matéria"@pt ;
+    skos:definition "Semente de vocabulário de assuntos para filtro e para competência. O alinhamento a um tesauro público (por exemplo, o do Senado Federal, a conferir) é pendência registrada."@pt .
+olbv:matTributaria a skos:Concept ; skos:inScheme olbv:esquemaMateria ; skos:prefLabel "tributária"@pt .
+olbv:matTrabalho a skos:Concept ; skos:inScheme olbv:esquemaMateria ; skos:prefLabel "trabalho"@pt .
+olbv:matPrevidencia a skos:Concept ; skos:inScheme olbv:esquemaMateria ; skos:prefLabel "previdência"@pt .
+olbv:matConsumidor a skos:Concept ; skos:inScheme olbv:esquemaMateria ; skos:prefLabel "consumidor"@pt .
+olbv:matAmbiental a skos:Concept ; skos:inScheme olbv:esquemaMateria ; skos:prefLabel "meio ambiente"@pt .
+olbv:matSanitaria a skos:Concept ; skos:inScheme olbv:esquemaMateria ; skos:prefLabel "vigilância sanitária"@pt .
+olbv:matComercioExterior a skos:Concept ; skos:inScheme olbv:esquemaMateria ; skos:prefLabel "comércio exterior"@pt .
+olbv:matMetrologia a skos:Concept ; skos:inScheme olbv:esquemaMateria ; skos:prefLabel "metrologia e qualidade industrial"@pt .
+olbv:matTelecomunicacoes a skos:Concept ; skos:inScheme olbv:esquemaMateria ; skos:prefLabel "telecomunicações"@pt .
+olbv:matDadosPessoais a skos:Concept ; skos:inScheme olbv:esquemaMateria ; skos:prefLabel "proteção de dados pessoais"@pt .
+olbv:matTransito a skos:Concept ; skos:inScheme olbv:esquemaMateria ; skos:prefLabel "trânsito"@pt .
+olbv:matUrbanismo a skos:Concept ; skos:inScheme olbv:esquemaMateria ; skos:prefLabel "urbanismo e uso do solo"@pt .
+
+# ---------------------------------------------------------------- perfil gramatical (decisão 49)
+olbv:esquemaPerfilGramatical a skos:ConceptScheme ; skos:prefLabel "Perfil gramatical"@pt ;
+    skos:definition "Família de gramáticas de articulação, escolhida pelas dimensões do ato."@pt .
+olbv:perfilLC95 a skos:Concept ; skos:inScheme olbv:esquemaPerfilGramatical ; skos:prefLabel "LC 95/1998"@pt ;
+    skos:definition "Leis e atos posteriores a 1998 em geral: artigo, parágrafo, inciso, alínea, item."@pt .
+olbv:perfilDecreto12002 a skos:Concept ; skos:inScheme olbv:esquemaPerfilGramatical ; skos:prefLabel "Decreto 12.002/2024"@pt ;
+    skos:definition "Atos normativos do Executivo federal: acrescenta subitem e subseção; portaria e instrução normativa de autoridade singular, resolução de colegiado; atos de pessoal sem ementa. Revogou os Decretos 9.191/2017 e 10.139/2019."@pt .
+olbv:perfilAnterior1998 a skos:Concept ; skos:inScheme olbv:esquemaPerfilGramatical ; skos:prefLabel "anterior à LC 95/1998"@pt .
+olbv:perfilImperio a skos:Concept ; skos:inScheme olbv:esquemaPerfilGramatical ; skos:prefLabel "Império"@pt .
+olbv:perfilEstadual a skos:Concept ; skos:inScheme olbv:esquemaPerfilGramatical ; skos:prefLabel "estadual"@pt ;
+    skos:definition "Lei complementar estadual de técnica legislativa (por exemplo, SP, LC 863/1999, a conferir)."@pt .
+olbv:perfilMunicipal a skos:Concept ; skos:inScheme olbv:esquemaPerfilGramatical ; skos:prefLabel "municipal"@pt ;
+    skos:definition "Conforme a lei orgânica e a técnica legislativa do município."@pt .
+olbv:perfilColegiadoAgencia a skos:Concept ; skos:inScheme olbv:esquemaPerfilGramatical ; skos:prefLabel "colegiados e agências"@pt .
+olbv:perfilJudiciario a skos:Concept ; skos:inScheme olbv:esquemaPerfilGramatical ; skos:prefLabel "Judiciário"@pt ;
+    skos:definition "Resoluções e provimentos articulados; súmulas não são articuladas."@pt .
+
+# ================================================================ v0.7 · 15 de outubro de 2026 · COMUNIDADES EMERGENTES (decisão 50)
+olbv:domDerivacao a skos:Concept ; skos:inScheme olbv:esquemaDominio ; skos:prefLabel "derivação"@pt ;
+    skos:definition "Camada derivada: comunidades e resumos gerados. Nunca canônica, nunca fonte de direito (acrescentado na v0.7)."@pt .
+olbv:camadaComunidade a skos:Concept ; skos:inScheme olbv:esquemaCamada ; skos:prefLabel "revelada por comunidade emergente"@pt ;
+    skos:definition "Impacto implícito sugerido por uma comunidade: nasce como proposta e só vira canônica por decisão humana (R67)."@pt .
+
+olbv:esquemaMetodoDeteccao a skos:ConceptScheme ; skos:prefLabel "Método de detecção de comunidade"@pt .
+olbv:metodoRegra a skos:Concept ; skos:inScheme olbv:esquemaMetodoDeteccao ; skos:prefLabel "por regra"@pt ;
+    skos:definition "Consulta determinística sobre relações declaradas: o mesmo grafo dá sempre a mesma comunidade."@pt .
+olbv:metodoAlgoritmo a skos:Concept ; skos:inScheme olbv:esquemaMetodoDeteccao ; skos:prefLabel "por algoritmo"@pt ;
+    skos:definition "Detecção de comunidades num grafo (por exemplo, Leiden). Registra algoritmo e parâmetros; o resultado é proposta de agrupamento."@pt .
+
+olbv:esquemaTipoComunidade a skos:ConceptScheme ; skos:prefLabel "Tipo de comunidade emergente"@pt ;
+    skos:definition "Primeira onda da decisão 50. Segunda onda, a decidir: perfis de destinatário e conceitos homônimos; depois, microssistemas, pacotes temporais e focos de tensão."@pt .
+olbv:comCadeiaRegulamentacao a skos:Concept ; skos:inScheme olbv:esquemaTipoComunidade ; skos:prefLabel "cadeia de regulamentação"@pt ;
+    skos:definition "Normas ligadas por regulamenta, da lei ao decreto, à portaria e à instrução normativa. Onde está a obrigação concreta."@pt .
+olbv:comLinhagemAlteracao a skos:Concept ; skos:inScheme olbv:esquemaTipoComunidade ; skos:prefLabel "linhagem de alteração"@pt ;
+    skos:definition "Um dispositivo e as normas que o alteraram ou revogaram, com suas versões. Onde o ordenamento mais muda."@pt .
+olbv:comCompetencia a skos:Concept ; skos:inScheme olbv:esquemaTipoComunidade ; skos:prefLabel "comunidade de competência"@pt ;
+    skos:definition "Órgão, competência e os atos que ele editou na matéria e no espaço da competência. Quem regula o quê, onde e desde quando."@pt .
+olbv:comRemissao a skos:Concept ; skos:inScheme olbv:esquemaTipoComunidade ; skos:prefLabel "núcleo de remissão"@pt ;
+    skos:definition "Dispositivos que se citam mutuamente (relação referencia), agrupados por detecção de comunidades. Única da primeira onda detectada por algoritmo."@pt .
+olb:metodoEsperado a owl:AnnotationProperty ; rdfs:label "método esperado"@pt .
+olbv:comCadeiaRegulamentacao olb:metodoEsperado olbv:metodoRegra .
+olbv:comLinhagemAlteracao olb:metodoEsperado olbv:metodoRegra .
+olbv:comCompetencia olb:metodoEsperado olbv:metodoRegra .
+olbv:comRemissao olb:metodoEsperado olbv:metodoAlgoritmo .

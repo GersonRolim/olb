@@ -1,0 +1,241 @@
+# LEX-ABX-T · ABox de testes negativos · cada bloco viola de propósito uma regra do LEX-SHP
+# OLB · v0.9 · 17 de outubro de 2026 (nome de arquivo mantido) · Gerson Rolim e Sueli Rolim · dados 38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95bs
+# O comentário de cada bloco indica a regra que deve disparar.
+
+@prefix olb:  <https://w3id.org/olb#> .
+@prefix olbv: <https://w3id.org/olb/vocab#> .
+@prefix t:    <https://w3id.org/olb/teste#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+t:LeiX a olb:LeiOrdinaria ; olb:urn "urn:lex:br:federal:lei:2020-01-10;9001" ;
+    olb:dataEpigrafe "2020-01-10"^^xsd:date ; olb:dataPublicacao "2020-01-13"^^xsd:date ; olb:inicioVigencia "2020-01-13"^^xsd:date .
+t:DecretoY a olb:Decreto ; olb:urn "urn:lex:br:federal:decreto:2021-05-05;9002" ;
+    olb:dataEpigrafe "2021-05-05"^^xsd:date ; olb:dataPublicacao "2021-05-06"^^xsd:date ; olb:inicioVigencia "2021-05-06"^^xsd:date .
+t:X_art1 a olb:Artigo ; olb:idFragmento "art1" ; olb:temPaiImediato t:LeiX .
+t:X_art1_cpt a olb:Caput ; olb:idFragmento "art1_cpt" ; olb:temPaiImediato t:X_art1 .
+t:vX1 a olb:Versao ; olb:versaoDe t:X_art1_cpt ; olb:inicioVigencia "2020-01-13"^^xsd:date ; olb:textoVerbatim "Texto 38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b." .
+t:Y_art1 a olb:Artigo ; olb:idFragmento "art1" ; olb:temPaiImediato t:DecretoY .
+t:Y_art1_cpt a olb:Caput ; olb:idFragmento "art1_cpt" ; olb:temPaiImediato t:Y_art1 .
+t:vY1 a olb:Versao ; olb:versaoDe t:Y_art1_cpt ; olb:inicioVigencia "2021-05-06"^^xsd:date ; olb:textoVerbatim "Fica revogado o art. 1º da Lei X." .
+
+# T01 · R01 · inciso órfão, sem pai imediato
+t:T01 a olb:Inciso ; olb:idFragmento "art1_cpt_inc9" .
+t:vT01 a olb:Versao ; olb:versaoDe t:T01 ; olb:inicioVigencia "2020-01-13"^^xsd:date ; olb:textoVerbatim "inciso órfão;" .
+
+# T02 · R09 · alínea pendurada no caput (pai errado)
+t:T02 a olb:Alinea ; olb:idFragmento "art1_cpt_ali1" ; olb:temPaiImediato t:X_art1_cpt .
+t:vT02 a olb:Versao ; olb:versaoDe t:T02 ; olb:inicioVigencia "2020-01-13"^^xsd:date ; olb:textoVerbatim "alínea sem inciso;" .
+
+# T03 · R04 · ciclo entre dois incisos
+t:T03a a olb:Inciso ; olb:idFragmento "c1" ; olb:temPaiImediato t:T03b .
+t:T03b a olb:Inciso ; olb:idFragmento "c2" ; olb:temPaiImediato t:T03a .
+
+# T04 · R22 · duas versões do mesmo caput vigorando no mesmo período
+t:vT04 a olb:Versao ; olb:versaoDe t:X_art1_cpt ; olb:inicioVigencia "2020-06-01"^^xsd:date ; olb:textoVerbatim "Versão sobreposta." .
+
+# T05 · R20 · versão sem texto verbatim
+t:X_art2 a olb:Artigo ; olb:idFragmento "art2" ; olb:temPaiImediato t:LeiX .
+t:X_art2_cpt a olb:Caput ; olb:idFragmento "art2_cpt" ; olb:temPaiImediato t:X_art2 .
+t:vT05 a olb:Versao ; olb:versaoDe t:X_art2_cpt ; olb:inicioVigencia "2020-01-13"^^xsd:date .
+
+# T06 · R31 · relação inferida por IA marcada como canônica sem decisão humana
+t:T06 a olb:RelacaoNormativa ; olb:origem t:Y_art1_cpt ; olb:destino t:X_art1_cpt ;
+    olb:tipoRelacao olbv:referencia ; olb:camadaOrigem olbv:camadaInferidaIA ; olb:estado olbv:canonica ;
+    olb:fundamentoLegal "38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b" ; olb:evidencia "trecho 38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b" .
+
+# T07 · R33 · revogação tácita registrada como declarada
+t:T07 a olb:RelacaoNormativa ; olb:origem t:LeiX ; olb:destino t:Y_art1_cpt ;
+    olb:tipoRelacao olbv:revoga_tacitamente ; olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:proposta ;
+    olb:fundamentoLegal "38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b" .
+
+# T08 · R36 (aviso) · decreto revoga dispositivo de lei
+t:T08 a olb:RelacaoNormativa ; olb:origem t:Y_art1_cpt ; olb:destino t:X_art1 ;
+    olb:tipoRelacao olbv:revoga_dispositivo ; olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:declarada ;
+    olb:inicioEfeito "2021-05-06"^^xsd:date ; olb:fundamentoLegal "Decreto Y, art. 1º" .
+
+# T09 · R41 · comando pendente que mesmo assim gerou versão (fabricação)
+t:vT09 a olb:Versao ; olb:versaoDe t:X_art2_cpt ; olb:inicioVigencia "2021-05-06"^^xsd:date ; olb:textoVerbatim "Redação plausível inventada." .
+t:T09 a olb:ComandoAlteracao ; olb:enunciadoEm t:Y_art1_cpt ; olb:alvo t:X_art2_cpt ;
+    olb:verbo olbv:daNovaRedacao ; olb:estado olbv:cmdPendente ; olb:materializa t:vT09 .
+
+# T10 · R43 · versão materializada com texto diferente do citado (paráfrase)
+t:X_art3 a olb:Artigo ; olb:idFragmento "art3" ; olb:temPaiImediato t:LeiX .
+t:X_art3_cpt a olb:Caput ; olb:idFragmento "art3_cpt" ; olb:temPaiImediato t:X_art3 .
+t:vT10 a olb:Versao ; olb:versaoDe t:X_art3_cpt ; olb:inicioVigencia "2021-05-06"^^xsd:date ; olb:textoVerbatim "O prazo será de dez dias." .
+t:T10 a olb:ComandoAlteracao ; olb:enunciadoEm t:Y_art1_cpt ; olb:alvo t:X_art3_cpt ;
+    olb:verbo olbv:daNovaRedacao ; olb:estado olbv:cmdMaterializado ;
+    olb:textoCitado "O prazo será de dez dias úteis." ; olb:materializa t:vT10 .
+
+# T11 · R12 e R14 · URN fora do padrão e publicação posterior à vigência
+t:T11 a olb:LeiOrdinaria ; olb:urn "lei-12-2020" ;
+    olb:dataEpigrafe "2020-02-01"^^xsd:date ; olb:dataPublicacao "2020-03-01"^^xsd:date ; olb:inicioVigencia "2020-02-15"^^xsd:date .
+
+# T12 · R45 · decisão sem cargo
+t:T12 a olb:Decisao ; olb:autor "Pessoa fictícia" ; olb:dataDecisao "2021-06-01T09:00:00"^^xsd:dateTime ;
+    olb:resultado olbv:aprovada ; olb:justificativa "fictícia" .
+
+# T13 · R32 · relação canônica apesar de decisão de rejeição vigente
+t:Dec13 a olb:Decisao ; olb:autor "Pessoa fictícia" ; olb:cargo "38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b" ; olb:dataDecisao "2021-06-02T09:00:00"^^xsd:dateTime ;
+    olb:resultado olbv:rejeitada ; olb:justificativa "fictícia" .
+t:T13 a olb:RelacaoNormativa ; olb:origem t:Y_art1_cpt ; olb:destino t:X_art1_cpt ;
+    olb:tipoRelacao olbv:referencia ; olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:canonica ;
+    olb:decididaPor t:Dec13 ; olb:fundamentoLegal "38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b" .
+
+# T14 · R35 · antinomia sem critério de solução
+t:T14 a olb:RelacaoNormativa ; olb:origem t:Y_art1_cpt ; olb:destino t:X_art1_cpt ;
+    olb:tipoRelacao olbv:conflita_com ; olb:camadaOrigem olbv:camadaInferidaIA ; olb:estado olbv:proposta ;
+    olb:fundamentoLegal "38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b" ; olb:evidencia "trecho 38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b" .
+
+# T15 · R23 · versão que começa antes da vigência da própria norma
+t:vT15 a olb:Versao ; olb:versaoDe t:Y_art1_cpt ; olb:inicioVigencia "2019-01-01"^^xsd:date ; olb:fimVigencia "2019-06-01"^^xsd:date ;
+    olb:textoVerbatim "Versão anterior à existência do decreto." .
+
+# v0.2 · testes da camada de língua e das pendências de data
+# T16 · R49 · norma sem data de publicação e sem pendência registrada
+t:T16 a olb:LeiOrdinaria ; olb:urn "urn:lex:br:federal:lei:1890-01-07;9003" ; olb:dataEpigrafe "1890-01-07"^^xsd:date .
+# T17 · R51 · texto modernizado sem regime ortográfico de origem
+t:vT17 a olb:Versao ; olb:versaoDe t:X_art3_cpt ; olb:inicioVigencia "2020-01-13"^^xsd:date ; olb:fimVigencia "2021-05-06"^^xsd:date ;
+    olb:textoVerbatim "O prazo será de cinco dias." ; olb:textoModernizado "O prazo será de cinco dias." .
+# T18 · R50 · regime ortográfico fora do vocabulário
+t:vT18 a olb:Versao ; olb:versaoDe t:Y_art1_cpt ; olb:inicioVigencia "2023-01-01"^^xsd:date ; olb:textoVerbatim "Texto 38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b." ;
+    olb:regimeOrtografico olbv:revogado .
+# T19 · R31 · tese doutrinária marcada como canônica sem decisão
+t:T19 a olb:RelacaoNormativa ; olb:origem t:LeiX ; olb:destino t:DecretoY ;
+    olb:tipoRelacao olbv:sucessor_logico_de ; olb:camadaOrigem olbv:camadaDoutrinaria ; olb:estado olbv:canonica ;
+    olb:fundamentoLegal "38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b" ; olb:evidencia "trecho 38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b" .
+
+# v0.3 · T20 · R53 · relação declarada com origem em cláusula de revogação genérica
+t:X_art4 a olb:Artigo ; olb:idFragmento "art4" ; olb:temPaiImediato t:LeiX .
+t:X_art4_cpt a olb:Caput ; olb:idFragmento "art4_cpt" ; olb:temPaiImediato t:X_art4 ; olb:clausulaRevogatoria olbv:clausulaGenerica .
+t:vT20v a olb:Versao ; olb:versaoDe t:X_art4_cpt ; olb:inicioVigencia "2020-01-13"^^xsd:date ; olb:textoVerbatim "Revogam-se as disposições em contrário." .
+t:T20 a olb:RelacaoNormativa ; olb:origem t:X_art4_cpt ; olb:destino t:Y_art1_cpt ;
+    olb:tipoRelacao olbv:revoga_dispositivo ; olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:canonica ;
+    olb:inicioEfeito "2020-02-01"^^xsd:date ; olb:fundamentoLegal "38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b" .
+
+# v0.4 · T21 · R54 · comando pendente sem causa registrada (tem motivo em texto livre, mas não a causa)
+t:T21 a olb:ComandoAlteracao ; olb:enunciadoEm t:Y_art1_cpt ; olb:alvo t:X_art1_cpt ;
+    olb:verbo olbv:daNovaRedacao ; olb:estado olbv:cmdPendente ;
+    olb:motivoPendencia "Texto anterior não carregado, mas a causa não foi classificada." .
+
+# v0.5 · T22 · R55 · leitura ambígua com uma só leitura registrada (ambiguidade sem as alternativas)
+t:T22 a olb:ComandoAlteracao ; olb:enunciadoEm t:Y_art1_cpt ; olb:alvo t:X_art1_cpt ;
+    olb:verbo olbv:revogaVerbo ; olb:estado olbv:cmdPendente ; olb:causaPendencia olbv:causaLeituraAmbigua ;
+    olb:motivoPendencia "A citação da norma pode valer para todos os itens da enumeração ou só para o último." ;
+    olb:leituraPossivel "revoga; alvos: art. 3º, art. 5º e art. 7º; norma: Lei X" .
+
+# v0.5 · T23 · R56 · relação canônica derivada de comando com leitura ambígua, sem decisão humana
+t:T23c a olb:ComandoAlteracao ; olb:enunciadoEm t:X_art2_cpt ; olb:alvo t:Y_art1_cpt ;
+    olb:verbo olbv:revogaVerbo ; olb:estado olbv:cmdPendente ; olb:causaPendencia olbv:causaLeituraAmbigua ;
+    olb:motivoPendencia "A citação da norma pode valer para todos os itens da enumeração ou só para o último." ;
+    olb:leituraPossivel "revoga; alvos: art. 3º, art. 5º e art. 7º; norma: Lei X" ,
+                        "revoga; alvos: art. 3º e art. 5º desta Lei, art. 7º da Lei X" .
+t:T23 a olb:RelacaoNormativa ; olb:origem t:X_art2_cpt ; olb:destino t:Y_art1_cpt ;
+    olb:tipoRelacao olbv:revoga_dispositivo ; olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:canonica ;
+    olb:derivadaDe t:T23c ; olb:inicioEfeito "2020-02-01"^^xsd:date ; olb:fundamentoLegal "38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b" .
+
+
+# ============================================================ v0.6 · instituição e competência (dados 38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95bs)
+t:Uniao a olb:EnteFederativo ; olb:esfera olbv:esferaFederal ; olb:rotulo "União" .
+t:MinisterioZ a olb:Orgao ; olb:orgaoDe t:Uniao ; olb:rotulo "Ministério Z (38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b)" .
+t:AgenciaW a olb:OrgaoColegiado ; olb:orgaoDe t:Uniao ; olb:rotulo "Diretoria colegiada da Agência W (fictícia)" .
+t:CompOK a olb:Competencia ; olb:orgaoCompetente t:AgenciaW ; olb:materiaCompetencia olbv:matMetrologia ;
+    olb:espacoCompetencia t:Uniao ; olb:fundamentoCompetencia t:X_art1_cpt ; olb:tipoCompetencia olbv:compPrivativa ;
+    olb:inicioVigencia "2020-01-13"^^xsd:date .
+
+# v0.6 · T24 · R58 · portaria sem órgão emissor
+t:T24 a olb:Portaria ; olb:urn "urn:lex:br:federal:portaria:2022-03-01;9003" ;
+    olb:dataEpigrafe "2022-03-01"^^xsd:date ; olb:dataPublicacao "2022-03-02"^^xsd:date ; olb:inicioVigencia "2022-03-02"^^xsd:date .
+
+# v0.6 · T25 · R59 · competência sem fundamento legal e sem data
+t:T25 a olb:Competencia ; olb:orgaoCompetente t:MinisterioZ ; olb:materiaCompetencia olbv:matMetrologia ;
+    olb:espacoCompetencia t:Uniao ; olb:tipoCompetencia olbv:compPrivativa .
+
+# v0.6 · T26 · R60 · relação normativa com origem em ato de efeito concreto
+t:AtoNomeacao a olb:AtoEfeitoConcreto ; olb:rotulo "Portaria de nomeação (fictícia)" .
+t:T26 a olb:RelacaoNormativa ; olb:origem t:AtoNomeacao ; olb:destino t:Y_art1_cpt ;
+    olb:tipoRelacao olbv:revoga_dispositivo ; olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:canonica ;
+    olb:inicioEfeito "2022-01-01"^^xsd:date ; olb:fundamentoLegal "38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b" .
+
+# v0.6 · T27 · R61 · conflito resolvido por competência sem apontar a competência
+t:T27 a olb:RelacaoNormativa ; olb:origem t:X_art1_cpt ; olb:destino t:Y_art1_cpt ;
+    olb:tipoRelacao olbv:revoga_dispositivo ; olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:proposta ;
+    olb:criterio olbv:criterioCompetencia ; olb:inicioEfeito "2021-05-06"^^xsd:date ; olb:fundamentoLegal "38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b" .
+
+# v0.6 · T28 · R62 · competência concorrente tratada como canônica sem decisão humana
+t:CompConc a olb:Competencia ; olb:orgaoCompetente t:Uniao ; olb:materiaCompetencia olbv:matAmbiental ;
+    olb:espacoCompetencia t:Uniao ; olb:fundamentoCompetencia t:X_art1_cpt ; olb:tipoCompetencia olbv:compConcorrente ;
+    olb:inicioVigencia "2020-01-13"^^xsd:date .
+t:T28 a olb:RelacaoNormativa ; olb:origem t:X_art1_cpt ; olb:destino t:Y_art1_cpt ;
+    olb:tipoRelacao olbv:revoga_dispositivo ; olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:canonica ;
+    olb:criterio olbv:criterioCompetencia ; olb:competenciaInvocada t:CompConc ;
+    olb:inicioEfeito "2021-05-06"^^xsd:date ; olb:fundamentoLegal "38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b" .
+
+# v0.6 · T29 · R63 (aviso) · resolução emitida por órgão singular
+t:T29 a olb:Resolucao ; olb:emitidaPor t:MinisterioZ ; olb:urn "urn:lex:br:federal:resolucao:2022-04-01;9004" ;
+    olb:dataEpigrafe "2022-04-01"^^xsd:date ; olb:dataPublicacao "2022-04-04"^^xsd:date ; olb:inicioVigencia "2022-04-04"^^xsd:date .
+
+# ============================================================ v0.7 · comunidades emergentes (dados 38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95bs)
+# v0.7 · T30 · R64 · comunidade com um só membro, sem método e sem data
+t:T30 a olb:Comunidade ; olb:tipoComunidade olbv:comCadeiaRegulamentacao ; olb:membro t:LeiX .
+
+# v0.7 · T31 · R65 · comunidade com estado canônico e usada como origem de relação
+t:T31 a olb:Comunidade ; olb:tipoComunidade olbv:comLinhagemAlteracao ; olb:metodoDeteccao olbv:metodoRegra ;
+    olb:geradaEm "2026-10-15"^^xsd:date ; olb:membro t:X_art1_cpt , t:LeiX ; olb:estado olbv:canonica .
+t:T31r a olb:RelacaoNormativa ; olb:origem t:T31 ; olb:destino t:Y_art1_cpt ; olb:tipoRelacao olbv:referencia ;
+    olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:proposta ; olb:fundamentoLegal "38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b" .
+
+# v0.7 · T32 · R66 · resumo que cita versão de dispositivo que não é membro
+t:T32 a olb:Comunidade ; olb:tipoComunidade olbv:comCadeiaRegulamentacao ; olb:metodoDeteccao olbv:metodoRegra ;
+    olb:geradaEm "2026-10-15"^^xsd:date ; olb:membro t:LeiX , t:X_art1 ;
+    olb:resumoGerado "Resumo gerado que cita o Decreto Y, que não é membro." ; olb:resumoCita t:vY1 .
+
+# v0.7 · T33 · R67 · impacto implícito revelado por comunidade, canônico sem decisão
+t:T33 a olb:RelacaoNormativa ; olb:origem t:Y_art1_cpt ; olb:destino t:X_art1_cpt ; olb:tipoRelacao olbv:referencia ;
+    olb:camadaOrigem olbv:camadaComunidade ; olb:estado olbv:canonica ; olb:fundamentoLegal "38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b" ;
+    olb:evidencia "trecho 38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b" .
+
+# v0.7 · T34 · R68 (aviso) · membro com versão posterior à geração da comunidade
+t:T34 a olb:Comunidade ; olb:tipoComunidade olbv:comLinhagemAlteracao ; olb:metodoDeteccao olbv:metodoRegra ;
+    olb:geradaEm "2019-12-31"^^xsd:date ; olb:membro t:X_art1_cpt , t:LeiX .
+
+# v0.7 · T35 · R69 · subcomunidade de outro tipo, com membro que a mãe não tem
+t:T35 a olb:Comunidade ; olb:tipoComunidade olbv:comRemissao ; olb:metodoDeteccao olbv:metodoAlgoritmo ; olb:algoritmo "38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b" ;
+    olb:geradaEm "2026-10-15"^^xsd:date ; olb:membro t:X_art1_cpt , t:Y_art1_cpt ; olb:subcomunidadeDe t:T32 .
+
+# ============================================================ v0.8 · integridade (dados 38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95bs)
+# v0.8 · T36 · R70 · texto alterado depois do registro do hash (o hash é do texto original)
+t:T36 a olb:Versao ; olb:versaoDe t:X_art4_cpt ; olb:inicioVigencia "2021-01-01"^^xsd:date ;
+    olb:textoVerbatim "Texto 38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b, alterado sem registro." ; olb:hashTexto "f1cf690e54aa9a4581635702f50c79d00ecb1c4513c7caabeca4b88b1f1950abd83a0fa9e39f5f0caeb6d2e92ee62c74" .
+
+# v0.8 · T37 · R71 · decisão com hash anterior que não confere com a decisão anterior
+t:T37a a olb:Decisao ; olb:autor "Pessoa fictícia" ; olb:cargo "Cargo 38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b" ; olb:dataDecisao "2023-01-01T10:00:00"^^xsd:dateTime ;
+    olb:justificativa "fictícia" ; olb:resultado olbv:aprovada .
+t:T37 a olb:Decisao ; olb:autor "Pessoa fictícia" ; olb:cargo "Cargo 38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b" ; olb:dataDecisao "2023-01-02T10:00:00"^^xsd:dateTime ;
+    olb:justificativa "fictícia" ; olb:resultado olbv:aprovada ; olb:decisaoAnterior t:T37a ;
+    olb:hashAnterior "45c0d6bd5ff2bb0a361762d62584909da986f14361e0b0532432b7d6a7a36ecbfb3e7134f3043ef99dafa158333c5475" ; olb:hashDecisao "45c0d6bd5ff2bb0a361762d62584909da986f14361e0b0532432b7d6a7a36ecbfb3e7134f3043ef99dafa158333c5475" .
+
+# v0.8 · T38 · R72 · raiz diária sem carimbo, com raiz anterior de data posterior
+t:T38a a olb:RaizDiaria ; olb:dataRaiz "2023-02-02"^^xsd:date ; olb:valorRaiz "38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b" ; olb:carimboSistema "2023-02-02T23:59:00-03:00"^^xsd:dateTime ; olb:algoritmoHash "SHA-384" .
+t:T38 a olb:RaizDiaria ; olb:dataRaiz "2023-02-01"^^xsd:date ; olb:valorRaiz "38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b" ; olb:algoritmoHash "SHA-384" ; olb:raizAnterior t:T38a .
+
+# T39 · R73 · retificação que reinicia a vacância, mas a vigência da norma ficou anterior à data da retificação
+t:T39 a olb:Documento ; olb:documentoDe t:LeiX ; olb:tipoDocumento olbv:retificacao ; olb:efeitoRetificacao olbv:reiniciaVacatio ; olb:dataRetificacao "2020-02-01"^^xsd:date .
+
+# T40 · R73 · retificação de lei em vigor (lei nova) sem versão nova na data da retificação
+t:T40 a olb:Documento ; olb:documentoDe t:DecretoY ; olb:tipoDocumento olbv:retificacao ; olb:efeitoRetificacao olbv:leiNova ; olb:dataRetificacao "2021-07-01"^^xsd:date .
+
+# T41 · R74 · versão que repete texto antigo depois do fim, sem cláusula expressa de restauração
+t:vT41a a olb:Versao ; olb:versaoDe t:Y_art1_cpt ; olb:inicioVigencia "2021-05-01"^^xsd:date ; olb:fimVigencia "2021-09-01"^^xsd:date ; olb:textoVerbatim "Texto restaurado sem cláusula." .
+t:vT41b a olb:Versao ; olb:versaoDe t:Y_art1_cpt ; olb:inicioVigencia "2022-01-01"^^xsd:date ; olb:textoVerbatim "Texto restaurado sem cláusula." .
+
+# T42 · R75 · relação de medida provisória com fim de efeito e sem versão que retome a eficácia do alvo
+t:MPT42 a olb:MedidaProvisoria ; olb:urn "urn:lex:br:federal:medida.provisoria:2021-01-04;1000" ;
+    olb:dataEpigrafe "2021-01-04"^^xsd:date ; olb:dataPublicacao "2021-01-04"^^xsd:date ; olb:inicioVigencia "2021-01-04"^^xsd:date ; olb:fimVigencia "2021-05-04"^^xsd:date .
+t:MPT42_art1 a olb:Artigo ; olb:idFragmento "art1" ; olb:temPaiImediato t:MPT42 .
+t:MPT42_cpt a olb:Caput ; olb:idFragmento "art1_cpt" ; olb:temPaiImediato t:MPT42_art1 .
+t:vMPT42 a olb:Versao ; olb:versaoDe t:MPT42_cpt ; olb:inicioVigencia "2021-01-04"^^xsd:date ; olb:fimVigencia "2021-05-04"^^xsd:date ; olb:textoVerbatim "Fica revogado o art. 1º da Lei X." .
+t:T42 a olb:RelacaoNormativa ; olb:origem t:MPT42_cpt ; olb:destino t:X_art1_cpt ; olb:tipoRelacao olbv:revoga_dispositivo ;
+    olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:declarada ; olb:inicioEfeito "2021-01-04"^^xsd:date ; olb:fimEfeito "2021-05-04"^^xsd:date ; olb:fundamentoLegal "MP, art. 1º" .
+
+# T43 · R76 · versão de duração zero sem a marca de versão nula
+t:vT43 a olb:Versao ; olb:versaoDe t:X_art2_cpt ; olb:inicioVigencia "2020-02-02"^^xsd:date ; olb:fimVigencia "2020-02-02"^^xsd:date ; olb:textoVerbatim "Duração zero sem marca." .

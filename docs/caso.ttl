@@ -1,0 +1,213 @@
+# LEX-ABX · ABox temporal · caso fictício de ponta a ponta
+# Ontologia da Legislação Brasileira (OLB) · v0.1 · 2 de outubro de 2026 · Gerson Rolim e Sueli Rolim
+# Camada 3 do modelo em três camadas: o que é verdadeiro em cada data.
+# CASO FICTÍCIO: normas, números, textos, datas e pessoas inventados para ilustrar o modelo.
+# É o mesmo caso da Figura 9.1 e do exemplo de contagem do Capítulo 8.
+
+@prefix olb:  <https://w3id.org/olb#> .
+@prefix olbv: <https://w3id.org/olb/vocab#> .
+@prefix ex:   <https://w3id.org/olb/caso#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# ============================================================ NORMAS
+ex:LeiA a olb:LeiOrdinaria ;
+    olb:urn "urn:lex:br:federal:lei:2015-05-12;0001" ;
+    olb:rotulo "Lei A (fictícia)" ;
+    olb:ementa "Dispõe sobre o registro de embarcações de recreio (texto fictício)." ;
+    olb:dataEpigrafe "2015-05-12"^^xsd:date ; olb:dataPublicacao "2015-05-12"^^xsd:date ;
+    olb:inicioVigencia "2015-05-12"^^xsd:date ; olb:inicioVigenciaCalculado false .
+
+ex:LeiB a olb:LeiOrdinaria ;
+    olb:urn "urn:lex:br:federal:lei:2022-06-17;0002" ;
+    olb:rotulo "Lei B (fictícia)" ;
+    olb:ementa "Altera a Lei A e a Lei C (texto fictício)." ;
+    olb:dataEpigrafe "2022-06-17"^^xsd:date ; olb:dataPublicacao "2022-06-20"^^xsd:date ;
+    olb:prazoVacatioDias 90 ;
+    olb:inicioVigencia "2022-09-18"^^xsd:date ; olb:inicioVigenciaCalculado true .
+
+ex:LeiC a olb:LeiOrdinaria ;
+    olb:urn "urn:lex:br:federal:lei:2010-03-02;0003" ;
+    olb:rotulo "Lei C (fictícia)" ;
+    olb:dataEpigrafe "2010-03-02"^^xsd:date ; olb:dataPublicacao "2010-03-03"^^xsd:date ;
+    olb:inicioVigencia "2010-03-03"^^xsd:date .
+
+ex:DecretoD a olb:Decreto ;
+    olb:urn "urn:lex:br:federal:decreto:2016-03-01;0004" ;
+    olb:rotulo "Decreto D (fictício)" ;
+    olb:ementa "Regulamenta a Lei A (texto fictício)." ;
+    olb:fundamentoNaEdicao ex:LeiA ; olb:fundamentoLegalAtual ex:LeiA ;
+    olb:dataEpigrafe "2016-03-01"^^xsd:date ; olb:dataPublicacao "2016-03-02"^^xsd:date ;
+    olb:inicioVigencia "2016-03-02"^^xsd:date .
+
+# ============================================================ DOCUMENTOS DA LEI A (Capítulo 5)
+ex:LeiA_dou a olb:Documento ; olb:documentoDe ex:LeiA ; olb:tipoDocumento olbv:publicacaoOficial ;
+    olb:fonte "Diário Oficial da União (fictício), 12/05/2015" .
+ex:LeiA_compilada a olb:Documento ; olb:documentoDe ex:LeiA ; olb:tipoDocumento olbv:compilacao ;
+    olb:fonte "Portal de legislação (fictício)" ; olb:dataCompilacao "2022-10-01"^^xsd:date .
+ex:LeiA_ficha a olb:Documento ; olb:documentoDe ex:LeiA ; olb:tipoDocumento olbv:fichaMetadados ;
+    olb:fonte "Ficha de metadados do portal (fictícia)" .
+ex:LeiA olb:temDocumento ex:LeiA_dou , ex:LeiA_compilada , ex:LeiA_ficha .
+
+# ============================================================ LEI A: AGRUPADOR E DISPOSITIVOS
+ex:LeiA_cap2 a olb:Capitulo ; olb:rotulo "Capítulo II, Do Registro" ; olb:agrupadorDaNorma ex:LeiA .
+
+ex:LeiA_art5 a olb:Artigo ; olb:idFragmento "art5" ; olb:rotulo "Art. 5º" ;
+    olb:temPaiImediato ex:LeiA ; olb:agrupadoEm ex:LeiA_cap2 .
+ex:LeiA_art5_cpt a olb:Caput ; olb:idFragmento "art5_cpt" ; olb:temPaiImediato ex:LeiA_art5 .
+ex:LeiA_art5_par1u a olb:Paragrafo ; olb:idFragmento "art5_par1u" ; olb:rotulo "Parágrafo único" ; olb:temPaiImediato ex:LeiA_art5 .
+ex:LeiA_art5_par1u_inc1 a olb:Inciso ; olb:idFragmento "art5_par1u_inc1" ; olb:rotulo "I" ; olb:temPaiImediato ex:LeiA_art5_par1u .
+ex:LeiA_art5_par1u_inc2 a olb:Inciso ; olb:idFragmento "art5_par1u_inc2" ; olb:rotulo "II" ; olb:temPaiImediato ex:LeiA_art5_par1u .
+ex:LeiA_art5_par1u_inc2_ali1 a olb:Alinea ; olb:idFragmento "art5_par1u_inc2_ali1" ; olb:rotulo "a" ; olb:temPaiImediato ex:LeiA_art5_par1u_inc2 .
+ex:LeiA_art5_par1u_inc2_ali2 a olb:Alinea ; olb:idFragmento "art5_par1u_inc2_ali2" ; olb:rotulo "b" ; olb:temPaiImediato ex:LeiA_art5_par1u_inc2 .
+
+ex:LeiA_art6 a olb:Artigo ; olb:idFragmento "art6" ; olb:rotulo "Art. 6º" ; olb:temPaiImediato ex:LeiA ; olb:agrupadoEm ex:LeiA_cap2 .
+ex:LeiA_art6_cpt a olb:Caput ; olb:idFragmento "art6_cpt" ; olb:temPaiImediato ex:LeiA_art6 .
+ex:LeiA_art7 a olb:Artigo ; olb:idFragmento "art7" ; olb:rotulo "Art. 7º" ; olb:temPaiImediato ex:LeiA .
+ex:LeiA_art7_cpt a olb:Caput ; olb:idFragmento "art7_cpt" ; olb:temPaiImediato ex:LeiA_art7 .
+
+# ============================================================ LEI A: VERSÕES
+ex:v_art5_cpt_1 a olb:Versao ; olb:versaoDe ex:LeiA_art5_cpt ;
+    olb:inicioVigencia "2015-05-12"^^xsd:date ; olb:fimVigencia "2022-09-18"^^xsd:date ;
+    olb:textoVerbatim "O registro terá validade de cinco anos, contados da data de sua emissão." .
+ex:v_art5_cpt_2 a olb:Versao ; olb:versaoDe ex:LeiA_art5_cpt ;
+    olb:inicioVigencia "2022-09-18"^^xsd:date ;
+    olb:textoVerbatim "O registro terá validade de oito anos, contados da data de sua emissão." .
+ex:v_art5_par1u_1 a olb:Versao ; olb:versaoDe ex:LeiA_art5_par1u ; olb:inicioVigencia "2015-05-12"^^xsd:date ;
+    olb:textoVerbatim "A renovação do registro dependerá de comprovação de:" .
+ex:v_art5_inc1_1 a olb:Versao ; olb:versaoDe ex:LeiA_art5_par1u_inc1 ; olb:inicioVigencia "2015-05-12"^^xsd:date ;
+    olb:textoVerbatim "inscrição no cadastro nacional;" .
+ex:v_art5_inc2_1 a olb:Versao ; olb:versaoDe ex:LeiA_art5_par1u_inc2 ; olb:inicioVigencia "2015-05-12"^^xsd:date ;
+    olb:textoVerbatim "regularidade das seguintes obrigações:" .
+ex:v_art5_ali1_1 a olb:Versao ; olb:versaoDe ex:LeiA_art5_par1u_inc2_ali1 ; olb:inicioVigencia "2015-05-12"^^xsd:date ;
+    olb:textoVerbatim "tributárias;" .
+ex:v_art5_ali2_1 a olb:Versao ; olb:versaoDe ex:LeiA_art5_par1u_inc2_ali2 ; olb:inicioVigencia "2015-05-12"^^xsd:date ;
+    olb:textoVerbatim "trabalhistas." .
+ex:v_art6_cpt_1 a olb:Versao ; olb:versaoDe ex:LeiA_art6_cpt ; olb:inicioVigencia "2015-05-12"^^xsd:date ;
+    olb:textoVerbatim "Compete ao órgão responsável manter o cadastro de que trata o art. 5º." .
+ex:v_art7_cpt_1 a olb:Versao ; olb:versaoDe ex:LeiA_art7_cpt ;
+    olb:inicioVigencia "2015-05-12"^^xsd:date ; olb:fimVigencia "2022-09-18"^^xsd:date ;
+    olb:textoVerbatim "O registro poderá ser suspenso nos casos previstos em regulamento." .
+ex:v_art7_cpt_2 a olb:Versao ; olb:versaoDe ex:LeiA_art7_cpt ; olb:inicioVigencia "2022-09-18"^^xsd:date ;
+    olb:situacao olbv:revogado ; olb:textoVerbatim "(Revogado)." .
+
+# ============================================================ LEI B: DISPOSITIVOS E VERSÕES
+ex:LeiB_art1 a olb:Artigo ; olb:idFragmento "art1" ; olb:rotulo "Art. 1º" ; olb:temPaiImediato ex:LeiB .
+ex:LeiB_art1_cpt a olb:Caput ; olb:idFragmento "art1_cpt" ; olb:temPaiImediato ex:LeiB_art1 .
+ex:LeiB_art2 a olb:Artigo ; olb:idFragmento "art2" ; olb:rotulo "Art. 2º" ; olb:temPaiImediato ex:LeiB .
+ex:LeiB_art2_cpt a olb:Caput ; olb:idFragmento "art2_cpt" ; olb:temPaiImediato ex:LeiB_art2 .
+ex:LeiB_art3 a olb:Artigo ; olb:idFragmento "art3" ; olb:rotulo "Art. 3º" ; olb:temPaiImediato ex:LeiB .
+ex:LeiB_art3_cpt a olb:Caput ; olb:idFragmento "art3_cpt" ; olb:temPaiImediato ex:LeiB_art3 .
+ex:LeiB_art4 a olb:Artigo ; olb:idFragmento "art4" ; olb:rotulo "Art. 4º" ; olb:temPaiImediato ex:LeiB .
+ex:LeiB_art4_cpt a olb:Caput ; olb:idFragmento "art4_cpt" ; olb:temPaiImediato ex:LeiB_art4 .
+
+ex:v_B_art1 a olb:Versao ; olb:versaoDe ex:LeiB_art1_cpt ; olb:inicioVigencia "2022-09-18"^^xsd:date ;
+    olb:textoVerbatim "O art. 5º da Lei A passa a vigorar com a seguinte redação: “Art. 5º O registro terá validade de oito anos, contados da data de sua emissão.” (NR)" .
+ex:v_B_art2 a olb:Versao ; olb:versaoDe ex:LeiB_art2_cpt ; olb:inicioVigencia "2022-09-18"^^xsd:date ;
+    olb:textoVerbatim "Fica revogado o art. 7º da Lei A." .
+ex:v_B_art3 a olb:Versao ; olb:versaoDe ex:LeiB_art3_cpt ; olb:inicioVigencia "2022-09-18"^^xsd:date ;
+    olb:textoVerbatim "O art. 9º da Lei C passa a vigorar acrescido do seguinte parágrafo único: “Parágrafo único. O cadastro será público.”" .
+ex:v_B_art4 a olb:Versao ; olb:versaoDe ex:LeiB_art4_cpt ; olb:inicioVigencia "2022-09-18"^^xsd:date ;
+    olb:textoVerbatim "Esta Lei entra em vigor após decorridos noventa dias de sua publicação oficial." .
+
+# ============================================================ LEI C E DECRETO D
+ex:LeiC_art4 a olb:Artigo ; olb:idFragmento "art4" ; olb:rotulo "Art. 4º" ; olb:temPaiImediato ex:LeiC .
+ex:LeiC_art4_cpt a olb:Caput ; olb:idFragmento "art4_cpt" ; olb:temPaiImediato ex:LeiC_art4 .
+ex:v_C_art4 a olb:Versao ; olb:versaoDe ex:LeiC_art4_cpt ; olb:inicioVigencia "2010-03-03"^^xsd:date ;
+    olb:textoVerbatim "As embarcações de pesca artesanal serão inscritas em cadastro próprio." .
+ex:LeiC_art9 a olb:Artigo ; olb:idFragmento "art9" ; olb:rotulo "Art. 9º" ; olb:temPaiImediato ex:LeiC .
+
+ex:DecD_art1 a olb:Artigo ; olb:idFragmento "art1" ; olb:rotulo "Art. 1º" ; olb:temPaiImediato ex:DecretoD .
+ex:DecD_art1_cpt a olb:Caput ; olb:idFragmento "art1_cpt" ; olb:temPaiImediato ex:DecD_art1 .
+ex:v_D_art1 a olb:Versao ; olb:versaoDe ex:DecD_art1_cpt ; olb:inicioVigencia "2016-03-02"^^xsd:date ;
+    olb:textoVerbatim "Este Decreto regulamenta a Lei A." .
+ex:DecD_art2 a olb:Artigo ; olb:idFragmento "art2" ; olb:rotulo "Art. 2º" ; olb:temPaiImediato ex:DecretoD .
+ex:DecD_art2_cpt a olb:Caput ; olb:idFragmento "art2_cpt" ; olb:temPaiImediato ex:DecD_art2 .
+ex:v_D_art2 a olb:Versao ; olb:versaoDe ex:DecD_art2_cpt ; olb:inicioVigencia "2016-03-02"^^xsd:date ;
+    olb:textoVerbatim "O certificado de registro de que trata a Lei A indicará prazo de validade de cinco anos." .
+
+# ============================================================ COMANDOS DE ALTERAÇÃO
+ex:C1 a olb:ComandoAlteracao ; olb:enunciadoEm ex:LeiB_art1_cpt ; olb:alvo ex:LeiA_art5_cpt ;
+    olb:verbo olbv:daNovaRedacao ; olb:estado olbv:cmdMaterializado ;
+    olb:textoCitado "O registro terá validade de oito anos, contados da data de sua emissão." ;
+    olb:materializa ex:v_art5_cpt_2 .
+ex:C2 a olb:ComandoAlteracao ; olb:enunciadoEm ex:LeiB_art2_cpt ; olb:alvo ex:LeiA_art7_cpt ;
+    olb:verbo olbv:revogaVerbo ; olb:estado olbv:cmdMaterializado ;
+    olb:materializa ex:v_art7_cpt_2 .
+ex:C3 a olb:ComandoAlteracao ; olb:enunciadoEm ex:LeiB_art3_cpt ; olb:alvo ex:LeiC_art9 ;
+    olb:verbo olbv:acrescenta ; olb:estado olbv:cmdPendente ; olb:causaPendencia olbv:causaTextoAnteriorAusente ;
+    olb:textoCitado "Parágrafo único. O cadastro será público." ;
+    olb:motivoPendencia "Texto anterior do art. 9º da Lei C não carregado na base. Nenhuma versão gerada até a carga do texto oficial." .
+
+# ============================================================ RELAÇÕES NORMATIVAS (todos os estados)
+ex:R1 a olb:RelacaoNormativa ; olb:origem ex:LeiB_art1_cpt ; olb:destino ex:LeiA_art5_cpt ;
+    olb:tipoRelacao olbv:altera ; olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:canonica ;
+    olb:derivadaDe ex:C1 ; olb:inicioEfeito "2022-09-18"^^xsd:date ;
+    olb:fundamentoLegal "Comando expresso na Lei B, art. 1º" .
+ex:R2 a olb:RelacaoNormativa ; olb:origem ex:LeiB_art2_cpt ; olb:destino ex:LeiA_art7 ;
+    olb:tipoRelacao olbv:revoga_dispositivo ; olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:canonica ;
+    olb:derivadaDe ex:C2 ; olb:inicioEfeito "2022-09-18"^^xsd:date ;
+    olb:fundamentoLegal "Cláusula revogatória expressa na Lei B, art. 2º" .
+ex:R3 a olb:RelacaoNormativa ; olb:origem ex:DecretoD ; olb:destino ex:LeiA ;
+    olb:tipoRelacao olbv:regulamenta ; olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:canonica ;
+    olb:inicioEfeito "2016-03-02"^^xsd:date ;
+    olb:fundamentoLegal "Declarado no Decreto D, art. 1º" .
+ex:R4 a olb:RelacaoNormativa ; olb:origem ex:LeiB_art3_cpt ; olb:destino ex:LeiC_art9 ;
+    olb:tipoRelacao olbv:altera ; olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:pendente ;
+    olb:derivadaDe ex:C3 ; olb:inicioEfeito "2022-09-18"^^xsd:date ;
+    olb:fundamentoLegal "Comando expresso na Lei B, art. 3º" .
+ex:R5 a olb:RelacaoNormativa ; olb:origem ex:LeiB_art1_cpt ; olb:destino ex:DecD_art2_cpt ;
+    olb:tipoRelacao olbv:conflita_com ; olb:camadaOrigem olbv:camadaInferidaIA ; olb:estado olbv:proposta ;
+    olb:criterio olbv:criterioHierarquico ; olb:confianca 0.81 ;
+    olb:fundamentoLegal "Critério hierárquico (doutrina, a referenciar)" ;
+    olb:evidencia "Lei B: “validade de oito anos” | Decreto D: “prazo de validade de cinco anos”" .
+ex:R6 a olb:RelacaoNormativa ; olb:origem ex:LeiB ; olb:destino ex:LeiC_art4_cpt ;
+    olb:tipoRelacao olbv:revoga_tacitamente ; olb:camadaOrigem olbv:camadaInferidaIA ; olb:estado olbv:proposta ;
+    olb:confianca 0.52 ; olb:decididaPor ex:Dec2 ;
+    olb:fundamentoLegal "LINDB, art. 2º, § 1º (a verificar)" ;
+    olb:evidencia "Lei B trata do registro de embarcações de recreio | Lei C, art. 4º, trata de pesca artesanal" .
+ex:R7 a olb:RelacaoNormativa ; olb:origem ex:LeiA_art6_cpt ; olb:destino ex:LeiA_art5 ;
+    olb:tipoRelacao olbv:referencia ; olb:camadaOrigem olbv:camadaInferidaRegra ; olb:estado olbv:canonica ;
+    olb:decididaPor ex:Dec1 ;
+    olb:fundamentoLegal "Remissão interna “de que trata o art. 5º”" ;
+    olb:evidencia "“o cadastro de que trata o art. 5º”" .
+
+# ============================================================ DECISÕES HUMANAS
+ex:Dec1 a olb:Decisao ; olb:autor "Revisora fictícia 1" ; olb:cargo "Analista jurídica (fictício)" ;
+    olb:dataDecisao "2022-10-03T10:15:00"^^xsd:dateTime ; olb:resultado olbv:aprovada ;
+    olb:justificativa "A remissão ao art. 5º é literal e o alvo é inequívoco." .
+ex:Dec2 a olb:Decisao ; olb:autor "Revisor fictício 2" ; olb:cargo "Coordenador jurídico (fictício)" ;
+    olb:dataDecisao "2022-10-04T16:40:00"^^xsd:dateTime ; olb:resultado olbv:rejeitada ;
+    olb:justificativa "Matérias distintas: recreio e pesca artesanal. Não há incompatibilidade nem regulação integral." .
+
+# v0.2 · regime ortográfico das versões da Lei A (Capítulo 8A)
+ex:v_art5_cpt_1 olb:regimeOrtografico olbv:regimeAcordo1990 .
+ex:v_art5_cpt_2 olb:regimeOrtografico olbv:regimeAcordo1990 .
+
+# ============================================================ v0.8 · CADEIA DE HASHES (decisão 51)
+# Hashes SHA-384 gerados pelo script de preparação e conferidos pelas regras R70 a R72 e pelo validador.
+ex:v_B_art1 olb:hashTexto "d170c4b7a237827c61b349946d554ca6080032228812fc0ed3bf7e446c2db0771491fd2a1fdeff4c5e9617b6456ca101" .
+ex:v_B_art2 olb:hashTexto "f6075dfe94568e92fffadfbe19002700dd86640d6ec4ce2332cfa325b51c362a4372cf124d8e4f09b80160167c4fb98f" .
+ex:v_B_art3 olb:hashTexto "529d61104093edcf6897e99fb4e4f07c05b0dd98fcfaebe955d868801d1a141d39fce3ce7bc07e44202c3d8c9a0ba7bd" .
+ex:v_B_art4 olb:hashTexto "c6f766910ab78ea5a2ed9a69d41efc3ab5ff0ba296046cfb8c878d66f8397a45409e1779c56540e9616218cd82fb0f9b" .
+ex:v_C_art4 olb:hashTexto "7c80c429d2d714f99a8478cf9c5aed835ac98b1160cc1b1c7232d97df101b12ece0a762934825e732cb3c9c35f1efa1a" .
+ex:v_D_art1 olb:hashTexto "a60a1f0a5cd0418895cfa4f4b6c3228baf3ea93126206fa3c56f2f4c02196b855177026e923da2d0971139b76690289e" .
+ex:v_D_art2 olb:hashTexto "f6adabdbfb46c0fe62904f278df3ae84f3fa71d67142763af406b8a60d64eedde69f081b2c3b91cf9eeb4666759dac5b" .
+ex:v_art5_ali1_1 olb:hashTexto "3596436d8e35ec47d2ba3989259aaab3aa4792b853397b55287dc971d28a070e89e3fe0752822722f200779ef74a360e" .
+ex:v_art5_ali2_1 olb:hashTexto "d4cc80975fada19c64c01aaa2c106fd78a451cc9e8f6e7580dd87f323ae6b9a3bbf2288c9830a969734f73f342eb2e18" .
+ex:v_art5_cpt_1 olb:hashTexto "e716c4bfee9ae0b5067673809dc6781306f1f1ef074d0e59cb6d3648562488ba818fab30ea62eff6ccd3c5b79f0d6698" .
+ex:v_art5_cpt_2 olb:hashTexto "37a89fe35da57db8a2e6e746c75808260fbe4d740c1655c3ecb4ae6cd5e83d2f42787dfbbaa8628b7bea99338f07cb25" .
+ex:v_art5_inc1_1 olb:hashTexto "fb64acc109f251787aa06516bbe04ccfccf8b8616d9350ee2ae422899ce230e39754c1b9ccbd46ac778764b717cadd6c" .
+ex:v_art5_inc2_1 olb:hashTexto "f5d30a3680f6b167bbd578a9404a2692121e29bf3645e772691f2ac7f7efdd88ad766516c91dc83134e2a8de9188f8c4" .
+ex:v_art5_par1u_1 olb:hashTexto "5b9dee8339ac89ea4693c59b4412b11dc40a5a66264c5e81481c5ae2874f6521957f3296c4018105f8e5d44a1794fbb9" .
+ex:v_art6_cpt_1 olb:hashTexto "2c769ec58e3239683033350764f8d001322d35e95d912c713f352d5f9ba296f9479b988bfd231b9612147901823089ab" .
+ex:v_art7_cpt_1 olb:hashTexto "99d6777a06b166788592ee8345f3c395d7ba635660bd425ff92a5579383d07e21b5b62796a3004fddb56edf4cb33335a" .
+ex:v_art7_cpt_2 olb:hashTexto "7cdd13a4e3548c342c1170bf64ca36e1b46385c07d61ccb3207a4af7c1eed41069100a5859c64a02418c85a5ddab879a" .
+ex:Dec1 olb:hashDecisao "87bdb31ad5184f21f06c985fbf9ea3a296b79988512143ccecb9b7cefec7ce996af148d4bd14bf59da7500d93debd3ea" .
+ex:Dec2 olb:decisaoAnterior ex:Dec1 ; olb:hashAnterior "87bdb31ad5184f21f06c985fbf9ea3a296b79988512143ccecb9b7cefec7ce996af148d4bd14bf59da7500d93debd3ea" ; olb:hashDecisao "400dd2753a9500c8b2da0eb5180fce8aad5d39015ed87b11dd3a9104fd519f9480ef28347151499db9a75e5aaa69b6d6" .
+ex:Raiz0 a olb:RaizDiaria ; olb:dataRaiz "2022-10-02"^^xsd:date ; olb:carimboSistema "2022-10-02T23:59:00-03:00"^^xsd:dateTime ; olb:algoritmoHash "SHA-384" ; olb:algoritmoAssinatura "SLH-DSA-SHA2-192f (FIPS 205), chave do projeto; assinatura gerada na operação" ;
+    olb:incluiItem ex:v_B_art1 , ex:v_B_art2 , ex:v_B_art3 , ex:v_B_art4 , ex:v_C_art4 , ex:v_D_art1 , ex:v_D_art2 , ex:v_art5_ali1_1 , ex:v_art5_ali2_1 , ex:v_art5_cpt_1 , ex:v_art5_cpt_2 , ex:v_art5_inc1_1 , ex:v_art5_inc2_1 , ex:v_art5_par1u_1 , ex:v_art6_cpt_1 , ex:v_art7_cpt_1 , ex:v_art7_cpt_2 ;
+    olb:valorRaiz "710f937f1dbcce2111f94238c3a65978c2c532e50c6b393c87edc90a1ad901b391972a00f8fc2cb56c05e1566717e121" .
+ex:Raiz1 a olb:RaizDiaria ; olb:dataRaiz "2022-10-03"^^xsd:date ; olb:raizAnterior ex:Raiz0 ; olb:carimboSistema "2022-10-03T23:59:00-03:00"^^xsd:dateTime ; olb:algoritmoHash "SHA-384" ; olb:algoritmoAssinatura "SLH-DSA-SHA2-192f (FIPS 205), chave do projeto; assinatura gerada na operação" ;
+    olb:incluiItem ex:Dec1 ; olb:valorRaiz "a160dd490b63c45f14fa4b260d3924a66972398538fcb1b1e680de5c3323d493f14d13ab3cabc3f88372d7671eb4b69a" .
+ex:Raiz2 a olb:RaizDiaria ; olb:dataRaiz "2022-10-04"^^xsd:date ; olb:raizAnterior ex:Raiz1 ; olb:carimboSistema "2022-10-04T23:59:00-03:00"^^xsd:dateTime ; olb:algoritmoHash "SHA-384" ; olb:algoritmoAssinatura "SLH-DSA-SHA2-192f (FIPS 205), chave do projeto; assinatura gerada na operação" ;
+    olb:incluiItem ex:Dec2 ; olb:valorRaiz "90c78e0d418938293cfb919e02c3e147b7bedff8d87a31296ef4f7e685828fda89649652d43a5b07c700d0ae55c4fa14" .

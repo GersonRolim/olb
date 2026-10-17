@@ -1,0 +1,137 @@
+# LEX-ABX-MH · ABox · marcos normativos históricos (Capítulo 8B)
+# OLB · v0.1 · 3 de outubro de 2026 · Gerson Rolim e Sueli Rolim · documento de trabalho
+# DADOS REAIS A CONFERIR. Texto das normas lido em planalto.gov.br para a Lei Áurea, o Ato Institucional nº 5,
+# o Decreto-Lei nº 5.452/1943 (CLT) e o Decreto nº 1.318/1854 (cabeçalhos e trechos); demais dados de fontes
+# secundárias, marcados no comentário de cada norma. Data não conferida fica como pendência (R49), nunca estimada.
+# Formato das URNs segue o padrão do LexML; para atos do Império, conferir a jurisdição no portal.
+
+@prefix olb:  <https://w3id.org/olb#> .
+@prefix olbv: <https://w3id.org/olb/vocab#> .
+@prefix mh:   <https://w3id.org/olb/mh#> .
+@prefix cf:   <https://w3id.org/olb/cf#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# ============================================================ NORMAS
+mh:Lei581_1850 a olb:LeiOrdinaria ; olb:rotulo "Lei nº 581, de 4 de setembro de 1850 (Lei Eusébio de Queirós)" ;
+    olb:urn "urn:lex:br:federal:lei:1850-09-04;581" ; olb:dataEpigrafe "1850-09-04"^^xsd:date ;
+    olb:pendenciaData "Publicação e início de vigência a conferir" ;
+    rdfs:comment "Fim do tráfico transatlântico. Antecede em 14 dias a Lei de Terras. Fonte secundária."@pt .
+mh:Lei601_1850 a olb:LeiOrdinaria ; olb:rotulo "Lei nº 601, de 18 de setembro de 1850 (Lei de Terras)" ;
+    olb:urn "urn:lex:br:federal:lei:1850-09-18;601" ; olb:dataEpigrafe "1850-09-18"^^xsd:date ;
+    olb:pendenciaData "Publicação (20/9/1850, segundo fonte secundária) e início de vigência a conferir" ;
+    rdfs:comment "Regulamentada só em 1854, pelo Decreto nº 1.318."@pt .
+mh:Dec1318_1854 a olb:Decreto ; olb:rotulo "Decreto nº 1.318, de 30 de janeiro de 1854" ;
+    olb:urn "urn:lex:br:federal:decreto:1854-01-30;1318" ; olb:dataEpigrafe "1854-01-30"^^xsd:date ;
+    olb:fundamentoNaEdicao mh:Lei601_1850 ; olb:fundamentoLegalAtual mh:Lei601_1850 ;
+    olb:pendenciaData "Publicação e início de vigência a conferir" ;
+    rdfs:comment "Ementa: 'Manda executar a Lei nº 601, de 18 de Setembro de 1850'. Traz em anexo o Regulamento para a execução da lei (planalto.gov.br)."@pt .
+
+mh:CCom_1850 a olb:LeiOrdinaria ; olb:rotulo "Lei nº 556, de 25 de junho de 1850 (Código Comercial)" ;
+    olb:urn "urn:lex:br:federal:lei:1850-06-25;556" ; olb:dataEpigrafe "1850-06-25"^^xsd:date ;
+    olb:pendenciaData "Publicação (1/7/1850, segundo base secundária) e início de vigência a conferir" ;
+    rdfs:comment "Três partes. Parte Primeira revogada pelo Código Civil de 2002, art. 2.045. Parte Segunda (comércio marítimo) vigente. Parte Terceira revogada por norma anterior a 2002 (a conferir)."@pt .
+mh:CCom_parte1 a olb:Parte ; olb:rotulo "Parte Primeira, Do Comércio em Geral" ; olb:agrupadorDaNorma mh:CCom_1850 .
+mh:CCom_parte2 a olb:Parte ; olb:rotulo "Parte Segunda, Do Comércio Marítimo" ; olb:agrupadorDaNorma mh:CCom_1850 .
+mh:CCom_parte3 a olb:Parte ; olb:rotulo "Parte Terceira, Das Quebras" ; olb:agrupadorDaNorma mh:CCom_1850 .
+
+mh:Lei3353_1888 a olb:LeiOrdinaria ; olb:rotulo "Lei nº 3.353, de 13 de maio de 1888 (Lei Áurea)" ;
+    olb:urn "urn:lex:br:federal:lei:1888-05-13;3353" ; olb:dataEpigrafe "1888-05-13"^^xsd:date ;
+    olb:inicioVigencia "1888-05-13"^^xsd:date ; olb:inicioVigenciaCalculado false ;
+    olb:pendenciaData "Publicação a conferir" ;
+    rdfs:comment "Sancionada pela Princesa Imperial Regente. Dois artigos. Vigência 'desde a data desta Lei' (art. 1º). Texto lido em planalto.gov.br."@pt .
+mh:Aurea_art1 a olb:Artigo ; olb:idFragmento "art1" ; olb:rotulo "Art. 1º" ; olb:temPaiImediato mh:Lei3353_1888 .
+mh:Aurea_art1_cpt a olb:Caput ; olb:idFragmento "art1_cpt" ; olb:temPaiImediato mh:Aurea_art1 .
+mh:Aurea_art2 a olb:Artigo ; olb:idFragmento "art2" ; olb:rotulo "Art. 2º" ; olb:temPaiImediato mh:Lei3353_1888 .
+mh:Aurea_art2_cpt a olb:Caput ; olb:idFragmento "art2_cpt" ; olb:temPaiImediato mh:Aurea_art2 ; olb:clausulaRevogatoria olbv:clausulaGenerica .
+mh:v_aurea1 a olb:Versao ; olb:versaoDe mh:Aurea_art1_cpt ; olb:inicioVigencia "1888-05-13"^^xsd:date ;
+    olb:regimeOrtografico olbv:regimeEtimologico ;
+    olb:textoVerbatim "E' declarada extincta, desde a data desta Lei, a escravidão no Brazil." ;
+    olb:textoModernizado "É declarada extinta, desde a data desta Lei, a escravidão no Brasil." .
+mh:v_aurea2 a olb:Versao ; olb:versaoDe mh:Aurea_art2_cpt ; olb:inicioVigencia "1888-05-13"^^xsd:date ;
+    olb:regimeOrtografico olbv:regimeEtimologico ;
+    olb:textoVerbatim "Revogam-se as disposições em contrario." .
+
+mh:CC1916 a olb:LeiOrdinaria ; olb:rotulo "Lei nº 3.071, de 1º de janeiro de 1916 (Código Civil)" ;
+    olb:urn "urn:lex:br:federal:lei:1916-01-01;3071" ; olb:dataEpigrafe "1916-01-01"^^xsd:date ;
+    olb:dataPublicacao "1916-01-05"^^xsd:date ; olb:inicioVigencia "1917-01-01"^^xsd:date ; olb:inicioVigenciaCalculado false ;
+    rdfs:comment "Publicado no DOU de 5/1/1916; vigência desde 1/1/1917 (duas bases secundárias concordam). Revogado pelo Código Civil de 2002."@pt .
+
+mh:DL4657_1942 a olb:DecretoLei ; olb:rotulo "Decreto-Lei nº 4.657, de 4 de setembro de 1942 (LINDB)" ;
+    olb:urn "urn:lex:br:federal:decreto.lei:1942-09-04;4657" ; olb:dataEpigrafe "1942-09-04"^^xsd:date ;
+    olb:pendenciaData "Publicação (compilações divergem, ver Capítulo 8) e início de vigência a conferir" ;
+    rdfs:comment "Editada sob a Constituição de 1937; renomeada em 2010. Seu art. 1º fixa a vacatio legis supletiva e prevê prazo próprio para a lei brasileira em Estados estrangeiros (a conferir)."@pt .
+
+mh:DL5452_1943 a olb:DecretoLei ; olb:rotulo "Decreto-Lei nº 5.452, de 1º de maio de 1943 (CLT)" ;
+    olb:urn "urn:lex:br:federal:decreto.lei:1943-05-01;5452" ; olb:dataEpigrafe "1943-05-01"^^xsd:date ;
+    olb:dataPublicacao "1943-08-09"^^xsd:date ; olb:inicioVigencia "1943-11-10"^^xsd:date ; olb:inicioVigenciaCalculado false ;
+    rdfs:comment "Aprova a Consolidação das Leis do Trabalho, que o acompanha em anexo. Publicado no DOU de 9/8/1943 e retificado por decretos-leis de 1944 e 1946. Seis datas distintas (planalto.gov.br)."@pt .
+mh:CLT_art1 a olb:Artigo ; olb:idFragmento "art1" ; olb:rotulo "Art. 1º" ; olb:temPaiImediato mh:DL5452_1943 .
+mh:CLT_art1_cpt a olb:Caput ; olb:idFragmento "art1_cpt" ; olb:temPaiImediato mh:CLT_art1 .
+mh:CLT_art2 a olb:Artigo ; olb:idFragmento "art2" ; olb:rotulo "Art. 2º" ; olb:temPaiImediato mh:DL5452_1943 .
+mh:CLT_art2_cpt a olb:Caput ; olb:idFragmento "art2_cpt" ; olb:temPaiImediato mh:CLT_art2 .
+mh:v_clt1 a olb:Versao ; olb:versaoDe mh:CLT_art1_cpt ; olb:inicioVigencia "1943-11-10"^^xsd:date ;
+    olb:textoVerbatim "Fica aprovada a Consolidação das Leis do Trabalho, que a este decreto-lei acompanha, com as alterações por ela introduzidas na legislação vigente." .
+mh:v_clt2 a olb:Versao ; olb:versaoDe mh:CLT_art2_cpt ; olb:inicioVigencia "1943-11-10"^^xsd:date ;
+    olb:textoVerbatim "O presente decreto-lei entrará em vigor em 10 de novembro de 1943." .
+
+mh:Lei2874_1956 a olb:LeiOrdinaria ; olb:rotulo "Lei nº 2.874, de 19 de setembro de 1956 (Novacap)" ;
+    olb:urn "urn:lex:br:federal:lei:1956-09-19;2874" ; olb:dataEpigrafe "1956-09-19"^^xsd:date ;
+    olb:dataPublicacao "1956-09-20"^^xsd:date ; olb:inicioVigencia "1956-09-20"^^xsd:date ; olb:inicioVigenciaCalculado false ;
+    rdfs:comment "Cria a Novacap e dá o nome Brasília à futura capital. Datas de publicação e vigência segundo imprensa; conferir no DOU. A data da mudança (21/4/1960) foi fixada por outra lei, a Lei nº 3.273/1957 (a conferir)."@pt .
+mh:Lei3752_1960 a olb:LeiOrdinaria ; olb:rotulo "Lei nº 3.752, de 14 de abril de 1960" ;
+    olb:urn "urn:lex:br:federal:lei:1960-04-14;3752" ; olb:dataEpigrafe "1960-04-14"^^xsd:date ;
+    olb:pendenciaData "Publicação e início de vigência a conferir" ;
+    rdfs:comment "Organização do antigo Distrito Federal, que passa a Estado da Guanabara em 21/4/1960 (a conferir)."@pt .
+mh:LC20_1974 a olb:LeiComplementar ; olb:rotulo "Lei Complementar nº 20, de 1º de julho de 1974" ;
+    olb:urn "urn:lex:br:federal:lei.complementar:1974-07-01;20" ; olb:dataEpigrafe "1974-07-01"^^xsd:date ;
+    olb:pendenciaData "Publicação e início de vigência a conferir" ;
+    rdfs:comment "Fusão do Estado da Guanabara com o Estado do Rio de Janeiro (a conferir)."@pt .
+
+mh:AI5_1968 a olb:AtoInstitucional ; olb:rotulo "Ato Institucional nº 5, de 13 de dezembro de 1968" ;
+    olb:urn "urn:lex:br:federal:ato.institucional:1968-12-13;5" ; olb:dataEpigrafe "1968-12-13"^^xsd:date ;
+    olb:dataPublicacao "1968-12-13"^^xsd:date ; olb:inicioVigencia "1968-12-13"^^xsd:date ; olb:inicioVigenciaCalculado false ;
+    rdfs:comment "Assinado por Costa e Silva. Doze artigos. Publicado no DOU de 13/12/1968; entra em vigor 'nesta data' (art. 12). Texto lido em planalto.gov.br."@pt .
+mh:AI5_art1 a olb:Artigo ; olb:idFragmento "art1" ; olb:rotulo "Art. 1º" ; olb:temPaiImediato mh:AI5_1968 .
+mh:AI5_art1_cpt a olb:Caput ; olb:idFragmento "art1_cpt" ; olb:temPaiImediato mh:AI5_art1 .
+mh:AI5_art12 a olb:Artigo ; olb:idFragmento "art12" ; olb:rotulo "Art. 12" ; olb:temPaiImediato mh:AI5_1968 .
+mh:AI5_art12_cpt a olb:Caput ; olb:idFragmento "art12_cpt" ; olb:temPaiImediato mh:AI5_art12 ; olb:clausulaRevogatoria olbv:clausulaGenerica .
+mh:v_ai5_1 a olb:Versao ; olb:versaoDe mh:AI5_art1_cpt ; olb:inicioVigencia "1968-12-13"^^xsd:date ; olb:regimeOrtografico olbv:regimeFormulario1943 ;
+    olb:textoVerbatim "São mantidas a Constituição de 24 de janeiro de 1967 e as Constituições estaduais, com as modificações constantes deste Ato Institucional." .
+mh:v_ai5_12 a olb:Versao ; olb:versaoDe mh:AI5_art12_cpt ; olb:inicioVigencia "1968-12-13"^^xsd:date ; olb:regimeOrtografico olbv:regimeFormulario1943 ;
+    olb:textoVerbatim "O presente Ato Institucional entra em vigor nesta data, revogadas as disposições em contrário." .
+
+mh:EC11_1978 a olb:EmendaConstitucional ; olb:rotulo "Emenda Constitucional nº 11, de 13 de outubro de 1978" ;
+    olb:urn "urn:lex:br:federal:emenda.constitucional:1978-10-13;11" ; olb:dataEpigrafe "1978-10-13"^^xsd:date ;
+    olb:inicioVigencia "1979-01-01"^^xsd:date ; olb:inicioVigenciaCalculado false ;
+    olb:pendenciaData "Publicação a conferir; vigência em 1/1/1979 segundo fontes secundárias" ;
+    rdfs:comment "Seu art. 3º revoga os atos institucionais e complementares contrários à Constituição, ressalvados os efeitos dos atos praticados com base neles (fonte secundária; conferir o texto)."@pt .
+
+mh:CC2002 a olb:LeiOrdinaria ; olb:rotulo "Lei nº 10.406, de 10 de janeiro de 2002 (Código Civil)" ;
+    olb:urn "urn:lex:br:federal:lei:2002-01-10;10406" ; olb:dataEpigrafe "2002-01-10"^^xsd:date ;
+    olb:dataPublicacao "2002-01-11"^^xsd:date ; olb:inicioVigencia "2003-01-11"^^xsd:date ; olb:inicioVigenciaCalculado false ;
+    rdfs:comment "Publicado no DOU de 11/1/2002; vigência após um ano. Seu art. 2.045 revoga o Código Civil de 1916 e a Parte Primeira do Código Comercial."@pt .
+
+# ============================================================ RELAÇÕES
+mh:R1 a olb:RelacaoNormativa ; olb:origem mh:Dec1318_1854 ; olb:destino mh:Lei601_1850 ;
+    olb:tipoRelacao olbv:regulamenta ; olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:canonica ;
+    olb:fundamentoLegal "Ementa do Decreto nº 1.318/1854: 'Manda executar a Lei nº 601'. Regulamento anexo." ;
+    olb:pendenciaData "Início de efeito a conferir" ;
+    rdfs:comment "Regulamentação 3 anos e 4 meses depois da lei."@pt .
+mh:R2 a olb:RelacaoNormativa ; olb:origem mh:CC2002 ; olb:destino mh:CC1916 ;
+    olb:tipoRelacao olbv:revoga ; olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:canonica ;
+    olb:inicioEfeito "2003-01-11"^^xsd:date ; olb:fundamentoLegal "Código Civil de 2002, art. 2.045" .
+mh:R3 a olb:RelacaoNormativa ; olb:origem mh:CC2002 ; olb:destino mh:CCom_parte1 ;
+    olb:tipoRelacao olbv:revoga_dispositivo ; olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:canonica ;
+    olb:inicioEfeito "2003-01-11"^^xsd:date ; olb:fundamentoLegal "Código Civil de 2002, art. 2.045" ;
+    rdfs:comment "Destino é um agrupador: a revogação alcança a Parte Primeira inteira. As Partes Segunda e Terceira não são alcançadas por esta relação."@pt .
+mh:R4 a olb:RelacaoNormativa ; olb:origem mh:AI5_art1_cpt ; olb:destino cf:CF1967 ;
+    olb:tipoRelacao olbv:altera ; olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:canonica ;
+    olb:inicioEfeito "1968-12-13"^^xsd:date ; olb:fundamentoLegal "Ato Institucional nº 5, art. 1º: mantém a Constituição de 1967 'com as modificações constantes deste Ato'" ;
+    rdfs:comment "Alteração da Constituição por ato fora do processo de emenda. O alerta hierárquico não se aplica: o ato não tem nível."@pt .
+mh:R5 a olb:RelacaoNormativa ; olb:origem mh:EC11_1978 ; olb:destino mh:AI5_1968 ;
+    olb:tipoRelacao olbv:revoga ; olb:camadaOrigem olbv:camadaInferidaRegra ; olb:estado olbv:proposta ;
+    olb:inicioEfeito "1979-01-01"^^xsd:date ;
+    olb:fundamentoLegal "Emenda Constitucional nº 11/1978, art. 3º (a conferir no texto autêntico)" ;
+    olb:evidencia "A emenda revoga 'os atos institucionais e complementares contrários à Constituição'; o AI-5 pertence a essa classe (fonte secundária)." ;
+    rdfs:comment "Revogação por classe: a relação com cada membro nasce como proposta, porque a condição 'contrários à Constituição' pede juízo."@pt .

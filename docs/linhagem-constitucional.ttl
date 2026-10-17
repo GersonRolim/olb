@@ -1,0 +1,82 @@
+# LEX-ABX-CF · ABox · linhagem constitucional brasileira
+# OLB · v0.1 · 3 de outubro de 2026 · Gerson Rolim e Sueli Rolim · documento de trabalho
+# DADOS REAIS A CONFERIR. Datas de outorga ou promulgação conforme a lista reunida pelos autores
+# com fontes do Supremo Tribunal Federal; URNs no formato do LexML a conferir no portal.
+# Datas não conferidas ficam como pendência (regra R49): nenhuma data é estimada.
+
+@prefix olb:  <https://w3id.org/olb#> .
+@prefix olbv: <https://w3id.org/olb/vocab#> .
+@prefix cf:   <https://w3id.org/olb/cf#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+cf:CF1824 a olb:Constituicao ; olb:rotulo "Constituição de 1824" ; olb:formaEdicao olbv:outorga ;
+    olb:urn "urn:lex:br:federal:constituicao:1824-03-25;1824" ;
+    olb:dataEpigrafe "1824-03-25"^^xsd:date ;
+    olb:pendenciaData "Publicação e início de vigência a conferir" ;
+    rdfs:comment "Império; quatro poderes, com o Moderador. Título original com a grafia Brazil, a conferir."@pt .
+cf:CF1891 a olb:Constituicao ; olb:rotulo "Constituição de 1891" ; olb:formaEdicao olbv:promulgacao ;
+    olb:urn "urn:lex:br:federal:constituicao:1891-02-24;1891" ;
+    olb:dataEpigrafe "1891-02-24"^^xsd:date ;
+    olb:pendenciaData "Publicação e início de vigência a conferir" ;
+    rdfs:comment "Primeira republicana: Constituição da República dos Estados Unidos do Brazil, com z (a conferir)."@pt .
+cf:CF1934 a olb:Constituicao ; olb:rotulo "Constituição de 1934" ; olb:formaEdicao olbv:promulgacao ;
+    olb:urn "urn:lex:br:federal:constituicao:1934-07-16;1934" ;
+    olb:dataEpigrafe "1934-07-16"^^xsd:date ;
+    olb:pendenciaData "Publicação e início de vigência a conferir" ;
+    rdfs:comment "Constitucionalizou o voto feminino e a Justiça Eleitoral, instituídos pelo Código Eleitoral de 1932 (genealogia a conferir)."@pt .
+cf:CF1937 a olb:Constituicao ; olb:rotulo "Constituição de 1937" ; olb:formaEdicao olbv:outorga ;
+    olb:urn "urn:lex:br:federal:constituicao:1937-11-10;1937" ;
+    olb:dataEpigrafe "1937-11-10"^^xsd:date ;
+    olb:pendenciaData "Publicação e início de vigência a conferir" ;
+    rdfs:comment "Estado Novo. A extinção dos partidos veio por decreto-lei posterior, não pelo texto constitucional (a conferir)."@pt .
+cf:CF1946 a olb:Constituicao ; olb:rotulo "Constituição de 1946" ; olb:formaEdicao olbv:promulgacao ;
+    olb:urn "urn:lex:br:federal:constituicao:1946-09-18;1946" ;
+    olb:dataEpigrafe "1946-09-18"^^xsd:date ;
+    olb:pendenciaData "Publicação e início de vigência a conferir" .
+cf:CF1967 a olb:Constituicao ; olb:rotulo "Constituição de 1967" ; olb:formaEdicao olbv:promulgacao ;
+    olb:urn "urn:lex:br:federal:constituicao:1967-01-24;1967" ;
+    olb:dataEpigrafe "1967-01-24"^^xsd:date ;
+    olb:inicioVigencia "1967-03-15"^^xsd:date ;
+    olb:pendenciaData "Publicação a conferir; início de vigência em 15/03/1967 conforme o texto, a conferir" ;
+    rdfs:comment "Votada por congresso convocado por ato institucional; parte da doutrina a qualifica de outorgada. Qualificação em nota, não em fato."@pt .
+cf:CF1988 a olb:Constituicao ; olb:rotulo "Constituição de 1988" ; olb:formaEdicao olbv:promulgacao ;
+    olb:urn "urn:lex:br:federal:constituicao:1988-10-05;1988" ;
+    olb:dataEpigrafe "1988-10-05"^^xsd:date ;
+    olb:dataPublicacao "1988-10-05"^^xsd:date ;
+    olb:inicioVigencia "1988-10-05"^^xsd:date .
+
+cf:EC1_1969 a olb:EmendaConstitucional ; olb:rotulo "Emenda Constitucional nº 1, de 1969" ;
+    olb:urn "urn:lex:br:federal:emenda.constitucional:1969-10-17;1" ;
+    olb:dataEpigrafe "1969-10-17"^^xsd:date ;
+    olb:pendenciaData "Publicação e início de vigência a conferir" .
+
+# ---------------------------------------------------------------- linhagem declarada
+cf:L1 a olb:RelacaoNormativa ; olb:origem cf:CF1891 ; olb:destino cf:CF1824 ;
+    olb:tipoRelacao olbv:sucessor_logico_de ; olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:canonica ;
+    olb:fundamentoLegal "Sucessão constitucional (a conferir)" .
+cf:L2 a olb:RelacaoNormativa ; olb:origem cf:CF1934 ; olb:destino cf:CF1891 ;
+    olb:tipoRelacao olbv:sucessor_logico_de ; olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:canonica ;
+    olb:fundamentoLegal "Sucessão constitucional (a conferir)" .
+cf:L3 a olb:RelacaoNormativa ; olb:origem cf:CF1937 ; olb:destino cf:CF1934 ;
+    olb:tipoRelacao olbv:sucessor_logico_de ; olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:canonica ;
+    olb:fundamentoLegal "Sucessão constitucional (a conferir)" .
+cf:L4 a olb:RelacaoNormativa ; olb:origem cf:CF1946 ; olb:destino cf:CF1937 ;
+    olb:tipoRelacao olbv:sucessor_logico_de ; olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:canonica ;
+    olb:fundamentoLegal "Sucessão constitucional (a conferir)" .
+cf:L5 a olb:RelacaoNormativa ; olb:origem cf:CF1967 ; olb:destino cf:CF1946 ;
+    olb:tipoRelacao olbv:sucessor_logico_de ; olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:canonica ;
+    olb:fundamentoLegal "Sucessão constitucional (a conferir)" .
+cf:L6 a olb:RelacaoNormativa ; olb:origem cf:CF1988 ; olb:destino cf:CF1967 ;
+    olb:tipoRelacao olbv:sucessor_logico_de ; olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:canonica ;
+    olb:fundamentoLegal "Sucessão constitucional (a conferir)" .
+
+# ---------------------------------------------------------------- a Emenda de 1969: fato e tese
+cf:L7 a olb:RelacaoNormativa ; olb:origem cf:EC1_1969 ; olb:destino cf:CF1967 ;
+    olb:tipoRelacao olbv:altera ; olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:canonica ;
+    olb:pendenciaData "Início de efeito a conferir no texto autêntico" ;
+    olb:fundamentoLegal "Declarada na epígrafe: emenda à Constituição de 1967" .
+cf:L8 a olb:RelacaoNormativa ; olb:origem cf:EC1_1969 ; olb:destino cf:CF1967 ;
+    olb:tipoRelacao olbv:sucessor_logico_de ; olb:camadaOrigem olbv:camadaDoutrinaria ; olb:estado olbv:proposta ;
+    olb:fundamentoLegal "Tese doutrinária: a Emenda nº 1 seria, materialmente, nova Constituição" ;
+    olb:evidencia "Parte da doutrina trata a Emenda nº 1/1969 como Constituição de 1969; outra parte, como emenda à de 1967." .

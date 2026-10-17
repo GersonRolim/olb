@@ -1,0 +1,522 @@
+# LEX-SHP · Regras em SHACL · Ontologia da Legislação Brasileira (OLB)
+# v0.9 · 17 de outubro de 2026 (nome de arquivo mantido) · Gerson Rolim e Sueli Rolim · documento de trabalho
+# Camada 2 do modelo em três camadas: o que é aceitável (mundo fechado).
+# Severidade Violation bloqueia; Warning alerta sem bloquear.
+
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix olb:  <https://w3id.org/olb#> .
+@prefix olbv: <https://w3id.org/olb/vocab#> .
+@prefix olbs: <https://w3id.org/olb/shapes#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://w3id.org/olb/shapes> a owl:Ontology ;
+    rdfs:label "OLB, regras SHACL"@pt ; owl:versionInfo "0.9" ;
+    sh:declare
+        [ sh:prefix "olb" ;  sh:namespace "https://w3id.org/olb#"^^xsd:anyURI ] ,
+        [ sh:prefix "olbv" ; sh:namespace "https://w3id.org/olb/vocab#"^^xsd:anyURI ] ,
+        [ sh:prefix "rdfs" ; sh:namespace "http://www.w3.org/2000/01/rdf-schema#"^^xsd:anyURI ] .
+
+# ============================================================ ESTRUTURA (Capítulo 6)
+olbs:DispositivoShape a sh:NodeShape ; sh:targetClass olb:Dispositivo ;
+    sh:property [ sh:path olb:temPaiImediato ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:message "R01. Todo dispositivo tem exatamente um pai imediato."@pt ] ;
+    sh:property [ sh:path olb:idFragmento ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ;
+        sh:message "R02. Todo dispositivo tem exatamente um identificador de fragmento."@pt ] ;
+    sh:property [ sh:path olb:agrupadoEm ; sh:maxCount 1 ;
+        sh:message "R03. Um dispositivo pertence a no máximo um agrupador imediato."@pt ] .
+
+olbs:AciclicidadeShape a sh:NodeShape ; sh:targetClass olb:Dispositivo ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R04. Ciclo na hierarquia de dispositivos: nenhum dispositivo é parte de si mesmo."@pt ;
+        sh:select """SELECT $this WHERE { $this olb:temPaiImediato+ $this . }""" ] .
+
+olbs:PaiDoArtigoShape a sh:NodeShape ; sh:targetClass olb:Artigo ;
+    sh:property [ sh:path olb:temPaiImediato ; sh:class olb:NormaJuridica ;
+        sh:message "R05. O pai imediato do artigo é a norma."@pt ] ;
+    sh:property [ sh:path [ sh:inversePath olb:temPaiImediato ] ;
+        sh:qualifiedValueShape [ sh:class olb:Caput ] ; sh:qualifiedMaxCount 1 ;
+        sh:message "R06. Um artigo tem no máximo um caput."@pt ] .
+olbs:PaiDoCaputShape a sh:NodeShape ; sh:targetClass olb:Caput , olb:Paragrafo ;
+    sh:property [ sh:path olb:temPaiImediato ; sh:class olb:Artigo ;
+        sh:message "R07. O pai imediato do caput e do parágrafo é o artigo."@pt ] .
+olbs:PaiDoIncisoShape a sh:NodeShape ; sh:targetClass olb:Inciso ;
+    sh:property [ sh:path olb:temPaiImediato ;
+        sh:or ( [ sh:class olb:Caput ] [ sh:class olb:Paragrafo ] ) ;
+        sh:message "R08. O inciso pende do caput ou de parágrafo."@pt ] .
+olbs:PaiDaAlineaShape a sh:NodeShape ; sh:targetClass olb:Alinea ;
+    sh:property [ sh:path olb:temPaiImediato ; sh:class olb:Inciso ;
+        sh:message "R09. A alínea pende de inciso."@pt ] .
+olbs:PaiDoItemShape a sh:NodeShape ; sh:targetClass olb:Item ;
+    sh:property [ sh:path olb:temPaiImediato ; sh:class olb:Alinea ;
+        sh:message "R10. O item pende de alínea."@pt ] .
+
+olbs:TextoDoDispositivoShape a sh:NodeShape ;
+    sh:targetClass olb:Caput , olb:Paragrafo , olb:Inciso , olb:Alinea , olb:Item ;
+    sh:property [ sh:path [ sh:inversePath olb:versaoDe ] ; sh:minCount 1 ;
+        sh:message "R11. Dispositivo com texto tem ao menos uma versão. O artigo não tem: seu texto está no caput."@pt ] .
+
+# ============================================================ IDENTIDADE E TEMPO DA NORMA (Capítulos 5 e 8)
+olbs:NormaShape a sh:NodeShape ; sh:targetClass olb:NormaJuridica ;
+    sh:property [ sh:path olb:urn ; sh:minCount 1 ; sh:maxCount 1 ; sh:pattern "^urn:lex:br" ;
+        sh:message "R12. A norma tem exatamente uma URN LexML (urn:lex:br...)."@pt ] ;
+    sh:property [ sh:path olb:dataEpigrafe ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:date ;
+        sh:lessThanOrEquals olb:dataPublicacao ;
+        sh:message "R13. A data da epígrafe existe e não é posterior à da publicação."@pt ] ;
+    sh:property [ sh:path olb:dataPublicacao ; sh:maxCount 1 ; sh:datatype xsd:date ;
+        sh:lessThanOrEquals olb:inicioVigencia ;
+        sh:message "R14. A publicação, quando registrada, não é posterior ao início de vigência."@pt ] ;
+    sh:property [ sh:path olb:inicioVigencia ; sh:maxCount 1 ; sh:datatype xsd:date ;
+        sh:message "R15. A norma tem no máximo um início de vigência."@pt ] .
+
+olbs:DataPendenteShape a sh:NodeShape ; sh:targetClass olb:NormaJuridica ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R49. Norma sem data de publicação ou de vigência registra a pendência: a data ausente não é estimada (nunca fabricar)."@pt ;
+        sh:select """SELECT $this WHERE {
+            FILTER (NOT EXISTS { $this olb:dataPublicacao ?p } || NOT EXISTS { $this olb:inicioVigencia ?v })
+            FILTER NOT EXISTS { $this olb:pendenciaData ?x }
+        }""" ] .
+
+olbs:DocumentoShape a sh:NodeShape ; sh:targetClass olb:Documento ;
+    sh:property [ sh:path olb:documentoDe ; sh:minCount 1 ; sh:maxCount 1 ; sh:class olb:NormaJuridica ;
+        sh:message "R16. Todo documento é documento de exatamente uma norma."@pt ] ;
+    sh:property [ sh:path olb:tipoDocumento ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:in ( olbv:publicacaoOficial olbv:compilacao olbv:fichaMetadados olbv:retificacao ) ;
+        sh:message "R17. Todo documento tem tipo: publicação oficial, compilação, ficha de metadados ou retificação."@pt ] .
+
+# ============================================================ VERSÃO (Capítulo 8)
+olbs:VersaoShape a sh:NodeShape ; sh:targetClass olb:Versao ;
+    sh:property [ sh:path olb:versaoDe ; sh:minCount 1 ; sh:maxCount 1 ; sh:class olb:Dispositivo ;
+        sh:message "R18. Toda versão é versão de exatamente um dispositivo."@pt ] ;
+    sh:property [ sh:path olb:inicioVigencia ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:date ;
+        sh:lessThanOrEquals olb:fimVigencia ;
+        sh:message "R19. A versão tem um início de vigência não posterior ao fim, quando houver fim. Início igual ao fim só com versão nula (R76)."@pt ] ;
+    sh:property [ sh:path olb:fimVigencia ; sh:maxCount 1 ; sh:datatype xsd:date ] ;
+    sh:property [ sh:path olb:textoVerbatim ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ;
+        sh:message "R20. Toda versão tem texto verbatim."@pt ] ;
+    sh:property [ sh:path olb:situacao ; sh:maxCount 1 ;
+        sh:in ( olbv:revogado olbv:vetado olbv:declaradoInconstitucional olbv:execucaoSuspensa olbv:suspenso olbv:superado olbv:omissis ) ;
+        sh:message "R21. A situação vem do vocabulário controlado."@pt ] .
+
+olbs:SobreposicaoShape a sh:NodeShape ; sh:targetClass olb:Versao ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R22. Duas versões do mesmo dispositivo não podem vigorar no mesmo dia."@pt ;
+        sh:select """SELECT $this ?value WHERE {
+            $this olb:versaoDe ?d ; olb:inicioVigencia ?i1 .
+            ?value olb:versaoDe ?d ; olb:inicioVigencia ?i2 .
+            FILTER ($this != ?value)
+            OPTIONAL { $this olb:fimVigencia ?f1 }
+            OPTIONAL { ?value olb:fimVigencia ?f2 }
+            FILTER ((!BOUND(?f2) || ?i1 < ?f2) && (!BOUND(?f1) || ?i2 < ?f1))
+        }""" ] .
+
+olbs:VersaoAntesDaNormaShape a sh:NodeShape ; sh:targetClass olb:Versao ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R23. Nenhuma versão começa antes da vigência da norma a que o dispositivo pertence."@pt ;
+        sh:select """SELECT $this ?value WHERE {
+            $this olb:versaoDe ?d ; olb:inicioVigencia ?i .
+            ?d olb:temPaiImediato+ ?n . ?n olb:inicioVigencia ?value .
+            FILTER (?i < ?value)
+        }""" ] .
+
+# ============================================================ RELAÇÃO NORMATIVA (Capítulos 7 e 17)
+olbs:RelacaoShape a sh:NodeShape ; sh:targetClass olb:RelacaoNormativa ;
+    sh:property [ sh:path olb:origem ; sh:minCount 1 ; sh:maxCount 1 ; sh:message "R24. A relação tem exatamente uma origem."@pt ] ;
+    sh:property [ sh:path olb:destino ; sh:minCount 1 ; sh:maxCount 1 ; sh:message "R25. A relação tem exatamente um destino."@pt ] ;
+    sh:property [ sh:path olb:tipoRelacao ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:in ( olbv:revoga olbv:revoga_dispositivo olbv:altera olbv:regulamenta olbv:referencia olbv:correlato_a
+                olbv:parte_de olbv:membro_de olbv:equivalente_a olbv:sucessor_logico_de olbv:declara_inconstitucional
+                olbv:declara_inconstitucional_dispositivo olbv:conflita_com olbv:revoga_tacitamente ) ;
+        sh:message "R26. O tipo vem do catálogo LEX-CAT."@pt ] ;
+    sh:property [ sh:path olb:camadaOrigem ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:in ( olbv:camadaDeclarada olbv:camadaInferidaRegra olbv:camadaInferidaIA olbv:camadaMista olbv:camadaDoutrinaria olbv:camadaComunidade ) ;
+        sh:message "R27. A relação declara sua camada de origem."@pt ] ;
+    sh:property [ sh:path olb:estado ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:in ( olbv:declarada olbv:pendente olbv:proposta olbv:canonica ) ;
+        sh:message "R28. A relação tem exatamente um estado do ciclo de vida."@pt ] ;
+    sh:property [ sh:path olb:fundamentoLegal ; sh:minCount 1 ;
+        sh:message "R29. Toda relação indica seu fundamento."@pt ] .
+
+olbs:EfeitoDeclaradoShape a sh:NodeShape ; sh:targetClass olb:RelacaoNormativa ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R30. Relação que revoga ou altera tem data de início de efeito, ou registra a pendência."@pt ;
+        sh:select """SELECT $this WHERE {
+            $this olb:tipoRelacao ?t . FILTER (?t IN (olbv:altera, olbv:revoga, olbv:revoga_dispositivo))
+            FILTER NOT EXISTS { $this olb:inicioEfeito ?e }
+            FILTER NOT EXISTS { $this olb:pendenciaData ?p }
+        }""" ] .
+
+olbs:InferidaCanonicaShape a sh:NodeShape ; sh:targetClass olb:RelacaoNormativa ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R31. Relação inferida só é canônica com decisão humana aprovada e registrada."@pt ;
+        sh:select """SELECT $this WHERE {
+            $this olb:estado olbv:canonica ; olb:camadaOrigem ?c .
+            FILTER (?c != olbv:camadaDeclarada)
+            FILTER NOT EXISTS { $this olb:decididaPor ?d . ?d olb:resultado olbv:aprovada .
+                                FILTER NOT EXISTS { ?d2 olb:substitui ?d } }
+        }""" ] .
+
+olbs:RejeitadaShape a sh:NodeShape ; sh:targetClass olb:RelacaoNormativa ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R32. Relação com decisão de rejeição vigente não pode ser canônica: fica arquivada como proposta."@pt ;
+        sh:select """SELECT $this WHERE {
+            $this olb:estado olbv:canonica ; olb:decididaPor ?d . ?d olb:resultado olbv:rejeitada .
+            FILTER NOT EXISTS { ?d2 olb:substitui ?d }
+        }""" ] .
+
+olbs:ImplicitaShape a sh:NodeShape ; sh:targetClass olb:RelacaoNormativa ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R33. Relação implícita (conflita_com, revoga_tacitamente) não pode ser declarada: nasce como proposta."@pt ;
+        sh:select """SELECT $this WHERE {
+            $this olb:tipoRelacao ?t ; olb:camadaOrigem olbv:camadaDeclarada .
+            ?t olb:exigeProposta true .
+        }""" ] .
+
+olbs:EvidenciaShape a sh:NodeShape ; sh:targetClass olb:RelacaoNormativa ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R34. Relação inferida carrega evidência verbatim."@pt ;
+        sh:select """SELECT $this WHERE {
+            $this olb:camadaOrigem ?c . FILTER (?c != olbv:camadaDeclarada)
+            FILTER NOT EXISTS { $this olb:evidencia ?e }
+        }""" ] .
+
+olbs:AntinomiaShape a sh:NodeShape ; sh:targetClass olb:RelacaoNormativa ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R35. Antinomia indica o critério de solução aplicável."@pt ;
+        sh:select """SELECT $this WHERE {
+            $this olb:tipoRelacao olbv:conflita_com .
+            FILTER NOT EXISTS { $this olb:criterio ?k }
+        }""" ] .
+
+olbs:AlertaHierarquicoShape a sh:NodeShape ; sh:targetClass olb:RelacaoNormativa ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ; sh:severity sh:Warning ;
+        sh:message "R36. Alerta de conflito hierárquico: a norma de origem tem nível inferior ao da norma de destino. Não bloqueia; pede revisão."@pt ;
+        sh:select """SELECT $this ?value WHERE {
+            $this olb:tipoRelacao ?t . ?t olb:sujeitoAAlertaHierarquico true .
+            $this olb:origem ?o ; olb:destino ?x .
+            ?o olb:temPaiImediato* ?no . ?no a ?co . ?co olb:nivelHierarquico ?n1 .
+            ?x olb:temPaiImediato* ?nx . ?nx a ?cx . ?cx olb:nivelHierarquico ?n2 .
+            FILTER (?n1 > ?n2) BIND (?nx AS ?value)
+        }""" ] .
+
+olbs:EfeitoAntesDaVigenciaShape a sh:NodeShape ; sh:targetClass olb:RelacaoNormativa ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ; sh:severity sh:Warning ;
+        sh:message "R37. O efeito começa antes da vigência da norma que comanda (regra geral a confirmar em doutrina). Não dispara se a relação declara efeito retroativo, como a inconstitucionalidade."@pt ;
+        sh:select """SELECT $this ?value WHERE {
+            $this olb:inicioEfeito ?e ; olb:origem ?o .
+            ?o olb:temPaiImediato* ?n . ?n olb:inicioVigencia ?value .
+            FILTER (?e < ?value)
+            FILTER NOT EXISTS { $this olb:efeitoRetroativo true }
+        }""" ] .
+
+# ============================================================ COMANDO DE ALTERAÇÃO (Capítulos 8 e 15)
+olbs:ComandoShape a sh:NodeShape ; sh:targetClass olb:ComandoAlteracao ;
+    sh:property [ sh:path olb:enunciadoEm ; sh:minCount 1 ; sh:maxCount 1 ; sh:class olb:Dispositivo ;
+        sh:message "R38. O comando é enunciado em exatamente um dispositivo."@pt ] ;
+    sh:property [ sh:path olb:alvo ; sh:minCount 1 ; sh:maxCount 1 ; sh:class olb:Dispositivo ;
+        sh:message "R39. O comando tem exatamente um alvo."@pt ] ;
+    sh:property [ sh:path olb:verbo ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:in ( olbv:daNovaRedacao olbv:acrescenta olbv:revogaVerbo ) ] ;
+    sh:property [ sh:path olb:estado ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:in ( olbv:cmdPendente olbv:cmdMaterializado olbv:cmdJaAplicado ) ;
+        sh:message "R40. O comando está pendente, materializado ou já aplicado pela fonte."@pt ] .
+
+olbs:NuncaFabricarShape a sh:NodeShape ; sh:targetClass olb:ComandoAlteracao ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R41. Comando pendente não materializa versão e informa o motivo (nunca fabricar redação)."@pt ;
+        sh:select """SELECT $this WHERE {
+            $this olb:estado olbv:cmdPendente .
+            FILTER (EXISTS { $this olb:materializa ?v } || NOT EXISTS { $this olb:motivoPendencia ?m })
+        }""" ] .
+
+olbs:MaterializadoShape a sh:NodeShape ; sh:targetClass olb:ComandoAlteracao ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R42. Comando materializado gera versão do próprio alvo."@pt ;
+        sh:select """SELECT $this WHERE {
+            $this olb:estado olbv:cmdMaterializado ; olb:alvo ?a .
+            FILTER NOT EXISTS { $this olb:materializa ?v . ?v olb:versaoDe ?a }
+        }""" ] .
+
+olbs:VerbatimShape a sh:NodeShape ; sh:targetClass olb:ComandoAlteracao ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R43. Recorte verbatim: o texto da versão materializada é idêntico ao texto citado no comando."@pt ;
+        sh:select """SELECT $this ?value WHERE {
+            $this olb:verbo ?vb ; olb:textoCitado ?t ; olb:materializa ?value .
+            FILTER (?vb IN (olbv:daNovaRedacao, olbv:acrescenta))
+            ?value olb:textoVerbatim ?tv . FILTER (STR(?tv) != STR(?t))
+        }""" ] .
+
+# ============================================================ DECISÃO (Capítulo 17)
+olbs:DecisaoShape a sh:NodeShape ; sh:targetClass olb:Decisao ;
+    sh:property [ sh:path olb:autor ; sh:minCount 1 ; sh:maxCount 1 ; sh:message "R44. A decisão registra o autor."@pt ] ;
+    sh:property [ sh:path olb:cargo ; sh:minCount 1 ; sh:maxCount 1 ; sh:message "R45. A decisão registra o cargo."@pt ] ;
+    sh:property [ sh:path olb:dataDecisao ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:dateTime ;
+        sh:message "R46. A decisão registra data e hora."@pt ] ;
+    sh:property [ sh:path olb:justificativa ; sh:minCount 1 ; sh:maxCount 1 ; sh:message "R47. A decisão registra a justificativa."@pt ] ;
+    sh:property [ sh:path olb:resultado ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( olbv:aprovada olbv:rejeitada ) ;
+        sh:message "R48. A decisão aprova ou rejeita."@pt ] .
+
+# ============================================================ v0.2 · LÍNGUA (Capítulo 8A)
+olbs:RegimeOrtograficoShape a sh:NodeShape ; sh:targetClass olb:Versao ;
+    sh:property [ sh:path olb:regimeOrtografico ; sh:maxCount 1 ;
+        sh:in ( olbv:regimeEtimologico olbv:regimeABL1907 olbv:regimeAcordo1931 olbv:regimeFormulario1943
+                olbv:regimeConvencao1945 olbv:regimeAjuste1971 olbv:regimeAcordo1990 ) ;
+        sh:message "R50. O regime ortográfico da versão vem do vocabulário controlado."@pt ] .
+
+olbs:ModernizadoShape a sh:NodeShape ; sh:targetClass olb:Versao ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R51. Texto modernizado só existe ao lado do verbatim e com o regime ortográfico de origem declarado."@pt ;
+        sh:select """SELECT $this WHERE {
+            $this olb:textoModernizado ?m .
+            FILTER (NOT EXISTS { $this olb:regimeOrtografico ?r } || NOT EXISTS { $this olb:textoVerbatim ?t })
+        }""" ] .
+
+olbs:FormaEdicaoShape a sh:NodeShape ; sh:targetClass olb:Constituicao ;
+    sh:property [ sh:path olb:formaEdicao ; sh:maxCount 1 ; sh:in ( olbv:outorga olbv:promulgacao ) ;
+        sh:message "R52. A forma de edição da Constituição vem do vocabulário controlado."@pt ] .
+
+# ============================================================ v0.3 · MARCOS HISTÓRICOS (Capítulo 8B)
+olbs:ClausulaGenericaShape a sh:NodeShape ; sh:targetClass olb:RelacaoNormativa ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R53. Dispositivo com cláusula de revogação genérica não indica destino: a relação derivada dele nasce como proposta, nunca declarada."@pt ;
+        sh:select """SELECT $this WHERE {
+            $this olb:origem ?o ; olb:camadaOrigem olbv:camadaDeclarada ; olb:tipoRelacao ?t .
+            FILTER (?t IN (olbv:revoga, olbv:revoga_dispositivo))
+            ?o olb:clausulaRevogatoria olbv:clausulaGenerica .
+        }""" ] .
+
+# ============================================================ v0.4 · CAUSA DA PENDÊNCIA (Capítulo 8, seção 8.7)
+olbs:CausaPendenciaShape a sh:NodeShape ; sh:targetClass olb:ComandoAlteracao ;
+    sh:property [ sh:path olb:causaPendencia ; sh:maxCount 1 ;
+        sh:in ( olbv:causaTextoAnteriorAusente olbv:causaAlvoNaoResolvido olbv:causaCitacaoIncompleta
+                olbv:causaAlvoAmbiguo olbv:causaLeituraAmbigua olbv:causaLeituraAmbiguaPorLimite ) ;
+        sh:message "R54. A causa da pendência vem do vocabulário controlado."@pt ] ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R54. Comando pendente registra a causa da pendência, além do motivo."@pt ;
+        sh:select """SELECT $this WHERE {
+            $this olb:estado olbv:cmdPendente .
+            FILTER NOT EXISTS { $this olb:causaPendencia ?c }
+        }""" ] .
+
+# ============================================================ v0.5 · LEITURA AMBÍGUA (Capítulo 8, seção 8.7; decisão 38)
+# Ler não é resolver: "leitura ambígua" é da frase; "alvo ambíguo" é da resolução (R54).
+olbs:LeituraAmbiguaShape a sh:NodeShape ; sh:targetClass olb:ComandoAlteracao ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R55. Comando com leitura ambígua registra de duas a oito leituras possíveis; acima de oito, a causa é leitura ambígua por limite."@pt ;
+        sh:select """SELECT $this WHERE {
+            $this olb:causaPendencia olbv:causaLeituraAmbigua .
+            { SELECT $this (COUNT(?l) AS ?n) WHERE { OPTIONAL { $this olb:leituraPossivel ?l } } GROUP BY $this }
+            FILTER (?n < 2 || ?n > 8)
+        }""" ] .
+
+olbs:LeituraNuncaCanonicaShape a sh:NodeShape ; sh:targetClass olb:RelacaoNormativa ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R56. Relação derivada de comando com leitura ambígua nasce como proposta: nunca canônica sem decisão humana registrada."@pt ;
+        sh:select """SELECT $this WHERE {
+            $this olb:derivadaDe ?c ; olb:estado olbv:canonica .
+            ?c olb:causaPendencia ?k . FILTER (?k IN (olbv:causaLeituraAmbigua, olbv:causaLeituraAmbiguaPorLimite))
+            FILTER NOT EXISTS { $this olb:decididaPor ?d . ?d olb:resultado olbv:aprovada }
+        }""" ] .
+
+# ============================================================ v0.6 · INSTITUIÇÃO E COMPETÊNCIA (decisões 4 revista, 48 e 49)
+# R57 fica reservada para a conservação do texto (toda linha tem destino), a escrever com a LEX-NT-03.
+
+olbs:EmissorInfralegalShape a sh:NodeShape ; sh:targetClass olb:Portaria , olb:Resolucao , olb:InstrucaoNormativa ;
+    sh:property [ sh:path olb:emitidaPor ; sh:minCount 1 ; sh:class olb:Orgao ;
+        sh:message "R58. Ato infralegal registra o órgão emissor: sem ele não há como resolver conflito por competência."@pt ] .
+
+olbs:CompetenciaShape a sh:NodeShape ; sh:targetClass olb:Competencia ;
+    sh:property [ sh:path olb:orgaoCompetente ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:message "R59. Competência tem exatamente um órgão ou ente competente."@pt ] ;
+    sh:property [ sh:path olb:materiaCompetencia ; sh:minCount 1 ;
+        sh:message "R59. Competência indica ao menos uma matéria."@pt ] ;
+    sh:property [ sh:path olb:fundamentoCompetencia ; sh:minCount 1 ;
+        sh:message "R59. Competência aponta o dispositivo que a atribui: competência sem fundamento legal é presunção."@pt ] ;
+    sh:property [ sh:path olb:tipoCompetencia ; sh:minCount 1 ;
+        sh:message "R59. Competência declara o tipo (privativa, exclusiva, comum, concorrente, suplementar, interesse local)."@pt ] ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R59. Competência é datada: tem início de vigência ou pendência de data registrada, nunca data estimada."@pt ;
+        sh:select """SELECT $this WHERE {
+            FILTER NOT EXISTS { $this olb:inicioVigencia ?i }
+            FILTER NOT EXISTS { $this olb:pendenciaData ?p }
+        }""" ] .
+
+olbs:EfeitoConcretoShape a sh:NodeShape ; sh:targetClass olb:RelacaoNormativa ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R60. Ato de efeito concreto não é norma: não origina nem recebe relação normativa."@pt ;
+        sh:select """SELECT $this ?value WHERE {
+            { $this olb:origem ?value } UNION { $this olb:destino ?value }
+            ?value olb:temPaiImediato* ?raiz . ?raiz a olb:AtoEfeitoConcreto .
+        }""" ] .
+
+olbs:CriterioCompetenciaShape a sh:NodeShape ; sh:targetClass olb:RelacaoNormativa ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R61. Conflito resolvido pelo critério de competência aponta a competência invocada."@pt ;
+        sh:select """SELECT $this WHERE {
+            $this olb:criterio olbv:criterioCompetencia .
+            FILTER NOT EXISTS { $this olb:competenciaInvocada ?c . ?c a olb:Competencia }
+        }""" ] .
+
+olbs:CompetenciaCompartilhadaShape a sh:NodeShape ; sh:targetClass olb:RelacaoNormativa ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R62. Competência compartilhada (comum, concorrente, suplementar) não resolve o conflito sozinha: a relação é proposta até decisão humana aprovada."@pt ;
+        sh:select """SELECT $this ?value WHERE {
+            $this olb:competenciaInvocada ?c ; olb:estado olbv:canonica .
+            ?c olb:tipoCompetencia ?value . ?value olb:compartilhada true .
+            FILTER NOT EXISTS { $this olb:decididaPor ?d . ?d olb:resultado olbv:aprovada }
+        }""" ] .
+
+olbs:ResolucaoColegiadoShape a sh:NodeShape ; sh:targetClass olb:Resolucao ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ; sh:severity sh:Warning ;
+        sh:message "R63. Resolução é ato de órgão colegiado (perfil do Decreto 12.002/2024): emissor singular pede revisão da espécie ou do órgão."@pt ;
+        sh:select """SELECT $this ?value WHERE {
+            $this olb:emitidaPor ?value .
+            FILTER NOT EXISTS { ?value a olb:OrgaoColegiado }
+        }""" ] .
+
+# ============================================================ v0.7 · COMUNIDADES EMERGENTES (decisão 50)
+olbs:ComunidadeShape a sh:NodeShape ; sh:targetClass olb:Comunidade ;
+    sh:property [ sh:path olb:tipoComunidade ; sh:minCount 1 ; sh:message "R64. Comunidade declara o tipo."@pt ] ;
+    sh:property [ sh:path olb:metodoDeteccao ; sh:minCount 1 ; sh:message "R64. Comunidade declara o método: por regra ou por algoritmo."@pt ] ;
+    sh:property [ sh:path olb:geradaEm ; sh:minCount 1 ; sh:message "R64. Comunidade é datada pelo estado do grafo em que foi gerada."@pt ] ;
+    sh:property [ sh:path olb:membro ; sh:minCount 2 ; sh:message "R64. Comunidade tem ao menos dois membros."@pt ] ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R64. Comunidade detectada por algoritmo registra o algoritmo e os parâmetros; o método deve ser o esperado para o tipo."@pt ;
+        sh:select """SELECT $this WHERE {
+            { $this olb:metodoDeteccao olbv:metodoAlgoritmo . FILTER NOT EXISTS { $this olb:algoritmo ?a } }
+            UNION
+            { $this olb:tipoComunidade ?t ; olb:metodoDeteccao ?m . ?t olb:metodoEsperado ?e . FILTER (?m != ?e) }
+        }""" ] .
+
+olbs:ComunidadeNuncaCanonicaShape a sh:NodeShape ; sh:targetClass olb:Comunidade ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R65. Comunidade é derivada: não tem estado do ciclo de vida, nunca é canônica e nunca é origem ou destino de relação normativa."@pt ;
+        sh:select """SELECT $this WHERE {
+            { $this olb:estado ?e } UNION { ?r olb:origem $this } UNION { ?r olb:destino $this }
+        }""" ] .
+
+olbs:ResumoCitaMembroShape a sh:NodeShape ; sh:targetClass olb:Comunidade ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R66. Resumo gerado cita ao menos uma versão, e só versões de dispositivos que são membros ou pertencem a normas membros."@pt ;
+        sh:select """SELECT $this ?value WHERE {
+            { $this olb:resumoGerado ?r . FILTER NOT EXISTS { $this olb:resumoCita ?x } }
+            UNION
+            { $this olb:resumoCita ?value . ?value olb:versaoDe ?d .
+              FILTER NOT EXISTS { $this olb:membro ?m . ?d olb:temPaiImediato* ?m } }
+        }""" ] .
+
+olbs:ImpactoImplicitoShape a sh:NodeShape ; sh:targetClass olb:RelacaoNormativa ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R67. Impacto implícito revelado por comunidade nasce como proposta: nunca declarado nem canônico sem decisão humana aprovada."@pt ;
+        sh:select """SELECT $this WHERE {
+            { $this olb:camadaOrigem olbv:camadaComunidade } UNION { ?c olb:revelaProposta $this }
+            { $this olb:estado olbv:canonica . FILTER NOT EXISTS { $this olb:decididaPor ?d . ?d olb:resultado olbv:aprovada } }
+            UNION { $this olb:camadaOrigem olbv:camadaDeclarada }
+        }""" ] .
+
+olbs:ComunidadeDesatualizadaShape a sh:NodeShape ; sh:targetClass olb:Comunidade ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ; sh:severity sh:Warning ;
+        sh:message "R68. Um membro ganhou versão depois da geração: a comunidade e o resumo devem ser regenerados."@pt ;
+        sh:select """SELECT $this ?value WHERE {
+            $this olb:geradaEm ?g ; olb:membro ?m .
+            ?d olb:temPaiImediato* ?m . ?value olb:versaoDe ?d ; olb:inicioVigencia ?i .
+            FILTER (?i > ?g)
+        }""" ] .
+
+olbs:SubcomunidadeShape a sh:NodeShape ; sh:targetClass olb:Comunidade ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R69. Subcomunidade tem o mesmo tipo da comunidade-mãe, nível inferior e só membros que também são da mãe."@pt ;
+        sh:select """SELECT $this ?value WHERE {
+            $this olb:subcomunidadeDe ?mae .
+            { $this olb:tipoComunidade ?t1 . ?mae olb:tipoComunidade ?t2 . FILTER (?t1 != ?t2) BIND (?t1 AS ?value) }
+            UNION { $this olb:nivelComunidade ?n1 . ?mae olb:nivelComunidade ?n2 . FILTER (?n1 >= ?n2) BIND (?n1 AS ?value) }
+            UNION { $this olb:membro ?value . FILTER NOT EXISTS { ?mae olb:membro ?value } }
+        }""" ] .
+
+# ============================================================ v0.8 · INTEGRIDADE (decisão 51)
+olbs:HashTextoShape a sh:NodeShape ; sh:targetClass olb:Versao ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R70. O hash registrado não corresponde ao texto verbatim: o texto foi alterado depois de registrado."@pt ;
+        sh:select """SELECT $this ?value WHERE {
+            $this olb:hashTexto ?value ; olb:textoVerbatim ?t .
+            FILTER (LCASE(STR(?value)) != SHA384(STR(?t)))
+        }""" ] .
+
+olbs:CadeiaDecisaoShape a sh:NodeShape ; sh:targetClass olb:Decisao ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R71. Cadeia de decisões rompida: o hash da decisão não confere com seus campos, ou o hash anterior não confere com a decisão anterior."@pt ;
+        sh:select """SELECT $this ?value WHERE {
+            $this olb:hashDecisao ?value ; olb:autor ?a ; olb:cargo ?c ; olb:dataDecisao ?d ; olb:justificativa ?j ; olb:resultado ?r .
+            OPTIONAL { $this olb:hashAnterior ?ha }
+            OPTIONAL { $this olb:decisaoAnterior ?ant . OPTIONAL { ?ant olb:hashDecisao ?hant } }
+            BIND (SHA384(CONCAT(STR(?a), "|", STR(?c), "|", STR(?d), "|", STR(?j), "|", STR(?r), "|", COALESCE(STR(?ha), ""))) AS ?calc)
+            FILTER (?calc != LCASE(STR(?value))
+                    || (BOUND(?ant) && (!BOUND(?ha) || !BOUND(?hant) || STR(?ha) != STR(?hant)))
+                    || (!BOUND(?ant) && BOUND(?ha) && STR(?ha) != ""))
+        }""" ] .
+
+olbs:RaizDiariaShape a sh:NodeShape ; sh:targetClass olb:RaizDiaria ;
+    sh:property [ sh:path olb:dataRaiz ; sh:minCount 1 ; sh:message "R72. A raiz diária tem data."@pt ] ;
+    sh:property [ sh:path olb:valorRaiz ; sh:minCount 1 ; sh:message "R72. A raiz diária tem valor."@pt ] ;
+    sh:property [ sh:path olb:carimboSistema ; sh:minCount 1 ; sh:message "R72. A raiz diária tem carimbo de tempo do sistema."@pt ] ;
+    sh:property [ sh:path olb:algoritmoHash ; sh:minCount 1 ; sh:message "R72. A raiz diária declara o algoritmo de hash."@pt ] ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R72. A raiz anterior é de data anterior, e só a raiz de gênese não tem anterior."@pt ;
+        sh:select """SELECT $this WHERE {
+            { $this olb:raizAnterior ?a ; olb:dataRaiz ?d . ?a olb:dataRaiz ?da . FILTER (?da >= ?d) }
+            UNION
+            { FILTER NOT EXISTS { $this olb:raizAnterior ?x } ?outra a olb:RaizDiaria . FILTER (?outra != $this)
+              FILTER NOT EXISTS { ?outra olb:raizAnterior ?y } FILTER (STR($this) > STR(?outra)) }
+        }""" ] .
+
+# ---- v0.9 · regras R73 a R76, a partir do teste de resistência de 17 de outubro de 2026 (LEX-REV-03)
+olbs:RetificacaoShape a sh:NodeShape ; sh:targetClass olb:Documento ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R73. Retificação antes da vigência (reiniciaVacatio) exige que o início de vigência da norma não seja anterior à data da retificação (LINDB, art. 1º, § 3º)."@pt ;
+        sh:select """SELECT $this ?value WHERE {
+            $this olb:tipoDocumento olbv:retificacao ; olb:efeitoRetificacao olbv:reiniciaVacatio ; olb:dataRetificacao ?dr ; olb:documentoDe ?n .
+            ?n olb:inicioVigencia ?value . FILTER (?value < ?dr)
+        }""" ] ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R73. Retificação de lei já em vigor (leiNova) gera versão nova na data da retificação, sem retroagir (LINDB, art. 1º, § 4º)."@pt ;
+        sh:select """SELECT $this ?value WHERE {
+            $this olb:tipoDocumento olbv:retificacao ; olb:efeitoRetificacao olbv:leiNova ; olb:dataRetificacao ?value ; olb:documentoDe ?n .
+            FILTER NOT EXISTS { ?d olb:temPaiImediato* ?n . ?v olb:versaoDe ?d ; olb:inicioVigencia ?value }
+        }""" ] .
+
+olbs:RepristinacaoShape a sh:NodeShape ; sh:targetClass olb:Versao ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ; sh:severity sh:Warning ;
+        sh:message "R74. Versão que repete o texto de versão anterior já encerrada do mesmo dispositivo parece restauração. Sem cláusula expressa ou declaração de inconstitucionalidade da norma revogadora, a lei revogada não se restaura (LINDB, art. 2º, § 3º)."@pt ;
+        sh:select """SELECT $this ?value WHERE {
+            $this olb:versaoDe ?d ; olb:inicioVigencia ?i ; olb:textoVerbatim ?t .
+            ?value olb:versaoDe ?d ; olb:fimVigencia ?f ; olb:textoVerbatim ?t .
+            FILTER ($this != ?value && ?f <= ?i)
+            FILTER NOT EXISTS { ?r a olb:RelacaoNormativa ; olb:destino ?d ; olb:clausulaRevogatoria olbv:repristinacaoExpressa }
+            FILTER NOT EXISTS {
+                ?rv a olb:RelacaoNormativa ; olb:destino ?d ; olb:origem ?x ; olb:tipoRelacao ?tv .
+                FILTER (?tv IN (olbv:revoga, olbv:revoga_dispositivo))
+                ?x olb:temPaiImediato* ?y .
+                ?ri a olb:RelacaoNormativa ; olb:destino ?y ; olb:estado olbv:declarada ; olb:tipoRelacao ?ti .
+                FILTER (?ti IN (olbv:declara_inconstitucional, olbv:declara_inconstitucional_dispositivo))
+            }
+        }""" ] .
+
+olbs:MPCaducadaShape a sh:NodeShape ; sh:targetClass olb:RelacaoNormativa ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ; sh:severity sh:Warning ;
+        sh:message "R75. Relação de medida provisória com fim de efeito: o dispositivo alvo precisa de versão que retome a eficácia na data do fim, porque a MP não convertida nunca revogou (CF, art. 62; STF, ADI 221)."@pt ;
+        sh:select """SELECT $this ?value WHERE {
+            $this olb:origem ?o ; olb:destino ?value ; olb:fimEfeito ?fim .
+            ?o olb:temPaiImediato* ?n . ?n a olb:MedidaProvisoria .
+            FILTER NOT EXISTS { ?v olb:versaoDe ?value ; olb:inicioVigencia ?i2 . FILTER (?i2 >= ?fim) }
+        }""" ] .
+
+olbs:VersaoNulaShape a sh:NodeShape ; sh:targetClass olb:Versao ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R76. Versão de duração zero (início igual ao fim) só é aceita com a marca de versão nula."@pt ;
+        sh:select """SELECT $this ?value WHERE {
+            $this olb:inicioVigencia ?i ; olb:fimVigencia ?value . FILTER (?i = ?value)
+            FILTER NOT EXISTS { $this olb:versaoNula true }
+        }""" ] .

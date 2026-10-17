@@ -1,0 +1,148 @@
+# LEX-ABX-CM · ABox das comunidades emergentes · primeira onda (decisão 50)
+# OLB · v0.7 · 15 de outubro de 2026 · Gerson Rolim e Sueli Rolim
+# CASO FICTÍCIO: normas, órgãos, números, textos e datas inventados para ilustrar as quatro comunidades
+# sobre um mesmo grafo pequeno. Nada aqui é afirmação sobre norma real.
+# Grafo: Lei E, regulamentada pelo Decreto F, pela Portaria G e pela Instrução Normativa H (cadeia);
+# art. 2º da Lei E alterado pelas Leis J e K (linhagem); Ministério M competente em metrologia (competência);
+# dispositivos que se citam mutuamente (remissão). A Resolução P, nova, entra na matéria sem relação declarada:
+# a comunidade de competência revela um impacto implícito, que nasce como proposta.
+
+@prefix olb:  <https://w3id.org/olb#> .
+@prefix olbv: <https://w3id.org/olb/vocab#> .
+@prefix cm:   <https://w3id.org/olb/comunidades#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# ============================================================ INSTITUIÇÃO
+cm:Uniao a olb:EnteFederativo ; olb:esfera olbv:esferaFederal ; olb:rotulo "União" .
+cm:MinisterioM a olb:Orgao ; olb:orgaoDe cm:Uniao ; olb:rotulo "Ministério M (fictício)" .
+cm:SecretariaR a olb:Orgao ; olb:orgaoDe cm:Uniao ; olb:vinculadoA cm:MinisterioM ; olb:rotulo "Secretaria R do Ministério M (fictícia)" .
+cm:AgenciaQ a olb:OrgaoColegiado ; olb:orgaoDe cm:Uniao ; olb:rotulo "Diretoria colegiada da Agência Q (fictícia)" .
+
+# ============================================================ NORMAS
+cm:LeiE a olb:LeiOrdinaria ; olb:urn "urn:lex:br:federal:lei:2018-01-10;8001" ; olb:rotulo "Lei E (fictícia)" ;
+    olb:materia olbv:matMetrologia ; olb:ambitoTerritorial cm:Uniao ;
+    olb:dataEpigrafe "2018-01-10"^^xsd:date ; olb:dataPublicacao "2018-01-11"^^xsd:date ; olb:inicioVigencia "2018-01-11"^^xsd:date .
+cm:DecretoF a olb:Decreto ; olb:urn "urn:lex:br:federal:decreto:2019-02-04;8002" ; olb:rotulo "Decreto F (fictício)" ;
+    olb:materia olbv:matMetrologia ;
+    olb:dataEpigrafe "2019-02-04"^^xsd:date ; olb:dataPublicacao "2019-02-05"^^xsd:date ; olb:inicioVigencia "2019-02-05"^^xsd:date .
+cm:PortariaG a olb:Portaria ; olb:urn "urn:lex:br:ministerio.m:portaria:2020-03-02;8003" ; olb:rotulo "Portaria G (fictícia)" ;
+    olb:emitidaPor cm:MinisterioM ; olb:materia olbv:matMetrologia ;
+    olb:dataEpigrafe "2020-03-02"^^xsd:date ; olb:dataPublicacao "2020-03-03"^^xsd:date ; olb:inicioVigencia "2020-03-03"^^xsd:date .
+cm:InH a olb:InstrucaoNormativa ; olb:urn "urn:lex:br:secretaria.r:instrucao.normativa:2021-04-05;8004" ; olb:rotulo "Instrução Normativa H (fictícia)" ;
+    olb:emitidaPor cm:SecretariaR ; olb:materia olbv:matMetrologia ;
+    olb:dataEpigrafe "2021-04-05"^^xsd:date ; olb:dataPublicacao "2021-04-06"^^xsd:date ; olb:inicioVigencia "2021-04-06"^^xsd:date .
+cm:LeiJ a olb:LeiOrdinaria ; olb:urn "urn:lex:br:federal:lei:2020-06-01;8005" ; olb:rotulo "Lei J (fictícia)" ;
+    olb:dataEpigrafe "2020-06-01"^^xsd:date ; olb:dataPublicacao "2020-06-02"^^xsd:date ; olb:inicioVigencia "2020-06-02"^^xsd:date .
+cm:LeiK a olb:LeiOrdinaria ; olb:urn "urn:lex:br:federal:lei:2022-08-01;8006" ; olb:rotulo "Lei K (fictícia)" ;
+    olb:dataEpigrafe "2022-08-01"^^xsd:date ; olb:dataPublicacao "2022-08-02"^^xsd:date ; olb:inicioVigencia "2022-08-02"^^xsd:date .
+cm:ResolucaoP a olb:Resolucao ; olb:urn "urn:lex:br:agencia.q:resolucao:2024-05-06;8007" ; olb:rotulo "Resolução P (fictícia)" ;
+    olb:emitidaPor cm:AgenciaQ ; olb:materia olbv:matMetrologia ;
+    olb:dataEpigrafe "2024-05-06"^^xsd:date ; olb:dataPublicacao "2024-05-07"^^xsd:date ; olb:inicioVigencia "2024-05-07"^^xsd:date .
+
+# ============================================================ DISPOSITIVOS E VERSÕES
+cm:E_art1 a olb:Artigo ; olb:idFragmento "art1" ; olb:temPaiImediato cm:LeiE .
+cm:E_art1_cpt a olb:Caput ; olb:idFragmento "art1_cpt" ; olb:temPaiImediato cm:E_art1 .
+cm:vE1 a olb:Versao ; olb:versaoDe cm:E_art1_cpt ; olb:inicioVigencia "2018-01-11"^^xsd:date ;
+    olb:textoVerbatim "Compete ao Ministério M disciplinar a metrologia dos instrumentos de medição de que trata esta Lei." .
+cm:E_art2 a olb:Artigo ; olb:idFragmento "art2" ; olb:temPaiImediato cm:LeiE .
+cm:E_art2_cpt a olb:Caput ; olb:idFragmento "art2_cpt" ; olb:temPaiImediato cm:E_art2 .
+cm:vE2a a olb:Versao ; olb:versaoDe cm:E_art2_cpt ; olb:inicioVigencia "2018-01-11"^^xsd:date ; olb:fimVigencia "2020-06-02"^^xsd:date ;
+    olb:textoVerbatim "A verificação periódica dos instrumentos será anual." .
+cm:vE2b a olb:Versao ; olb:versaoDe cm:E_art2_cpt ; olb:inicioVigencia "2020-06-02"^^xsd:date ; olb:fimVigencia "2022-08-02"^^xsd:date ;
+    olb:textoVerbatim "A verificação periódica dos instrumentos será bienal." .
+cm:vE2c a olb:Versao ; olb:versaoDe cm:E_art2_cpt ; olb:inicioVigencia "2022-08-02"^^xsd:date ;
+    olb:textoVerbatim "A verificação periódica dos instrumentos será bienal, salvo regulamento que fixe prazo menor." .
+cm:E_art3 a olb:Artigo ; olb:idFragmento "art3" ; olb:temPaiImediato cm:LeiE .
+cm:E_art3_cpt a olb:Caput ; olb:idFragmento "art3_cpt" ; olb:temPaiImediato cm:E_art3 .
+cm:vE3 a olb:Versao ; olb:versaoDe cm:E_art3_cpt ; olb:inicioVigencia "2018-01-11"^^xsd:date ;
+    olb:textoVerbatim "Os critérios técnicos serão definidos em regulamento, observado o art. 2º." .
+cm:F_art1 a olb:Artigo ; olb:idFragmento "art1" ; olb:temPaiImediato cm:DecretoF .
+cm:F_art1_cpt a olb:Caput ; olb:idFragmento "art1_cpt" ; olb:temPaiImediato cm:F_art1 .
+cm:vF1 a olb:Versao ; olb:versaoDe cm:F_art1_cpt ; olb:inicioVigencia "2019-02-05"^^xsd:date ;
+    olb:textoVerbatim "Os critérios técnicos de que trata o art. 3º da Lei E serão detalhados por portaria do Ministério M." .
+cm:G_art1 a olb:Artigo ; olb:idFragmento "art1" ; olb:temPaiImediato cm:PortariaG .
+cm:G_art1_cpt a olb:Caput ; olb:idFragmento "art1_cpt" ; olb:temPaiImediato cm:G_art1 .
+cm:vG1 a olb:Versao ; olb:versaoDe cm:G_art1_cpt ; olb:inicioVigencia "2020-03-03"^^xsd:date ;
+    olb:textoVerbatim "Ficam aprovados os critérios técnicos previstos no art. 1º do Decreto F." .
+cm:H_art1 a olb:Artigo ; olb:idFragmento "art1" ; olb:temPaiImediato cm:InH .
+cm:H_art1_cpt a olb:Caput ; olb:idFragmento "art1_cpt" ; olb:temPaiImediato cm:H_art1 .
+cm:vH1 a olb:Versao ; olb:versaoDe cm:H_art1_cpt ; olb:inicioVigencia "2021-04-06"^^xsd:date ;
+    olb:textoVerbatim "O registro da verificação seguirá o formulário do Anexo." .
+cm:J_art1 a olb:Artigo ; olb:idFragmento "art1" ; olb:temPaiImediato cm:LeiJ .
+cm:J_art1_cpt a olb:Caput ; olb:idFragmento "art1_cpt" ; olb:temPaiImediato cm:J_art1 .
+cm:vJ1 a olb:Versao ; olb:versaoDe cm:J_art1_cpt ; olb:inicioVigencia "2020-06-02"^^xsd:date ;
+    olb:textoVerbatim "O art. 2º da Lei E passa a vigorar com a seguinte redação: “A verificação periódica dos instrumentos será bienal.”" .
+cm:K_art1 a olb:Artigo ; olb:idFragmento "art1" ; olb:temPaiImediato cm:LeiK .
+cm:K_art1_cpt a olb:Caput ; olb:idFragmento "art1_cpt" ; olb:temPaiImediato cm:K_art1 .
+cm:vK1 a olb:Versao ; olb:versaoDe cm:K_art1_cpt ; olb:inicioVigencia "2022-08-02"^^xsd:date ;
+    olb:textoVerbatim "O art. 2º da Lei E passa a vigorar com a seguinte redação: “A verificação periódica dos instrumentos será bienal, salvo regulamento que fixe prazo menor.”" .
+cm:P_art1 a olb:Artigo ; olb:idFragmento "art1" ; olb:temPaiImediato cm:ResolucaoP .
+cm:P_art1_cpt a olb:Caput ; olb:idFragmento "art1_cpt" ; olb:temPaiImediato cm:P_art1 .
+cm:vP1 a olb:Versao ; olb:versaoDe cm:P_art1_cpt ; olb:inicioVigencia "2024-05-07"^^xsd:date ;
+    olb:textoVerbatim "A verificação dos medidores de consumo será trienal." .
+
+# ============================================================ COMPETÊNCIA
+cm:CompM a olb:Competencia ; olb:orgaoCompetente cm:MinisterioM ; olb:materiaCompetencia olbv:matMetrologia ;
+    olb:espacoCompetencia cm:Uniao ; olb:fundamentoCompetencia cm:E_art1_cpt ; olb:tipoCompetencia olbv:compPrivativa ;
+    olb:inicioVigencia "2018-01-11"^^xsd:date .
+
+# ============================================================ RELAÇÕES DECLARADAS
+cm:Rc1 a olb:RelacaoNormativa ; olb:origem cm:DecretoF ; olb:destino cm:LeiE ; olb:tipoRelacao olbv:regulamenta ;
+    olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:canonica ; olb:inicioEfeito "2019-02-05"^^xsd:date ;
+    olb:fundamentoLegal "Declarado no preâmbulo do Decreto F" .
+cm:Rc2 a olb:RelacaoNormativa ; olb:origem cm:PortariaG ; olb:destino cm:DecretoF ; olb:tipoRelacao olbv:regulamenta ;
+    olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:canonica ; olb:inicioEfeito "2020-03-03"^^xsd:date ;
+    olb:fundamentoLegal "Declarado no art. 1º da Portaria G" .
+cm:Rc3 a olb:RelacaoNormativa ; olb:origem cm:InH ; olb:destino cm:PortariaG ; olb:tipoRelacao olbv:regulamenta ;
+    olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:canonica ; olb:inicioEfeito "2021-04-06"^^xsd:date ;
+    olb:fundamentoLegal "Declarado no preâmbulo da Instrução Normativa H" .
+cm:Ra1 a olb:RelacaoNormativa ; olb:origem cm:J_art1_cpt ; olb:destino cm:E_art2_cpt ; olb:tipoRelacao olbv:altera ;
+    olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:canonica ; olb:inicioEfeito "2020-06-02"^^xsd:date ;
+    olb:fundamentoLegal "Comando expresso na Lei J, art. 1º" .
+cm:Ra2 a olb:RelacaoNormativa ; olb:origem cm:K_art1_cpt ; olb:destino cm:E_art2_cpt ; olb:tipoRelacao olbv:altera ;
+    olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:canonica ; olb:inicioEfeito "2022-08-02"^^xsd:date ;
+    olb:fundamentoLegal "Comando expresso na Lei K, art. 1º" .
+cm:Rr1 a olb:RelacaoNormativa ; olb:origem cm:E_art3_cpt ; olb:destino cm:E_art2_cpt ; olb:tipoRelacao olbv:referencia ;
+    olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:canonica ; olb:fundamentoLegal "Remissão expressa “observado o art. 2º”" .
+cm:Rr2 a olb:RelacaoNormativa ; olb:origem cm:F_art1_cpt ; olb:destino cm:E_art3_cpt ; olb:tipoRelacao olbv:referencia ;
+    olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:canonica ; olb:fundamentoLegal "Remissão expressa “de que trata o art. 3º da Lei E”" .
+cm:Rr3 a olb:RelacaoNormativa ; olb:origem cm:G_art1_cpt ; olb:destino cm:F_art1_cpt ; olb:tipoRelacao olbv:referencia ;
+    olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:canonica ; olb:fundamentoLegal "Remissão expressa “previstos no art. 1º do Decreto F”" .
+cm:Rr4 a olb:RelacaoNormativa ; olb:origem cm:J_art1_cpt ; olb:destino cm:K_art1_cpt ; olb:tipoRelacao olbv:referencia ;
+    olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:canonica ; olb:fundamentoLegal "Remissão fictícia, para formar um segundo núcleo" .
+
+# ============================================================ IMPACTO IMPLÍCITO (proposta revelada pela comunidade de competência)
+cm:Rp1 a olb:RelacaoNormativa ; olb:origem cm:P_art1_cpt ; olb:destino cm:E_art2_cpt ; olb:tipoRelacao olbv:conflita_com ;
+    olb:camadaOrigem olbv:camadaComunidade ; olb:estado olbv:proposta ;
+    olb:criterio olbv:criterioCompetencia ; olb:competenciaInvocada cm:CompM ;
+    olb:fundamentoLegal "A Resolução P trata de matéria (metrologia) atribuída ao Ministério M pelo art. 1º da Lei E" ;
+    olb:evidencia "Resolução P: “será trienal” | Lei E, art. 2º: “será bienal, salvo regulamento que fixe prazo menor”" .
+
+# ============================================================ AS QUATRO COMUNIDADES
+cm:ComCadeia a olb:Comunidade ; olb:tipoComunidade olbv:comCadeiaRegulamentacao ; olb:metodoDeteccao olbv:metodoRegra ;
+    olb:geradaEm "2026-10-15"^^xsd:date ; olb:membro cm:LeiE , cm:DecretoF , cm:PortariaG , cm:InH ;
+    olb:resumoGerado "Resumo gerado, não oficial. A Lei E remete os critérios técnicos a regulamento (art. 3º); o Decreto F os delega a portaria (art. 1º); a Portaria G os aprova (art. 1º); a Instrução Normativa H fixa o formulário de registro (art. 1º)." ;
+    olb:resumoCita cm:vE3 , cm:vF1 , cm:vG1 , cm:vH1 .
+cm:ComLinhagem a olb:Comunidade ; olb:tipoComunidade olbv:comLinhagemAlteracao ; olb:metodoDeteccao olbv:metodoRegra ;
+    olb:geradaEm "2026-10-15"^^xsd:date ; olb:membro cm:E_art2_cpt , cm:LeiJ , cm:LeiK ;
+    olb:resumoGerado "Resumo gerado, não oficial. O caput do art. 2º da Lei E teve três redações: anual (2018), bienal pela Lei J (2020) e bienal com exceção por regulamento pela Lei K (2022)." ;
+    olb:resumoCita cm:vE2a , cm:vE2b , cm:vE2c , cm:vJ1 , cm:vK1 .
+cm:ComCompetencia a olb:Comunidade ; olb:tipoComunidade olbv:comCompetencia ; olb:metodoDeteccao olbv:metodoRegra ;
+    olb:geradaEm "2026-10-15"^^xsd:date ; olb:membro cm:MinisterioM , cm:CompM , cm:LeiE , cm:PortariaG , cm:InH ;
+    olb:resumoGerado "Resumo gerado, não oficial. Desde 2018 o Ministério M tem competência privativa em metrologia na União (Lei E, art. 1º); editou a Portaria G, e sua Secretaria R, a Instrução Normativa H." ;
+    olb:resumoCita cm:vE1 , cm:vG1 , cm:vH1 ;
+    olb:revelaProposta cm:Rp1 .
+cm:ComRemissao a olb:Comunidade ; olb:tipoComunidade olbv:comRemissao ; olb:metodoDeteccao olbv:metodoAlgoritmo ;
+    olb:algoritmo "componentes conexas sobre a relação referencia, sem peso (demonstração); em produção, Leiden com resolução 1,0 e semente fixa" ;
+    olb:geradaEm "2026-10-15"^^xsd:date ; olb:nivelComunidade 1 ; olb:coesao 0.75 ;
+    olb:membro cm:E_art2_cpt , cm:E_art3_cpt , cm:F_art1_cpt , cm:G_art1_cpt ;
+    olb:resumoGerado "Resumo gerado, não oficial. Quatro dispositivos encadeados por remissões expressas: a Portaria G cita o Decreto F, que cita o art. 3º da Lei E, que cita o art. 2º." ;
+    olb:resumoCita cm:vE2c , cm:vE3 , cm:vF1 , cm:vG1 .
+
+# Subcomunidade de nível 0 (detecção hierárquica): o par mais coeso dentro do núcleo de remissão.
+cm:ComRemissao_a a olb:Comunidade ; olb:tipoComunidade olbv:comRemissao ; olb:metodoDeteccao olbv:metodoAlgoritmo ;
+    olb:algoritmo "Leiden hierárquico, nível 0 (demonstração)" ; olb:geradaEm "2026-10-15"^^xsd:date ;
+    olb:subcomunidadeDe cm:ComRemissao ; olb:nivelComunidade 0 ; olb:coesao 1.0 ;
+    olb:membro cm:E_art2_cpt , cm:E_art3_cpt ;
+    olb:resumoGerado "Resumo gerado, não oficial. O art. 3º da Lei E remete ao art. 2º: os critérios técnicos observam o prazo de verificação." ;
+    olb:resumoCita cm:vE2c , cm:vE3 .
