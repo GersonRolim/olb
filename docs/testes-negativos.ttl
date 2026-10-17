@@ -1,3 +1,4 @@
+# Licença: CC0 1.0 (ver LICENSE.md). Autores: Gerson Rolim e Sueli Rolim.
 # LEX-ABX-T · ABox de testes negativos · cada bloco viola de propósito uma regra do LEX-SHP
 # OLB · v0.9 · 17 de outubro de 2026 (nome de arquivo mantido) · Gerson Rolim e Sueli Rolim · dados 38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95bs
 # O comentário de cada bloco indica a regra que deve disparar.

@@ -1,3 +1,4 @@
+# Licença: CC0 1.0 (ver LICENSE.md). Autores: Gerson Rolim e Sueli Rolim.
 # LEX-ABX · ABox temporal · caso fictício de ponta a ponta
 # Ontologia da Legislação Brasileira (OLB) · v0.1 · 2 de outubro de 2026 · Gerson Rolim e Sueli Rolim
 # Camada 3 do modelo em três camadas: o que é verdadeiro em cada data.

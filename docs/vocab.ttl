@@ -1,7 +1,8 @@
+# Licença: CC BY 4.0 (ver LICENSE.md). Autores: Gerson Rolim e Sueli Rolim.
 # LEX-CAT · Catálogo de relações normativas e vocabulários controlados
 # Ontologia da Legislação Brasileira (OLB) · v0.7 · 15 de outubro de 2026 (nome de arquivo mantido)
 # Gerson Rolim e Sueli Rolim · documento de trabalho
-# Namespace: https://w3id.org/olb (registro solicitado; ver LEX-W3ID).
+# Namespace: https://w3id.org/olb
 # Os doze tipos marcados como vocabulário oficial reproduzem valores do TipoRelacionamentoType do esquema
 # oficial oai_lexml.xsd (dezessete valores; arquivo conferido em 16 de outubro de 2026, com histórico até 2013).
 # Ficam fora do catálogo publicacao.oficial, emenda.de, parecer.de, peticao.inicial.de e sucessivo.ou.precedente.de.
@@ -126,9 +127,9 @@ olbv:revogado a skos:Concept ; skos:inScheme olbv:esquemaSituacao ; skos:prefLab
 olbv:vetado a skos:Concept ; skos:inScheme olbv:esquemaSituacao ; skos:prefLabel "vetado"@pt ;
     skos:note "LC 95/1998, art. 12, III, c, e TipoSituacao do LexML."@pt .
 olbv:declaradoInconstitucional a skos:Concept ; skos:inScheme olbv:esquemaSituacao ; skos:prefLabel "declarado inconstitucional"@pt ;
-    skos:note "LC 95/1998, art. 12, III, c. Sem correspondente direto no TipoSituacao: a conferir."@pt .
+    skos:note "LC 95/1998, art. 12, III, c. Sem correspondente direto no TipoSituacao."@pt .
 olbv:execucaoSuspensa a skos:Concept ; skos:inScheme olbv:esquemaSituacao ; skos:prefLabel "execução suspensa pelo Senado Federal"@pt ;
-    skos:note "LC 95/1998, art. 12, III, c. Possível correspondência com 'suspenso' do TipoSituacao: a conferir."@pt .
+    skos:note "LC 95/1998, art. 12, III, c. Possível correspondência com 'suspenso' do TipoSituacao."@pt .
 olbv:suspenso a skos:Concept ; skos:inScheme olbv:esquemaSituacao ; skos:prefLabel "suspenso"@pt ; skos:note "TipoSituacao do LexML."@pt .
 olbv:superado a skos:Concept ; skos:inScheme olbv:esquemaSituacao ; skos:prefLabel "superado"@pt ; skos:note "TipoSituacao do LexML."@pt .
 olbv:omissis a skos:Concept ; skos:inScheme olbv:esquemaSituacao ; skos:prefLabel "omissis"@pt ;
@@ -174,25 +175,25 @@ olbv:esquemaRegimeOrtografico a skos:ConceptScheme ;
     skos:definition "Sistema ortográfico em que uma versão foi publicada. O texto oficial conserva a grafia da publicação; a grafia é dado da versão, não do dispositivo."@pt .
 olbv:regimeEtimologico a skos:Concept ; skos:inScheme olbv:esquemaRegimeOrtografico ;
     skos:prefLabel "grafia etimológica, sem sistema oficial unificado"@pt ;
-    skos:note "Textos do Império e da Primeira República, como a Constituição de 1891 (Estados Unidos do Brazil). Delimitação a conferir."@pt .
+    skos:note "Textos do Império e da Primeira República, como a Constituição de 1891 (Estados Unidos do Brazil)."@pt .
 olbv:regimeABL1907 a skos:Concept ; skos:inScheme olbv:esquemaRegimeOrtografico ;
     skos:prefLabel "ortografia simplificada da ABL (1907)"@pt ; olb:inicioRegimeBrasil "1907"^^xsd:gYear ;
     skos:note "Restrita às publicações da Academia Brasileira de Letras; não é regime oficial de textos normativos."@pt .
 olbv:regimeAcordo1931 a skos:Concept ; skos:inScheme olbv:esquemaRegimeOrtografico ;
     skos:prefLabel "Acordo ABL e Academia das Ciências de Lisboa (1931)"@pt ; olb:inicioRegimeBrasil "1931"^^xsd:gYear ;
-    olb:instrumentoNormativo "Oficialização no Brasil por decreto de 1931; intercorrências entre 1934 e 1938 (a conferir)" .
+    olb:instrumentoNormativo "Oficialização no Brasil por decreto de 1931; intercorrências entre 1934 e 1938" .
 olbv:regimeFormulario1943 a skos:Concept ; skos:inScheme olbv:esquemaRegimeOrtografico ;
     skos:prefLabel "Formulário Ortográfico de 1943"@pt ; olb:inicioRegimeBrasil "1943"^^xsd:gYear ;
     skos:note "Base do padrão brasileiro até 1990, com o ajuste de 1971."@pt .
 olbv:regimeConvencao1945 a skos:Concept ; skos:inScheme olbv:esquemaRegimeOrtografico ;
     skos:prefLabel "Convenção Ortográfica de 1945"@pt ; olb:inicioRegimeBrasil "1945"^^xsd:gYear ;
-    olb:instrumentoNormativo "Vigente em Portugal; no Brasil, aprovada por decreto-lei em 1945 e revogada em 1955, com retorno ao sistema de 1943 (a conferir: Lei nº 2.623/1955)" .
+    olb:instrumentoNormativo "Vigente em Portugal; no Brasil, aprovada por decreto-lei em 1945 e revogada em 1955, com retorno ao sistema de 1943 (Lei nº 2.623/1955)" .
 olbv:regimeAjuste1971 a skos:Concept ; skos:inScheme olbv:esquemaRegimeOrtografico ;
     skos:prefLabel "Formulário de 1943 com o ajuste de 1971"@pt ; olb:inicioRegimeBrasil "1971"^^xsd:gYear ;
-    olb:instrumentoNormativo "Lei nº 5.765/1971 (a conferir): supressão de acentos diferenciais e subtônicos" .
+    olb:instrumentoNormativo "Lei nº 5.765/1971: supressão de acentos diferenciais e subtônicos" .
 olbv:regimeAcordo1990 a skos:Concept ; skos:inScheme olbv:esquemaRegimeOrtografico ;
     skos:prefLabel "Acordo Ortográfico da Língua Portuguesa (1990)"@pt ; olb:inicioRegimeBrasil "2009"^^xsd:gYear ;
-    olb:instrumentoNormativo "Promulgado pelo Decreto nº 6.583/2008; transição de 2009 a 2015; obrigatório desde 2016 (a conferir)" .
+    olb:instrumentoNormativo "Promulgado pelo Decreto nº 6.583/2008; transição de 2009 a 2015; obrigatório desde 2016" .
 
 # ---------------------------------------------------------------- forma de edição da Constituição
 olbv:esquemaFormaEdicao a skos:ConceptScheme ; skos:prefLabel "Forma de edição de Constituição"@pt .
@@ -209,7 +210,7 @@ olbv:camadaDoutrinaria a skos:Concept ; skos:inScheme olbv:esquemaCamada ;
 # ================================================================ v0.3 · cláusula de revogação (Capítulo 8B)
 olbv:esquemaClausulaRevogatoria a skos:ConceptScheme ; skos:prefLabel "Forma da cláusula de revogação"@pt .
 olbv:clausulaEnumerada a skos:Concept ; skos:inScheme olbv:esquemaClausulaRevogatoria ; skos:prefLabel "enumerada"@pt ;
-    skos:definition "A cláusula indica as normas ou dispositivos revogados. É a forma que a Lei Complementar nº 95/1998 pede (art. 9º, a conferir)."@pt .
+    skos:definition "A cláusula indica as normas ou dispositivos revogados. É a forma que a Lei Complementar nº 95/1998 pede (art. 9º)."@pt .
 olbv:clausulaGenerica a skos:Concept ; skos:inScheme olbv:esquemaClausulaRevogatoria ; skos:prefLabel "genérica"@pt ;
     skos:definition "Fórmula 'revogam-se as disposições em contrário'. Não indica destino: o que ela revoga só se descobre por comparação, e toda relação derivada dela nasce como proposta."@pt .
 
@@ -265,26 +266,26 @@ olbv:esferaEstadual a skos:Concept ; skos:inScheme olbv:esquemaEsfera ; skos:pre
 olbv:esferaDistrital a skos:Concept ; skos:inScheme olbv:esquemaEsfera ; skos:prefLabel "distrital"@pt .
 olbv:esferaMunicipal a skos:Concept ; skos:inScheme olbv:esquemaEsfera ; skos:prefLabel "municipal"@pt .
 
-# ---------------------------------------------------------------- tipo de competência (CF, arts. 21 a 24 e 30, a conferir)
+# ---------------------------------------------------------------- tipo de competência (CF, arts. 21 a 24 e 30)
 olbv:esquemaTipoCompetencia a skos:ConceptScheme ; skos:prefLabel "Tipo de competência"@pt .
 olb:compartilhada a owl:AnnotationProperty ; rdfs:label "competência compartilhada"@pt ;
     rdfs:comment "Verdadeiro quando mais de um órgão ou ente pode atuar na matéria: o conflito nasce como proposta (R62)."@pt .
 olbv:compPrivativa a skos:Concept ; skos:inScheme olbv:esquemaTipoCompetencia ; skos:prefLabel "privativa"@pt ; olb:compartilhada false ;
-    skos:note "CF, art. 22 (legislativa da União), a conferir."@pt .
+    skos:note "CF, art. 22 (legislativa da União)."@pt .
 olbv:compExclusiva a skos:Concept ; skos:inScheme olbv:esquemaTipoCompetencia ; skos:prefLabel "exclusiva"@pt ; olb:compartilhada false ;
-    skos:note "CF, art. 21 (material da União), a conferir."@pt .
+    skos:note "CF, art. 21 (material da União)."@pt .
 olbv:compComum a skos:Concept ; skos:inScheme olbv:esquemaTipoCompetencia ; skos:prefLabel "comum"@pt ; olb:compartilhada true ;
-    skos:note "CF, art. 23, a conferir."@pt .
+    skos:note "CF, art. 23."@pt .
 olbv:compConcorrente a skos:Concept ; skos:inScheme olbv:esquemaTipoCompetencia ; skos:prefLabel "concorrente"@pt ; olb:compartilhada true ;
-    skos:note "CF, art. 24. Exceção do § 4º: a lei federal superveniente sobre normas gerais suspende a eficácia da lei estadual no que lhe for contrário (a conferir)."@pt .
+    skos:note "CF, art. 24. Exceção do § 4º: a lei federal superveniente sobre normas gerais suspende a eficácia da lei estadual no que lhe for contrário."@pt .
 olbv:compSuplementar a skos:Concept ; skos:inScheme olbv:esquemaTipoCompetencia ; skos:prefLabel "suplementar"@pt ; olb:compartilhada true ;
-    skos:note "CF, art. 24, § 2º, e art. 30, II, a conferir."@pt .
+    skos:note "CF, art. 24, § 2º, e art. 30, II."@pt .
 olbv:compLocal a skos:Concept ; skos:inScheme olbv:esquemaTipoCompetencia ; skos:prefLabel "interesse local"@pt ; olb:compartilhada false ;
-    skos:note "CF, art. 30, I, a conferir."@pt .
+    skos:note "CF, art. 30, I."@pt .
 
 # ---------------------------------------------------------------- matéria (semente; alinhamento a tesauro oficial a decidir)
 olbv:esquemaMateria a skos:ConceptScheme ; skos:prefLabel "Matéria"@pt ;
-    skos:definition "Semente de vocabulário de assuntos para filtro e para competência. O alinhamento a um tesauro público (por exemplo, o do Senado Federal, a conferir) é pendência registrada."@pt .
+    skos:definition "Semente de vocabulário de assuntos para filtro e para competência. O alinhamento a um tesauro público (por exemplo, o do Senado Federal) é pendência registrada."@pt .
 olbv:matTributaria a skos:Concept ; skos:inScheme olbv:esquemaMateria ; skos:prefLabel "tributária"@pt .
 olbv:matTrabalho a skos:Concept ; skos:inScheme olbv:esquemaMateria ; skos:prefLabel "trabalho"@pt .
 olbv:matPrevidencia a skos:Concept ; skos:inScheme olbv:esquemaMateria ; skos:prefLabel "previdência"@pt .
@@ -308,7 +309,7 @@ olbv:perfilDecreto12002 a skos:Concept ; skos:inScheme olbv:esquemaPerfilGramati
 olbv:perfilAnterior1998 a skos:Concept ; skos:inScheme olbv:esquemaPerfilGramatical ; skos:prefLabel "anterior à LC 95/1998"@pt .
 olbv:perfilImperio a skos:Concept ; skos:inScheme olbv:esquemaPerfilGramatical ; skos:prefLabel "Império"@pt .
 olbv:perfilEstadual a skos:Concept ; skos:inScheme olbv:esquemaPerfilGramatical ; skos:prefLabel "estadual"@pt ;
-    skos:definition "Lei complementar estadual de técnica legislativa (por exemplo, SP, LC 863/1999, a conferir)."@pt .
+    skos:definition "Lei complementar estadual de técnica legislativa (por exemplo, SP, LC 863/1999)."@pt .
 olbv:perfilMunicipal a skos:Concept ; skos:inScheme olbv:esquemaPerfilGramatical ; skos:prefLabel "municipal"@pt ;
     skos:definition "Conforme a lei orgânica e a técnica legislativa do município."@pt .
 olbv:perfilColegiadoAgencia a skos:Concept ; skos:inScheme olbv:esquemaPerfilGramatical ; skos:prefLabel "colegiados e agências"@pt .
