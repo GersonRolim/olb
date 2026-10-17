@@ -1,5 +1,5 @@
 # Licença: CC BY 4.0 (ver LICENSE.md). Autores: Gerson Rolim e Sueli Rolim.
-# LEX-TBX · TBox em OWL 2 · Ontologia da Legislação Brasileira (OLB)
+# OLB-TBox · TBox em OWL 2 · Ontologia da Legislação Brasileira (OLB)
 # v0.9 · 17 de outubro de 2026 (nome de arquivo mantido) · Gerson Rolim e Sueli Rolim · documento de trabalho
 # Camada 1 do modelo em três camadas: o que pode existir.
 # Namespace: https://w3id.org/olb
@@ -139,7 +139,7 @@ olb:evidencia a owl:DatatypeProperty ; rdfs:label "evidência"@pt ; rdfs:domain 
 olb:confianca a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "confiança"@pt ; rdfs:domain olb:RelacaoNormativa ; rdfs:range xsd:decimal ;
     rdfs:comment "Informação secundária. Nunca aprova nada (Capítulo 17, regra 1)."@pt .
 olb:inicioEfeito a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "início de efeito"@pt ; rdfs:domain olb:RelacaoNormativa ; rdfs:range xsd:date .
-# v0.9 · lacunas jurídicas do teste de resistência de 17 de outubro de 2026 (LEX-REV-03)
+# v0.9 · lacunas jurídicas do teste de resistência de 17 de outubro de 2026
 olb:efeitoRetroativo a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "efeito retroativo"@pt ; rdfs:domain olb:RelacaoNormativa ; rdfs:range xsd:boolean ;
     rdfs:comment "Verdadeiro quando a relação produz nulidade desde a origem da norma, como a declaração de inconstitucionalidade, salvo modulação (Lei 9.868, art. 27). Dispensa o alerta R37."@pt .
 olb:versaoNula a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "versão nula"@pt ; rdfs:domain olb:Versao ; rdfs:range xsd:boolean ;
@@ -205,12 +205,12 @@ olb:clausulaRevogatoria a owl:ObjectProperty , owl:FunctionalProperty ; rdfs:lab
     rdfs:domain olb:Dispositivo ; rdfs:range skos:Concept ;
     rdfs:comment "Marca o dispositivo que contém cláusula de revogação: enumerada (indica o que revoga) ou genérica ('revogam-se as disposições em contrário'). A genérica não indica destino."@pt .
 
-# ============================================================ v0.4 · CAUSA DA PENDÊNCIA (Capítulo 8, seção 8.7; LEX-NT-01)
+# ============================================================ v0.4 · CAUSA DA PENDÊNCIA (Capítulo 8, seção 8.7)
 olb:causaPendencia a owl:ObjectProperty , owl:FunctionalProperty ; rdfs:label "causa da pendência"@pt ;
     rdfs:domain olb:ComandoAlteracao ; rdfs:range skos:Concept ;
     rdfs:comment "Por que o comando está pendente: texto anterior ausente, alvo não resolvido, citação incompleta, alvo ambíguo, leitura ambígua ou leitura ambígua por limite. Complementa olb:motivoPendencia, que descreve o caso em texto livre."@pt .
 
-# ============================================================ v0.5 · LEITURA AMBÍGUA (Capítulo 8, seção 8.7; decisão 38)
+# ============================================================ v0.5 · LEITURA AMBÍGUA (Capítulo 8, seção 8.7)
 olb:leituraPossivel a owl:DatatypeProperty ; rdfs:label "leitura possível"@pt ;
     rdfs:domain olb:ComandoAlteracao ; rdfs:range xsd:string ;
     rdfs:comment "Uma leitura juridicamente distinta da frase de comando, reduzida a verbo, alvos e norma. Registrada quando a frase admite mais de uma; nunca se escolhe uma em silêncio. Teto de oito."@pt .
@@ -220,14 +220,14 @@ olb:leituraPossivel a owl:DatatypeProperty ; rdfs:label "leitura possível"@pt ;
 # Domínios (módulos da ontologia) não se confundem com dimensões (eixos de consulta e de solução de conflito).
 
 olb:dimensao a owl:AnnotationProperty ; rdfs:label "dimensão"@pt ;
-    rdfs:comment "Eixo de consulta e de solução de conflito a que o termo pertence: tempo, espécie, emissor, espaço ou matéria (decisão 48)."@pt .
+    rdfs:comment "Eixo de consulta e de solução de conflito a que o termo pertence: tempo, espécie, emissor, espaço ou matéria."@pt .
 olb:dominio a owl:AnnotationProperty ; rdfs:label "domínio ontológico"@pt ;
-    rdfs:comment "Módulo da ontologia a que o termo pertence: identidade, estrutura, relação, tempo, decisão, língua ou instituição. 'Domínio' nunca designa matéria (decisão 48)."@pt .
+    rdfs:comment "Módulo da ontologia a que o termo pertence: identidade, estrutura, relação, tempo, decisão, língua ou instituição. 'Domínio' nunca designa matéria."@pt .
 
-# ---------------------------------------------------------------- espécies infralegais (decisão 4 revista)
+# ---------------------------------------------------------------- espécies infralegais
 olb:AtoInfralegal a owl:Class ; rdfs:subClassOf olb:NormaJuridica ; rdfs:label "Ato normativo infralegal"@pt ;
     olb:dimensao olbv:dimEspecie ; olb:dominio olbv:domIdentidade ;
-    rdfs:comment "Ato geral e abstrato abaixo da lei: decreto, portaria, resolução, instrução normativa. Entra no corpus pela decisão 4 revista; o ato de efeito concreto não entra."@pt .
+    rdfs:comment "Ato geral e abstrato abaixo da lei: decreto, portaria, resolução, instrução normativa. Entra no corpus; o ato de efeito concreto não entra."@pt .
 olb:Portaria a owl:Class ; rdfs:subClassOf olb:AtoInfralegal ; rdfs:label "Portaria"@pt ; olb:nivelHierarquico 4 ;
     rdfs:comment "Ato de autoridade singular (Decreto 12.002/2024)."@pt .
 olb:Resolucao a owl:Class ; rdfs:subClassOf olb:AtoInfralegal ; rdfs:label "Resolução"@pt ; olb:nivelHierarquico 4 ;
@@ -242,10 +242,10 @@ olb:notaNivel a owl:AnnotationProperty ; rdfs:label "nota sobre o nível"@pt .
 [] a owl:AllDisjointClasses ; owl:members ( olb:Decreto olb:Portaria olb:Resolucao olb:InstrucaoNormativa ) .
 
 olb:AtoEfeitoConcreto a owl:Class ; rdfs:label "Ato de efeito concreto"@pt ;
-    rdfs:comment "Ato com destinatário determinado: nomeação, exoneração, concessão, autorização individual. Não é norma: fica fora do corpus (decisão 4 revista) e só é modelado para ser reconhecido e registrado como descarte. Nunca origina nem recebe relação normativa (R60)."@pt .
+    rdfs:comment "Ato com destinatário determinado: nomeação, exoneração, concessão, autorização individual. Não é norma: fica fora do corpus e só é modelado para ser reconhecido e registrado como descarte. Nunca origina nem recebe relação normativa (R60)."@pt .
 
 olb:Subitem a owl:Class ; rdfs:subClassOf olb:Dispositivo ; rdfs:label "Subitem"@pt ;
-    rdfs:comment "Desdobramento do item, previsto pelo Decreto 12.002/2024 para atos do Executivo federal (perfil gramatical próprio, decisão 49)."@pt .
+    rdfs:comment "Desdobramento do item, previsto pelo Decreto 12.002/2024 para atos do Executivo federal (perfil gramatical próprio)."@pt .
 
 # ---------------------------------------------------------------- emissor e espaço
 olb:EnteFederativo a owl:Class ; rdfs:label "Ente federativo"@pt ; olb:dimensao olbv:dimEspaco ; olb:dominio olbv:domInstituicao ;
@@ -270,7 +270,7 @@ olb:materia a owl:ObjectProperty ; rdfs:label "matéria"@pt ;
     olb:dimensao olbv:dimMateria ; olb:dominio olbv:domIdentidade ;
     rdfs:comment "Assunto regulado, de um vocabulário controlado (olbv:esquemaMateria). Atribuída por classificador tipado nasce como proposta: o classificador ordena e encaminha, nunca decide (Capítulo 16, seção 16.8A)."@pt .
 
-# ---------------------------------------------------------------- competência (refinamento da decisão 48)
+# ---------------------------------------------------------------- competência
 olb:Competencia a owl:Class ; rdfs:label "Competência"@pt ; olb:dominio olbv:domInstituicao ;
     rdfs:comment "Relação datada e reificada: um órgão (ou ente) tem competência sobre uma matéria, num espaço, por força de um fundamento legal, durante um intervalo. É o que resolve conflito entre órgãos pares; a relevância presumida só ordena, nunca decide."@pt .
 olb:orgaoCompetente a owl:ObjectProperty , owl:FunctionalProperty ; rdfs:label "órgão competente"@pt ;
@@ -285,7 +285,7 @@ olb:tipoCompetencia a owl:ObjectProperty , owl:FunctionalProperty ; rdfs:label "
 olb:competenciaInvocada a owl:ObjectProperty ; rdfs:label "competência invocada"@pt ; rdfs:domain olb:RelacaoNormativa ; rdfs:range olb:Competencia ;
     rdfs:comment "Competência em que se apoia uma relação de conflito resolvida pelo critério de competência (R61)."@pt .
 
-# ---------------------------------------------------------------- perfil gramatical (decisão 49)
+# ---------------------------------------------------------------- perfil gramatical
 olb:perfilGramatical a owl:ObjectProperty , owl:FunctionalProperty ; rdfs:label "perfil gramatical"@pt ;
     rdfs:domain olb:Documento ; rdfs:range skos:Concept ; olb:dominio olbv:domEstrutura ;
     rdfs:comment "Gramática de articulação escolhida pelas dimensões (espécie, emissor, espaço, tempo): LC 95/1998, Decreto 12.002/2024, anterior a 1998, Império, estadual, municipal, colegiados e agências, Judiciário."@pt .
@@ -304,7 +304,7 @@ olb:fimVigencia olb:dimensao olbv:dimTempo ; olb:dominio olbv:domTempo .
 olb:regimeOrtografico olb:dominio olbv:domLingua .
 olb:textoModernizado olb:dominio olbv:domLingua .
 
-# ============================================================ v0.7 · COMUNIDADES EMERGENTES (decisão 50)
+# ============================================================ v0.7 · COMUNIDADES EMERGENTES
 # Camada derivada, ao lado das três camadas: nunca canônica, nunca fonte de direito.
 # Primeira onda: cadeias de regulamentação, linhagens de alteração, comunidades de competência e núcleos de remissão.
 
@@ -335,7 +335,7 @@ olb:coesao a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "coesão
 olb:sucedeComunidade a owl:ObjectProperty ; rdfs:label "sucede a comunidade"@pt ; rdfs:domain olb:Comunidade ; rdfs:range olb:Comunidade ;
     rdfs:comment "Liga a comunidade regenerada à da geração anterior. Comunidade não tem existência garantida: pode fundir-se, dividir-se ou desaparecer; a sucessão preserva o rastro."@pt .
 
-# ============================================================ v0.8 · INTEGRIDADE: CADEIA DE HASHES (decisão 51)
+# ============================================================ v0.8 · INTEGRIDADE: CADEIA DE HASHES
 # Prova técnica de integridade, não prova jurídica de autoria: o texto que vale é o publicado na fonte oficial.
 # Sem blockchain e sem certificação externa: SHA-384, carimbo de tempo do próprio sistema e assinatura pós-quântica do projeto.
 olb:hashTexto a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "hash do texto"@pt ; rdfs:domain olb:Versao ; rdfs:range xsd:string ;

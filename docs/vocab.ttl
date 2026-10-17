@@ -1,5 +1,5 @@
 # Licença: CC BY 4.0 (ver LICENSE.md). Autores: Gerson Rolim e Sueli Rolim.
-# LEX-CAT · Catálogo de relações normativas e vocabulários controlados
+# OLB-Vocab · Catálogo de relações normativas e vocabulários controlados
 # Ontologia da Legislação Brasileira (OLB) · v0.7 · 15 de outubro de 2026 (nome de arquivo mantido)
 # Gerson Rolim e Sueli Rolim · documento de trabalho
 # Namespace: https://w3id.org/olb
@@ -146,7 +146,7 @@ olbv:criterioHierarquico a skos:Concept ; skos:inScheme olbv:esquemaCriterio ; s
 olbv:criterioEspecialidade a skos:Concept ; skos:inScheme olbv:esquemaCriterio ; skos:prefLabel "especialidade"@pt .
 olbv:criterioCronologico a skos:Concept ; skos:inScheme olbv:esquemaCriterio ; skos:prefLabel "cronológico"@pt .
 olbv:criterioCompetencia a skos:Concept ; skos:inScheme olbv:esquemaCriterio ; skos:prefLabel "competência"@pt ;
-    skos:definition "Prevalece o ato do órgão ou ente a que a lei ou a Constituição atribui a matéria. Resolve conflito entre pares, em que hierarquia nada decide (decisão 48). Exige olb:competenciaInvocada (R61)."@pt .
+    skos:definition "Prevalece o ato do órgão ou ente a que a lei ou a Constituição atribui a matéria. Resolve conflito entre pares, em que hierarquia nada decide. Exige olb:competenciaInvocada (R61)."@pt .
 
 # ---------------------------------------------------------------- tipo de documento (Capítulo 5)
 olbv:esquemaTipoDocumento a skos:ConceptScheme ; skos:prefLabel "Tipo de documento"@pt .
@@ -226,7 +226,7 @@ olbv:causaCitacaoIncompleta a skos:Concept ; skos:inScheme olbv:esquemaCausaPend
     skos:prefLabel "citação incompleta"@pt ;
     skos:definition "A citação não traz os elementos para derivar a URN (por exemplo, sem a data). A busca só pode propor candidatos, como proposta, para decisão humana."@pt .
 
-# ================================================================ v0.5 · ambiguidade: ler não é resolver (Capítulo 8, seção 8.7; decisão 38)
+# ================================================================ v0.5 · ambiguidade: ler não é resolver (Capítulo 8, seção 8.7)
 olbv:causaAlvoAmbiguo a skos:Concept ; skos:inScheme olbv:esquemaCausaPendencia ;
     skos:prefLabel "alvo ambíguo"@pt ;
     skos:definition "A frase foi lida sem dúvida, mas ao resolver o alvo há mais de um candidato. É problema de resolução, não de leitura. Pede decisão humana entre os candidatos."@pt .
@@ -299,7 +299,7 @@ olbv:matDadosPessoais a skos:Concept ; skos:inScheme olbv:esquemaMateria ; skos:
 olbv:matTransito a skos:Concept ; skos:inScheme olbv:esquemaMateria ; skos:prefLabel "trânsito"@pt .
 olbv:matUrbanismo a skos:Concept ; skos:inScheme olbv:esquemaMateria ; skos:prefLabel "urbanismo e uso do solo"@pt .
 
-# ---------------------------------------------------------------- perfil gramatical (decisão 49)
+# ---------------------------------------------------------------- perfil gramatical
 olbv:esquemaPerfilGramatical a skos:ConceptScheme ; skos:prefLabel "Perfil gramatical"@pt ;
     skos:definition "Família de gramáticas de articulação, escolhida pelas dimensões do ato."@pt .
 olbv:perfilLC95 a skos:Concept ; skos:inScheme olbv:esquemaPerfilGramatical ; skos:prefLabel "LC 95/1998"@pt ;
@@ -316,7 +316,7 @@ olbv:perfilColegiadoAgencia a skos:Concept ; skos:inScheme olbv:esquemaPerfilGra
 olbv:perfilJudiciario a skos:Concept ; skos:inScheme olbv:esquemaPerfilGramatical ; skos:prefLabel "Judiciário"@pt ;
     skos:definition "Resoluções e provimentos articulados; súmulas não são articuladas."@pt .
 
-# ================================================================ v0.7 · 15 de outubro de 2026 · COMUNIDADES EMERGENTES (decisão 50)
+# ================================================================ v0.7 · 15 de outubro de 2026 · COMUNIDADES EMERGENTES
 olbv:domDerivacao a skos:Concept ; skos:inScheme olbv:esquemaDominio ; skos:prefLabel "derivação"@pt ;
     skos:definition "Camada derivada: comunidades e resumos gerados. Nunca canônica, nunca fonte de direito (acrescentado na v0.7)."@pt .
 olbv:camadaComunidade a skos:Concept ; skos:inScheme olbv:esquemaCamada ; skos:prefLabel "revelada por comunidade emergente"@pt ;
@@ -329,7 +329,7 @@ olbv:metodoAlgoritmo a skos:Concept ; skos:inScheme olbv:esquemaMetodoDeteccao ;
     skos:definition "Detecção de comunidades num grafo (por exemplo, Leiden). Registra algoritmo e parâmetros; o resultado é proposta de agrupamento."@pt .
 
 olbv:esquemaTipoComunidade a skos:ConceptScheme ; skos:prefLabel "Tipo de comunidade emergente"@pt ;
-    skos:definition "Primeira onda da decisão 50. Segunda onda, a decidir: perfis de destinatário e conceitos homônimos; depois, microssistemas, pacotes temporais e focos de tensão."@pt .
+    skos:definition "Primeira onda. Segunda onda, a decidir: perfis de destinatário e conceitos homônimos; depois, microssistemas, pacotes temporais e focos de tensão."@pt .
 olbv:comCadeiaRegulamentacao a skos:Concept ; skos:inScheme olbv:esquemaTipoComunidade ; skos:prefLabel "cadeia de regulamentação"@pt ;
     skos:definition "Normas ligadas por regulamenta, da lei ao decreto, à portaria e à instrução normativa. Onde está a obrigação concreta."@pt .
 olbv:comLinhagemAlteracao a skos:Concept ; skos:inScheme olbv:esquemaTipoComunidade ; skos:prefLabel "linhagem de alteração"@pt ;

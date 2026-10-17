@@ -1,5 +1,5 @@
 # Licença: CC BY 4.0 (ver LICENSE.md). Autores: Gerson Rolim e Sueli Rolim.
-# LEX-SHP · Regras em SHACL · Ontologia da Legislação Brasileira (OLB)
+# OLB-Shapes · Regras em SHACL · Ontologia da Legislação Brasileira (OLB)
 # v0.9 · 17 de outubro de 2026 (nome de arquivo mantido) · Gerson Rolim e Sueli Rolim · documento de trabalho
 # Camada 2 do modelo em três camadas: o que é aceitável (mundo fechado).
 # Severidade Violation bloqueia; Warning alerta sem bloquear.
@@ -131,7 +131,7 @@ olbs:RelacaoShape a sh:NodeShape ; sh:targetClass olb:RelacaoNormativa ;
         sh:in ( olbv:revoga olbv:revoga_dispositivo olbv:altera olbv:regulamenta olbv:referencia olbv:correlato_a
                 olbv:parte_de olbv:membro_de olbv:equivalente_a olbv:sucessor_logico_de olbv:declara_inconstitucional
                 olbv:declara_inconstitucional_dispositivo olbv:conflita_com olbv:revoga_tacitamente ) ;
-        sh:message "R26. O tipo vem do catálogo LEX-CAT."@pt ] ;
+        sh:message "R26. O tipo vem do catálogo de relações (vocab.ttl)."@pt ] ;
     sh:property [ sh:path olb:camadaOrigem ; sh:minCount 1 ; sh:maxCount 1 ;
         sh:in ( olbv:camadaDeclarada olbv:camadaInferidaRegra olbv:camadaInferidaIA olbv:camadaMista olbv:camadaDoutrinaria olbv:camadaComunidade ) ;
         sh:message "R27. A relação declara sua camada de origem."@pt ] ;
@@ -302,7 +302,7 @@ olbs:CausaPendenciaShape a sh:NodeShape ; sh:targetClass olb:ComandoAlteracao ;
             FILTER NOT EXISTS { $this olb:causaPendencia ?c }
         }""" ] .
 
-# ============================================================ v0.5 · LEITURA AMBÍGUA (Capítulo 8, seção 8.7; decisão 38)
+# ============================================================ v0.5 · LEITURA AMBÍGUA (Capítulo 8, seção 8.7)
 # Ler não é resolver: "leitura ambígua" é da frase; "alvo ambíguo" é da resolução (R54).
 olbs:LeituraAmbiguaShape a sh:NodeShape ; sh:targetClass olb:ComandoAlteracao ;
     sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
@@ -322,8 +322,8 @@ olbs:LeituraNuncaCanonicaShape a sh:NodeShape ; sh:targetClass olb:RelacaoNormat
             FILTER NOT EXISTS { $this olb:decididaPor ?d . ?d olb:resultado olbv:aprovada }
         }""" ] .
 
-# ============================================================ v0.6 · INSTITUIÇÃO E COMPETÊNCIA (decisões 4 revista, 48 e 49)
-# R57 fica reservada para a conservação do texto (toda linha tem destino), a escrever com a LEX-NT-03.
+# ============================================================ v0.6 · INSTITUIÇÃO E COMPETÊNCIA
+# R57 fica reservada para a conservação do texto (toda linha tem destino), a escrever.
 
 olbs:EmissorInfralegalShape a sh:NodeShape ; sh:targetClass olb:Portaria , olb:Resolucao , olb:InstrucaoNormativa ;
     sh:property [ sh:path olb:emitidaPor ; sh:minCount 1 ; sh:class olb:Orgao ;
@@ -378,7 +378,7 @@ olbs:ResolucaoColegiadoShape a sh:NodeShape ; sh:targetClass olb:Resolucao ;
             FILTER NOT EXISTS { ?value a olb:OrgaoColegiado }
         }""" ] .
 
-# ============================================================ v0.7 · COMUNIDADES EMERGENTES (decisão 50)
+# ============================================================ v0.7 · COMUNIDADES EMERGENTES
 olbs:ComunidadeShape a sh:NodeShape ; sh:targetClass olb:Comunidade ;
     sh:property [ sh:path olb:tipoComunidade ; sh:minCount 1 ; sh:message "R64. Comunidade declara o tipo."@pt ] ;
     sh:property [ sh:path olb:metodoDeteccao ; sh:minCount 1 ; sh:message "R64. Comunidade declara o método: por regra ou por algoritmo."@pt ] ;
@@ -437,7 +437,7 @@ olbs:SubcomunidadeShape a sh:NodeShape ; sh:targetClass olb:Comunidade ;
             UNION { $this olb:membro ?value . FILTER NOT EXISTS { ?mae olb:membro ?value } }
         }""" ] .
 
-# ============================================================ v0.8 · INTEGRIDADE (decisão 51)
+# ============================================================ v0.8 · INTEGRIDADE
 olbs:HashTextoShape a sh:NodeShape ; sh:targetClass olb:Versao ;
     sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
         sh:message "R70. O hash registrado não corresponde ao texto verbatim: o texto foi alterado depois de registrado."@pt ;
@@ -473,7 +473,7 @@ olbs:RaizDiariaShape a sh:NodeShape ; sh:targetClass olb:RaizDiaria ;
               FILTER NOT EXISTS { ?outra olb:raizAnterior ?y } FILTER (STR($this) > STR(?outra)) }
         }""" ] .
 
-# ---- v0.9 · regras R73 a R76, a partir do teste de resistência de 17 de outubro de 2026 (LEX-REV-03)
+# ---- v0.9 · regras R73 a R76, a partir do teste de resistência de 17 de outubro de 2026
 olbs:RetificacaoShape a sh:NodeShape ; sh:targetClass olb:Documento ;
     sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
         sh:message "R73. Retificação antes da vigência (reiniciaVacatio) exige que o início de vigência da norma não seja anterior à data da retificação (LINDB, art. 1º, § 3º)."@pt ;
