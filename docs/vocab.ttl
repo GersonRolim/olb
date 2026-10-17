@@ -1,6 +1,6 @@
 # Licença: CC BY 4.0 (ver LICENSE.md). Autores: Gerson Rolim e Sueli Rolim.
 # OLB-Vocab · Catálogo de relações normativas e vocabulários controlados
-# Ontologia da Legislação Brasileira (OLB) · v0.7 · 15 de outubro de 2026 (nome de arquivo mantido)
+# Ontologia da Legislação Brasileira (OLB) · v0.7 · 15 de outubro de 2026
 # Gerson Rolim e Sueli Rolim · documento de trabalho
 # Namespace: https://w3id.org/olb
 # Os doze tipos marcados como vocabulário oficial reproduzem valores do TipoRelacionamentoType do esquema

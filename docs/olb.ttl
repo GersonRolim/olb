@@ -1,6 +1,6 @@
 # Licença: CC BY 4.0 (ver LICENSE.md). Autores: Gerson Rolim e Sueli Rolim.
 # OLB-TBox · TBox em OWL 2 · Ontologia da Legislação Brasileira (OLB)
-# v0.9 · 17 de outubro de 2026 (nome de arquivo mantido) · Gerson Rolim e Sueli Rolim · documento de trabalho
+# v0.9 · 17 de outubro de 2026 · Gerson Rolim e Sueli Rolim · documento de trabalho
 # Camada 1 do modelo em três camadas: o que pode existir.
 # Namespace: https://w3id.org/olb
 # Convenção de intervalo: inicioVigencia inclusivo, fimVigencia exclusivo.

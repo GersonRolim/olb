@@ -1,6 +1,6 @@
 # Licença: CC BY 4.0 (ver LICENSE.md). Autores: Gerson Rolim e Sueli Rolim.
 # OLB-Shapes · Regras em SHACL · Ontologia da Legislação Brasileira (OLB)
-# v0.9 · 17 de outubro de 2026 (nome de arquivo mantido) · Gerson Rolim e Sueli Rolim · documento de trabalho
+# v0.9 · 17 de outubro de 2026 · Gerson Rolim e Sueli Rolim · documento de trabalho
 # Camada 2 do modelo em três camadas: o que é aceitável (mundo fechado).
 # Severidade Violation bloqueia; Warning alerta sem bloquear.
 
