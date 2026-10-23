@@ -1,8 +1,7 @@
-# Licença: CC BY 4.0 (ver LICENSE.md). Autores: Gerson Rolim e Sueli Rolim.
-# OLB-TBox · TBox em OWL 2 · Ontologia da Legislação Brasileira (OLB)
-# v0.9 · 17 de outubro de 2026 · Gerson Rolim e Sueli Rolim · documento de trabalho
+# LEX-TBX · TBox em OWL 2 · Ontologia da Legislação Brasileira (OLB)
+# v0.10 · 22 de outubro de 2026 (nome de arquivo mantido) · Gerson Rolim e Sueli Rolim · documento de trabalho
 # Camada 1 do modelo em três camadas: o que pode existir.
-# Namespace: https://w3id.org/olb
+# Namespace persistente https://w3id.org/olb (registrado em 23 out. 2026). A licença é a indicada na página de entrada.
 # Convenção de intervalo: inicioVigencia inclusivo, fimVigencia exclusivo.
 
 @prefix olb:  <https://w3id.org/olb#> .
@@ -16,15 +15,15 @@
 
 <https://w3id.org/olb> a owl:Ontology ;
     rdfs:label "Ontologia da Legislação Brasileira (OLB), TBox"@pt ;
-    owl:versionInfo "0.9" ;
+    owl:versionInfo "0.10" ;
     owl:imports <https://w3id.org/olb/vocab> ;
     dcterms:created "2026-10-02"^^xsd:date ;
     dcterms:creator "Gerson Rolim", "Sueli Rolim" ;
-    rdfs:comment "Classes e propriedades das cinco distinções da obra: norma, documento e versão; dispositivo; relação; tempo; genealogia e hierarquia. Licença: CC BY 4.0."@pt .
+    rdfs:comment "Classes e propriedades das cinco distinções da obra: norma, documento e versão; dispositivo; relação; tempo; genealogia e hierarquia. Licença a decidir."@pt .
 
 olb:nivelHierarquico a owl:AnnotationProperty ;
     rdfs:label "nível hierárquico"@pt ;
-    rdfs:comment "Parâmetro do alerta de conflito hierárquico (SHACL, severidade aviso). Nunca bloqueia: a hierarquia entre lei complementar e lei ordinária é controvertida na doutrina e na jurisprudência."@pt .
+    rdfs:comment "Parâmetro do alerta de conflito hierárquico (SHACL, severidade aviso). Nunca bloqueia: a hierarquia entre lei complementar e lei ordinária é controvertida na doutrina e na jurisprudência (a conferir). Valores atuais seguem a documentação do projeto de referência."@pt .
 
 # ============================================================ NORMA E ESPÉCIES
 olb:NormaJuridica a owl:Class ; rdfs:label "Norma jurídica"@pt ;
@@ -60,7 +59,7 @@ olb:Inciso a owl:Class ; rdfs:subClassOf olb:Dispositivo ; rdfs:label "Inciso"@p
     rdfs:comment "Pai fixo inexistente: pende do caput ou de parágrafo, conforme o estado da articulação."@pt .
 olb:Alinea a owl:Class ; rdfs:subClassOf olb:Dispositivo ; rdfs:label "Alínea"@pt .
 olb:Item a owl:Class ; rdfs:subClassOf olb:Dispositivo ; rdfs:label "Item"@pt ;
-    rdfs:comment "Dispositivo segundo a LC 95/1998 (art. 12, parágrafo único). O perfil rígido do LexML prevê identificador de item (ite1)."@pt .
+    rdfs:comment "Dispositivo segundo a LC 95/1998 (art. 12, parágrafo único). Materialização sob decisão 9 do plano; o perfil rígido do LexML prevê identificador de item (ite1, a conferir)."@pt .
 
 [] a owl:AllDisjointClasses ; owl:members ( olb:Artigo olb:Caput olb:Paragrafo olb:Inciso olb:Alinea olb:Item olb:Subitem ) .
 
@@ -83,11 +82,12 @@ olb:RelacaoNormativa a owl:Class ; rdfs:label "Relação normativa"@pt ;
 olb:ComandoAlteracao a owl:Class ; rdfs:label "Comando de alteração"@pt ;
     rdfs:comment "Dispositivo que endereça outro, com verbo, alvo e texto citado (Capítulo 8, seção 8.5)."@pt .
 olb:Decisao a owl:Class ; rdfs:label "Decisão humana"@pt ;
-    rdfs:comment "Registro imutável: autor, cargo, data, justificativa e resultado. Uma decisão nova substitui, não edita (Capítulo 17)."@pt .
+    rdfs:comment "Registro imutável: autor, cargo, data, justificativa e resultado. Uma decisão nova substitui, não edita (Capítulo 23)."@pt .
 
 [] a owl:AllDisjointClasses ; owl:members ( olb:NormaJuridica olb:Documento olb:Dispositivo olb:Agrupador
     olb:Versao olb:RelacaoNormativa olb:ComandoAlteracao olb:Decisao
-    olb:Orgao olb:EnteFederativo olb:Competencia olb:AtoEfeitoConcreto olb:Comunidade olb:RaizDiaria ) .
+    olb:Orgao olb:EnteFederativo olb:Competencia olb:AtoEfeitoConcreto olb:Comunidade olb:RaizDiaria
+    olb:DecisaoJudicial olb:Tese olb:Sumula ) .
 
 # ============================================================ MEREOLOGIA
 olb:parteDe a owl:ObjectProperty , owl:TransitiveProperty ; rdfs:label "parte de"@pt ;
@@ -122,10 +122,10 @@ olb:fundamentoLegalAtual a owl:ObjectProperty ; rdfs:label "fundamento legal atu
 
 # ============================================================ RELAÇÃO NORMATIVA
 olb:origem a owl:ObjectProperty , owl:FunctionalProperty ; rdfs:label "origem"@pt ; rdfs:domain olb:RelacaoNormativa ;
-    rdfs:range [ a owl:Class ; owl:unionOf ( olb:Dispositivo olb:Agrupador olb:NormaJuridica ) ] .
+    rdfs:range [ a owl:Class ; owl:unionOf ( olb:Dispositivo olb:Agrupador olb:NormaJuridica olb:DecisaoJudicial ) ] .
 olb:destino a owl:ObjectProperty , owl:FunctionalProperty ; rdfs:label "destino"@pt ; rdfs:domain olb:RelacaoNormativa ;
     rdfs:comment "Pode ser norma, dispositivo ou agrupador. Relação com destino agrupador alcança todos os dispositivos nele contidos (ex.: revogação da Parte Primeira do Código Comercial)."@pt ;
-    rdfs:range [ a owl:Class ; owl:unionOf ( olb:Dispositivo olb:Agrupador olb:NormaJuridica ) ] .
+    rdfs:range [ a owl:Class ; owl:unionOf ( olb:Dispositivo olb:Agrupador olb:NormaJuridica olb:DecisaoJudicial ) ] .
 olb:tipoRelacao a owl:ObjectProperty , owl:FunctionalProperty ; rdfs:label "tipo de relação"@pt ; rdfs:domain olb:RelacaoNormativa ; rdfs:range skos:Concept .
 olb:camadaOrigem a owl:ObjectProperty , owl:FunctionalProperty ; rdfs:label "camada de origem"@pt ; rdfs:domain olb:RelacaoNormativa ; rdfs:range skos:Concept .
 olb:estado a owl:ObjectProperty , owl:FunctionalProperty ; rdfs:label "estado"@pt ; rdfs:range skos:Concept .
@@ -137,9 +137,9 @@ olb:fundamentoLegal a owl:DatatypeProperty ; rdfs:label "fundamento legal"@pt ; 
 olb:evidencia a owl:DatatypeProperty ; rdfs:label "evidência"@pt ; rdfs:domain olb:RelacaoNormativa ; rdfs:range xsd:string ;
     rdfs:comment "Trecho verbatim de cada lado que gerou a proposta."@pt .
 olb:confianca a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "confiança"@pt ; rdfs:domain olb:RelacaoNormativa ; rdfs:range xsd:decimal ;
-    rdfs:comment "Informação secundária. Nunca aprova nada (Capítulo 17, regra 1)."@pt .
+    rdfs:comment "Informação secundária. Nunca aprova nada (Capítulo 23, regra 1)."@pt .
 olb:inicioEfeito a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "início de efeito"@pt ; rdfs:domain olb:RelacaoNormativa ; rdfs:range xsd:date .
-# v0.9 · lacunas jurídicas do teste de resistência de 17 de outubro de 2026
+# v0.9 · lacunas jurídicas do teste de resistência de 17 de outubro de 2026 (LEX-REV-03)
 olb:efeitoRetroativo a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "efeito retroativo"@pt ; rdfs:domain olb:RelacaoNormativa ; rdfs:range xsd:boolean ;
     rdfs:comment "Verdadeiro quando a relação produz nulidade desde a origem da norma, como a declaração de inconstitucionalidade, salvo modulação (Lei 9.868, art. 27). Dispensa o alerta R37."@pt .
 olb:versaoNula a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "versão nula"@pt ; rdfs:domain olb:Versao ; rdfs:range xsd:boolean ;
@@ -171,7 +171,7 @@ olb:substitui a owl:ObjectProperty ; rdfs:label "substitui"@pt ; rdfs:domain olb
 # ============================================================ IDENTIDADE E TEMPO (seis datas, Capítulo 8)
 olb:urn a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "URN LexML"@pt ; rdfs:domain olb:NormaJuridica ; rdfs:range xsd:string .
 olb:idFragmento a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "identificador de fragmento"@pt ; rdfs:domain olb:Dispositivo ; rdfs:range xsd:string ;
-    rdfs:comment "Forma do perfil rígido (art5_cpt_inc1_ali1). Estável dentro de uma versão do artigo."@pt .
+    rdfs:comment "Forma do perfil rígido (art5_cpt_inc1_ali1, a conferir). Estável dentro de uma versão do artigo."@pt .
 olb:rotulo a owl:DatatypeProperty ; rdfs:label "rótulo"@pt ; rdfs:range xsd:string .
 olb:ementa a owl:DatatypeProperty ; rdfs:label "ementa"@pt ; rdfs:domain olb:NormaJuridica ; rdfs:range xsd:string .
 olb:dataEpigrafe a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "data da epígrafe"@pt ; rdfs:domain olb:NormaJuridica ; rdfs:range xsd:date .
@@ -205,12 +205,12 @@ olb:clausulaRevogatoria a owl:ObjectProperty , owl:FunctionalProperty ; rdfs:lab
     rdfs:domain olb:Dispositivo ; rdfs:range skos:Concept ;
     rdfs:comment "Marca o dispositivo que contém cláusula de revogação: enumerada (indica o que revoga) ou genérica ('revogam-se as disposições em contrário'). A genérica não indica destino."@pt .
 
-# ============================================================ v0.4 · CAUSA DA PENDÊNCIA (Capítulo 8, seção 8.7)
+# ============================================================ v0.4 · CAUSA DA PENDÊNCIA (Capítulo 8, seção 8.7; LEX-NT-01)
 olb:causaPendencia a owl:ObjectProperty , owl:FunctionalProperty ; rdfs:label "causa da pendência"@pt ;
     rdfs:domain olb:ComandoAlteracao ; rdfs:range skos:Concept ;
     rdfs:comment "Por que o comando está pendente: texto anterior ausente, alvo não resolvido, citação incompleta, alvo ambíguo, leitura ambígua ou leitura ambígua por limite. Complementa olb:motivoPendencia, que descreve o caso em texto livre."@pt .
 
-# ============================================================ v0.5 · LEITURA AMBÍGUA (Capítulo 8, seção 8.7)
+# ============================================================ v0.5 · LEITURA AMBÍGUA (Capítulo 8, seção 8.7; decisão 38)
 olb:leituraPossivel a owl:DatatypeProperty ; rdfs:label "leitura possível"@pt ;
     rdfs:domain olb:ComandoAlteracao ; rdfs:range xsd:string ;
     rdfs:comment "Uma leitura juridicamente distinta da frase de comando, reduzida a verbo, alvos e norma. Registrada quando a frase admite mais de uma; nunca se escolhe uma em silêncio. Teto de oito."@pt .
@@ -220,18 +220,18 @@ olb:leituraPossivel a owl:DatatypeProperty ; rdfs:label "leitura possível"@pt ;
 # Domínios (módulos da ontologia) não se confundem com dimensões (eixos de consulta e de solução de conflito).
 
 olb:dimensao a owl:AnnotationProperty ; rdfs:label "dimensão"@pt ;
-    rdfs:comment "Eixo de consulta e de solução de conflito a que o termo pertence: tempo, espécie, emissor, espaço ou matéria."@pt .
+    rdfs:comment "Eixo de consulta e de solução de conflito a que o termo pertence: tempo, espécie, emissor, espaço ou matéria (decisão 48)."@pt .
 olb:dominio a owl:AnnotationProperty ; rdfs:label "domínio ontológico"@pt ;
-    rdfs:comment "Módulo da ontologia a que o termo pertence: identidade, estrutura, relação, tempo, decisão, língua ou instituição. 'Domínio' nunca designa matéria."@pt .
+    rdfs:comment "Módulo da ontologia a que o termo pertence: identidade, estrutura, relação, tempo, decisão, língua ou instituição. 'Domínio' nunca designa matéria (decisão 48)."@pt .
 
-# ---------------------------------------------------------------- espécies infralegais
+# ---------------------------------------------------------------- espécies infralegais (decisão 4 revista)
 olb:AtoInfralegal a owl:Class ; rdfs:subClassOf olb:NormaJuridica ; rdfs:label "Ato normativo infralegal"@pt ;
     olb:dimensao olbv:dimEspecie ; olb:dominio olbv:domIdentidade ;
-    rdfs:comment "Ato geral e abstrato abaixo da lei: decreto, portaria, resolução, instrução normativa. Entra no corpus; o ato de efeito concreto não entra."@pt .
+    rdfs:comment "Ato geral e abstrato abaixo da lei: decreto, portaria, resolução, instrução normativa. Entra no corpus pela decisão 4 revista; o ato de efeito concreto não entra."@pt .
 olb:Portaria a owl:Class ; rdfs:subClassOf olb:AtoInfralegal ; rdfs:label "Portaria"@pt ; olb:nivelHierarquico 4 ;
-    rdfs:comment "Ato de autoridade singular (Decreto 12.002/2024)."@pt .
+    rdfs:comment "Ato de autoridade singular (Decreto 12.002/2024, a conferir artigo)."@pt .
 olb:Resolucao a owl:Class ; rdfs:subClassOf olb:AtoInfralegal ; rdfs:label "Resolução"@pt ; olb:nivelHierarquico 4 ;
-    rdfs:comment "Ato de órgão colegiado (Decreto 12.002/2024), inclusive diretorias colegiadas de agências reguladoras."@pt .
+    rdfs:comment "Ato de órgão colegiado (Decreto 12.002/2024, a conferir artigo), inclusive diretorias colegiadas de agências reguladoras."@pt .
 olb:InstrucaoNormativa a owl:Class ; rdfs:subClassOf olb:AtoInfralegal ; rdfs:label "Instrução Normativa"@pt ; olb:nivelHierarquico 4 ;
     rdfs:comment "Ato de autoridade singular que orienta a execução de norma superior."@pt .
 olb:AtoInfralegal olb:notaNivel "Portaria, resolução e instrução normativa compartilham o nível 4. Mesmo nível significa que a hierarquia nada decide entre elas: entre órgãos pares, o conflito se resolve por competência (olb:Competencia), não por espécie."@pt .
@@ -242,10 +242,10 @@ olb:notaNivel a owl:AnnotationProperty ; rdfs:label "nota sobre o nível"@pt .
 [] a owl:AllDisjointClasses ; owl:members ( olb:Decreto olb:Portaria olb:Resolucao olb:InstrucaoNormativa ) .
 
 olb:AtoEfeitoConcreto a owl:Class ; rdfs:label "Ato de efeito concreto"@pt ;
-    rdfs:comment "Ato com destinatário determinado: nomeação, exoneração, concessão, autorização individual. Não é norma: fica fora do corpus e só é modelado para ser reconhecido e registrado como descarte. Nunca origina nem recebe relação normativa (R60)."@pt .
+    rdfs:comment "Ato com destinatário determinado: nomeação, exoneração, concessão, autorização individual. Não é norma: fica fora do corpus (decisão 4 revista) e só é modelado para ser reconhecido e registrado como descarte. Nunca origina nem recebe relação normativa (R60)."@pt .
 
 olb:Subitem a owl:Class ; rdfs:subClassOf olb:Dispositivo ; rdfs:label "Subitem"@pt ;
-    rdfs:comment "Desdobramento do item, previsto pelo Decreto 12.002/2024 para atos do Executivo federal (perfil gramatical próprio)."@pt .
+    rdfs:comment "Desdobramento do item, previsto pelo Decreto 12.002/2024 para atos do Executivo federal (perfil gramatical próprio, decisão 49)."@pt .
 
 # ---------------------------------------------------------------- emissor e espaço
 olb:EnteFederativo a owl:Class ; rdfs:label "Ente federativo"@pt ; olb:dimensao olbv:dimEspaco ; olb:dominio olbv:domInstituicao ;
@@ -268,9 +268,9 @@ olb:ambitoTerritorial a owl:ObjectProperty ; rdfs:label "âmbito territorial"@pt
 olb:materia a owl:ObjectProperty ; rdfs:label "matéria"@pt ;
     rdfs:domain [ a owl:Class ; owl:unionOf ( olb:NormaJuridica olb:Dispositivo ) ] ; rdfs:range skos:Concept ;
     olb:dimensao olbv:dimMateria ; olb:dominio olbv:domIdentidade ;
-    rdfs:comment "Assunto regulado, de um vocabulário controlado (olbv:esquemaMateria). Atribuída por classificador tipado nasce como proposta: o classificador ordena e encaminha, nunca decide (Capítulo 16, seção 16.8A)."@pt .
+    rdfs:comment "Assunto regulado, de um vocabulário controlado (olbv:esquemaMateria). Atribuída por classificador tipado nasce como proposta: o classificador ordena e encaminha, nunca decide (Capítulo 22, seção 22.8A)."@pt .
 
-# ---------------------------------------------------------------- competência
+# ---------------------------------------------------------------- competência (refinamento da decisão 48)
 olb:Competencia a owl:Class ; rdfs:label "Competência"@pt ; olb:dominio olbv:domInstituicao ;
     rdfs:comment "Relação datada e reificada: um órgão (ou ente) tem competência sobre uma matéria, num espaço, por força de um fundamento legal, durante um intervalo. É o que resolve conflito entre órgãos pares; a relevância presumida só ordena, nunca decide."@pt .
 olb:orgaoCompetente a owl:ObjectProperty , owl:FunctionalProperty ; rdfs:label "órgão competente"@pt ;
@@ -285,7 +285,7 @@ olb:tipoCompetencia a owl:ObjectProperty , owl:FunctionalProperty ; rdfs:label "
 olb:competenciaInvocada a owl:ObjectProperty ; rdfs:label "competência invocada"@pt ; rdfs:domain olb:RelacaoNormativa ; rdfs:range olb:Competencia ;
     rdfs:comment "Competência em que se apoia uma relação de conflito resolvida pelo critério de competência (R61)."@pt .
 
-# ---------------------------------------------------------------- perfil gramatical
+# ---------------------------------------------------------------- perfil gramatical (decisão 49)
 olb:perfilGramatical a owl:ObjectProperty , owl:FunctionalProperty ; rdfs:label "perfil gramatical"@pt ;
     rdfs:domain olb:Documento ; rdfs:range skos:Concept ; olb:dominio olbv:domEstrutura ;
     rdfs:comment "Gramática de articulação escolhida pelas dimensões (espécie, emissor, espaço, tempo): LC 95/1998, Decreto 12.002/2024, anterior a 1998, Império, estadual, municipal, colegiados e agências, Judiciário."@pt .
@@ -304,7 +304,7 @@ olb:fimVigencia olb:dimensao olbv:dimTempo ; olb:dominio olbv:domTempo .
 olb:regimeOrtografico olb:dominio olbv:domLingua .
 olb:textoModernizado olb:dominio olbv:domLingua .
 
-# ============================================================ v0.7 · COMUNIDADES EMERGENTES
+# ============================================================ v0.7 · COMUNIDADES EMERGENTES (decisão 50)
 # Camada derivada, ao lado das três camadas: nunca canônica, nunca fonte de direito.
 # Primeira onda: cadeias de regulamentação, linhagens de alteração, comunidades de competência e núcleos de remissão.
 
@@ -335,7 +335,7 @@ olb:coesao a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "coesão
 olb:sucedeComunidade a owl:ObjectProperty ; rdfs:label "sucede a comunidade"@pt ; rdfs:domain olb:Comunidade ; rdfs:range olb:Comunidade ;
     rdfs:comment "Liga a comunidade regenerada à da geração anterior. Comunidade não tem existência garantida: pode fundir-se, dividir-se ou desaparecer; a sucessão preserva o rastro."@pt .
 
-# ============================================================ v0.8 · INTEGRIDADE: CADEIA DE HASHES
+# ============================================================ v0.8 · INTEGRIDADE: CADEIA DE HASHES (decisão 51)
 # Prova técnica de integridade, não prova jurídica de autoria: o texto que vale é o publicado na fonte oficial.
 # Sem blockchain e sem certificação externa: SHA-384, carimbo de tempo do próprio sistema e assinatura pós-quântica do projeto.
 olb:hashTexto a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "hash do texto"@pt ; rdfs:domain olb:Versao ; rdfs:range xsd:string ;
@@ -354,9 +354,52 @@ olb:incluiItem a owl:ObjectProperty ; rdfs:label "inclui item"@pt ; rdfs:domain 
 olb:valorRaiz a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "valor da raiz"@pt ; rdfs:domain olb:RaizDiaria ; rdfs:range xsd:string ;
     rdfs:comment "SHA-384 do valor da raiz anterior seguido dos hashes dos itens em ordem lexicográfica, separados por barra vertical."@pt .
 olb:carimboSistema a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "carimbo de tempo do sistema"@pt ; rdfs:range xsd:dateTime ;
-    rdfs:comment "Hora registrada pelo próprio sistema. Quando o operador é órgão público, o registro tem a fé pública do órgão (CF, art. 19, II); não se usa carimbo de terceiros."@pt .
+    rdfs:comment "Hora registrada pelo próprio sistema. Quando o operador é órgão público, o registro tem a fé pública do órgão (CF, art. 19, II, a conferir); não se usa carimbo de terceiros."@pt .
 olb:algoritmoHash a owl:DatatypeProperty ; rdfs:label "algoritmo de hash"@pt ; rdfs:range xsd:string .
 olb:algoritmoAssinatura a owl:DatatypeProperty ; rdfs:label "algoritmo de assinatura"@pt ; rdfs:range xsd:string ;
     rdfs:comment "Assinatura pós-quântica com chave do próprio projeto, por exemplo SLH-DSA (FIPS 205), baseada só em hash. A chave pública é publicada; não há certificação de terceiros."@pt .
 olb:assinatura a owl:DatatypeProperty ; rdfs:label "assinatura"@pt ; rdfs:domain olb:RaizDiaria ; rdfs:range xsd:string ;
     rdfs:comment "Assinatura da raiz, em base64, ou referência ao arquivo que a contém."@pt .
+
+
+# ============================================================ v0.10 · MÓDULO DE DECISÕES JUDICIAIS (Capítulo 12)
+# Decisão da obra: decisões 35 e 62 do plano. Decisão judicial não é norma, não altera nem revoga norma, e não se confunde
+# com a decisão humana que aprova uma relação (olb:Decisao). Entra no modelo como objeto próprio, que se liga a dispositivo
+# e versão por relações reificadas do esquema olbv:esquemaTipoRelacaoJudicial.
+olb:DecisaoJudicial a owl:Class ; rdfs:label "Decisão judicial"@pt ;
+    rdfs:comment "Ato do Judiciário: acórdão, sentença ou decisão monocrática. Tem órgão julgador, data de julgamento e identificador. Não é norma jurídica e não é a decisão humana que aprova uma relação (olb:Decisao)."@pt .
+olb:Tese a owl:Class ; rdfs:label "Tese"@pt ;
+    rdfs:comment "Enunciado de tese fixada oficialmente em precedente qualificado. Entra como recorte verbatim; a obra não extrai tese de decisão que não a fixou."@pt .
+olb:Sumula a owl:Class ; rdfs:label "Súmula"@pt ;
+    rdfs:comment "Enunciado de súmula, vinculante ou não, de um tribunal. Tem número, tribunal emissor e texto verbatim."@pt .
+
+olb:orgaoJulgador a owl:ObjectProperty , owl:FunctionalProperty ; rdfs:label "órgão julgador"@pt ;
+    rdfs:domain olb:DecisaoJudicial ; rdfs:range olb:Orgao .
+olb:tribunalEmissor a owl:ObjectProperty , owl:FunctionalProperty ; rdfs:label "tribunal emissor"@pt ;
+    rdfs:domain olb:Sumula ; rdfs:range olb:Orgao .
+olb:dataJulgamento a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "data de julgamento"@pt ;
+    rdfs:domain olb:DecisaoJudicial ; rdfs:range xsd:date ;
+    rdfs:comment "A data que importa para a vigência do precedente: a versão do dispositivo interpretada é a que vigia nesta data."@pt .
+olb:dataPublicacaoDecisao a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "data de publicação da decisão"@pt ;
+    rdfs:domain olb:DecisaoJudicial ; rdfs:range xsd:date .
+olb:dataTransito a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "data do trânsito em julgado"@pt ;
+    rdfs:domain olb:DecisaoJudicial ; rdfs:range xsd:date ;
+    rdfs:comment "Quando houver. Julgamento, publicação, trânsito em julgado e modulação de efeitos são datas distintas, a versão judicial do tempo estrutural."@pt .
+olb:identificadorDecisao a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "identificador da decisão"@pt ;
+    rdfs:domain olb:DecisaoJudicial ; rdfs:range xsd:string ;
+    rdfs:comment "Número do processo ou do acórdão. A forma da URN LexML para acórdãos e súmulas está a conferir."@pt .
+olb:tipoDecisaoJudicial a owl:ObjectProperty , owl:FunctionalProperty ; rdfs:label "tipo de decisão judicial"@pt ;
+    rdfs:domain olb:DecisaoJudicial ; rdfs:range skos:Concept .
+olb:ementaDecisao a owl:DatatypeProperty ; rdfs:label "ementa da decisão"@pt ; rdfs:domain olb:DecisaoJudicial ; rdfs:range xsd:string ;
+    rdfs:comment "Recorte verbatim. A ementa não é a decisão nem a tese."@pt .
+olb:forcaDoPrecedente a owl:ObjectProperty , owl:FunctionalProperty ; rdfs:label "força do precedente"@pt ;
+    rdfs:domain olb:DecisaoJudicial ; rdfs:range skos:Concept .
+olb:fundamentoDaForca a owl:DatatypeProperty ; rdfs:label "fundamento da força"@pt ; rdfs:domain olb:DecisaoJudicial ; rdfs:range xsd:string ;
+    rdfs:comment "Dispositivo que torna a observância obrigatória (por exemplo, CPC, art. 927, I a V). Sem fundamento, o precedente é persuasivo."@pt .
+olb:temTese a owl:ObjectProperty ; rdfs:label "tem tese"@pt ; rdfs:domain olb:DecisaoJudicial ; rdfs:range olb:Tese .
+olb:textoDaTese a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "texto da tese"@pt ; rdfs:domain olb:Tese ; rdfs:range xsd:string .
+olb:numeroSumula a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "número da súmula"@pt ; rdfs:domain olb:Sumula ; rdfs:range xsd:integer .
+olb:textoDaSumula a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "texto da súmula"@pt ; rdfs:domain olb:Sumula ; rdfs:range xsd:string .
+olb:versaoInterpretada a owl:ObjectProperty , owl:FunctionalProperty ; rdfs:label "versão interpretada"@pt ;
+    rdfs:domain olb:RelacaoNormativa ; rdfs:range olb:Versao ;
+    rdfs:comment "Redação do dispositivo que a decisão interpretou ou aplicou. É o que permite dizer, depois, que o precedente trata de redação superada."@pt .

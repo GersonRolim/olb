@@ -1,5 +1,4 @@
-# Licença: CC0 1.0 (ver LICENSE.md). Autores: Gerson Rolim e Sueli Rolim.
-# OLB-Caso · ABox temporal · caso fictício de ponta a ponta
+# LEX-ABX · ABox temporal · caso fictício de ponta a ponta
 # Ontologia da Legislação Brasileira (OLB) · v0.1 · 2 de outubro de 2026 · Gerson Rolim e Sueli Rolim
 # Camada 3 do modelo em três camadas: o que é verdadeiro em cada data.
 # CASO FICTÍCIO: normas, números, textos, datas e pessoas inventados para ilustrar o modelo.
@@ -184,7 +183,7 @@ ex:Dec2 a olb:Decisao ; olb:autor "Revisor fictício 2" ; olb:cargo "Coordenador
 ex:v_art5_cpt_1 olb:regimeOrtografico olbv:regimeAcordo1990 .
 ex:v_art5_cpt_2 olb:regimeOrtografico olbv:regimeAcordo1990 .
 
-# ============================================================ v0.8 · CADEIA DE HASHES
+# ============================================================ v0.8 · CADEIA DE HASHES (decisão 51)
 # Hashes SHA-384 gerados pelo script de preparação e conferidos pelas regras R70 a R72 e pelo validador.
 ex:v_B_art1 olb:hashTexto "d170c4b7a237827c61b349946d554ca6080032228812fc0ed3bf7e446c2db0771491fd2a1fdeff4c5e9617b6456ca101" .
 ex:v_B_art2 olb:hashTexto "f6075dfe94568e92fffadfbe19002700dd86640d6ec4ce2332cfa325b51c362a4372cf124d8e4f09b80160167c4fb98f" .

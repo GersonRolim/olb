@@ -1,6 +1,5 @@
-# Licença: CC BY 4.0 (ver LICENSE.md). Autores: Gerson Rolim e Sueli Rolim.
-# OLB-Shapes · Regras em SHACL · Ontologia da Legislação Brasileira (OLB)
-# v0.9 · 17 de outubro de 2026 · Gerson Rolim e Sueli Rolim · documento de trabalho
+# LEX-SHP · Regras em SHACL · Ontologia da Legislação Brasileira (OLB)
+# v0.10 · 22 de outubro de 2026 (nome de arquivo mantido) · Gerson Rolim e Sueli Rolim · documento de trabalho
 # Camada 2 do modelo em três camadas: o que é aceitável (mundo fechado).
 # Severidade Violation bloqueia; Warning alerta sem bloquear.
 
@@ -15,7 +14,7 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 
 <https://w3id.org/olb/shapes> a owl:Ontology ;
-    rdfs:label "OLB, regras SHACL"@pt ; owl:versionInfo "0.9" ;
+    rdfs:label "OLB, regras SHACL"@pt ; owl:versionInfo "0.10" ;
     sh:declare
         [ sh:prefix "olb" ;  sh:namespace "https://w3id.org/olb#"^^xsd:anyURI ] ,
         [ sh:prefix "olbv" ; sh:namespace "https://w3id.org/olb/vocab#"^^xsd:anyURI ] ,
@@ -130,8 +129,9 @@ olbs:RelacaoShape a sh:NodeShape ; sh:targetClass olb:RelacaoNormativa ;
     sh:property [ sh:path olb:tipoRelacao ; sh:minCount 1 ; sh:maxCount 1 ;
         sh:in ( olbv:revoga olbv:revoga_dispositivo olbv:altera olbv:regulamenta olbv:referencia olbv:correlato_a
                 olbv:parte_de olbv:membro_de olbv:equivalente_a olbv:sucessor_logico_de olbv:declara_inconstitucional
-                olbv:declara_inconstitucional_dispositivo olbv:conflita_com olbv:revoga_tacitamente ) ;
-        sh:message "R26. O tipo vem do catálogo de relações (vocab.ttl)."@pt ] ;
+                olbv:declara_inconstitucional_dispositivo olbv:conflita_com olbv:revoga_tacitamente
+                olbv:interpreta olbv:aplica olbv:distingue olbv:supera ) ;
+        sh:message "R26. O tipo vem do catálogo LEX-CAT."@pt ] ;
     sh:property [ sh:path olb:camadaOrigem ; sh:minCount 1 ; sh:maxCount 1 ;
         sh:in ( olbv:camadaDeclarada olbv:camadaInferidaRegra olbv:camadaInferidaIA olbv:camadaMista olbv:camadaDoutrinaria olbv:camadaComunidade ) ;
         sh:message "R27. A relação declara sua camada de origem."@pt ] ;
@@ -250,7 +250,7 @@ olbs:VerbatimShape a sh:NodeShape ; sh:targetClass olb:ComandoAlteracao ;
             ?value olb:textoVerbatim ?tv . FILTER (STR(?tv) != STR(?t))
         }""" ] .
 
-# ============================================================ DECISÃO (Capítulo 17)
+# ============================================================ DECISÃO (Capítulo 23)
 olbs:DecisaoShape a sh:NodeShape ; sh:targetClass olb:Decisao ;
     sh:property [ sh:path olb:autor ; sh:minCount 1 ; sh:maxCount 1 ; sh:message "R44. A decisão registra o autor."@pt ] ;
     sh:property [ sh:path olb:cargo ; sh:minCount 1 ; sh:maxCount 1 ; sh:message "R45. A decisão registra o cargo."@pt ] ;
@@ -302,7 +302,7 @@ olbs:CausaPendenciaShape a sh:NodeShape ; sh:targetClass olb:ComandoAlteracao ;
             FILTER NOT EXISTS { $this olb:causaPendencia ?c }
         }""" ] .
 
-# ============================================================ v0.5 · LEITURA AMBÍGUA (Capítulo 8, seção 8.7)
+# ============================================================ v0.5 · LEITURA AMBÍGUA (Capítulo 8, seção 8.7; decisão 38)
 # Ler não é resolver: "leitura ambígua" é da frase; "alvo ambíguo" é da resolução (R54).
 olbs:LeituraAmbiguaShape a sh:NodeShape ; sh:targetClass olb:ComandoAlteracao ;
     sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
@@ -322,8 +322,8 @@ olbs:LeituraNuncaCanonicaShape a sh:NodeShape ; sh:targetClass olb:RelacaoNormat
             FILTER NOT EXISTS { $this olb:decididaPor ?d . ?d olb:resultado olbv:aprovada }
         }""" ] .
 
-# ============================================================ v0.6 · INSTITUIÇÃO E COMPETÊNCIA
-# R57 fica reservada para a conservação do texto (toda linha tem destino), a escrever.
+# ============================================================ v0.6 · INSTITUIÇÃO E COMPETÊNCIA (decisões 4 revista, 48 e 49)
+# R57 fica reservada para a conservação do texto (toda linha tem destino), a escrever com a LEX-NT-03.
 
 olbs:EmissorInfralegalShape a sh:NodeShape ; sh:targetClass olb:Portaria , olb:Resolucao , olb:InstrucaoNormativa ;
     sh:property [ sh:path olb:emitidaPor ; sh:minCount 1 ; sh:class olb:Orgao ;
@@ -378,7 +378,7 @@ olbs:ResolucaoColegiadoShape a sh:NodeShape ; sh:targetClass olb:Resolucao ;
             FILTER NOT EXISTS { ?value a olb:OrgaoColegiado }
         }""" ] .
 
-# ============================================================ v0.7 · COMUNIDADES EMERGENTES
+# ============================================================ v0.7 · COMUNIDADES EMERGENTES (decisão 50)
 olbs:ComunidadeShape a sh:NodeShape ; sh:targetClass olb:Comunidade ;
     sh:property [ sh:path olb:tipoComunidade ; sh:minCount 1 ; sh:message "R64. Comunidade declara o tipo."@pt ] ;
     sh:property [ sh:path olb:metodoDeteccao ; sh:minCount 1 ; sh:message "R64. Comunidade declara o método: por regra ou por algoritmo."@pt ] ;
@@ -437,7 +437,7 @@ olbs:SubcomunidadeShape a sh:NodeShape ; sh:targetClass olb:Comunidade ;
             UNION { $this olb:membro ?value . FILTER NOT EXISTS { ?mae olb:membro ?value } }
         }""" ] .
 
-# ============================================================ v0.8 · INTEGRIDADE
+# ============================================================ v0.8 · INTEGRIDADE (decisão 51)
 olbs:HashTextoShape a sh:NodeShape ; sh:targetClass olb:Versao ;
     sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
         sh:message "R70. O hash registrado não corresponde ao texto verbatim: o texto foi alterado depois de registrado."@pt ;
@@ -473,7 +473,7 @@ olbs:RaizDiariaShape a sh:NodeShape ; sh:targetClass olb:RaizDiaria ;
               FILTER NOT EXISTS { ?outra olb:raizAnterior ?y } FILTER (STR($this) > STR(?outra)) }
         }""" ] .
 
-# ---- v0.9 · regras R73 a R76, a partir do teste de resistência de 17 de outubro de 2026
+# ---- v0.9 · regras R73 a R76, a partir do teste de resistência de 17 de outubro de 2026 (LEX-REV-03)
 olbs:RetificacaoShape a sh:NodeShape ; sh:targetClass olb:Documento ;
     sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
         sh:message "R73. Retificação antes da vigência (reiniciaVacatio) exige que o início de vigência da norma não seja anterior à data da retificação (LINDB, art. 1º, § 3º)."@pt ;
@@ -520,4 +520,86 @@ olbs:VersaoNulaShape a sh:NodeShape ; sh:targetClass olb:Versao ;
         sh:select """SELECT $this ?value WHERE {
             $this olb:inicioVigencia ?i ; olb:fimVigencia ?value . FILTER (?i = ?value)
             FILTER NOT EXISTS { $this olb:versaoNula true }
+        }""" ] .
+
+
+# ============================================================ MÓDULO DE DECISÕES JUDICIAIS (Capítulo 12) · v0.10 · regras R77 a R84
+olbs:DecisaoJudicialShape a sh:NodeShape ; sh:targetClass olb:DecisaoJudicial ;
+    sh:property [ sh:path olb:orgaoJulgador ; sh:minCount 1 ; sh:maxCount 1 ; sh:class olb:Orgao ;
+        sh:message "R77. Toda decisão judicial tem órgão julgador, data de julgamento, identificador e tipo."@pt ] ;
+    sh:property [ sh:path olb:dataJulgamento ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:date ;
+        sh:message "R77. Toda decisão judicial tem órgão julgador, data de julgamento, identificador e tipo."@pt ] ;
+    sh:property [ sh:path olb:identificadorDecisao ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:message "R77. Toda decisão judicial tem órgão julgador, data de julgamento, identificador e tipo."@pt ] ;
+    sh:property [ sh:path olb:tipoDecisaoJudicial ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:in ( olbv:acordao olbv:sentenca olbv:decisaoMonocratica ) ;
+        sh:message "R77. Toda decisão judicial tem órgão julgador, data de julgamento, identificador e tipo."@pt ] .
+
+olbs:InterpretaAplicaShape a sh:NodeShape ; sh:targetClass olb:RelacaoNormativa ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R78. A relação interpreta ou aplica liga uma decisão judicial a um dispositivo e registra a versão interpretada, que é versão desse dispositivo e vigia na data do julgamento."@pt ;
+        sh:select """SELECT $this WHERE {
+            $this olb:tipoRelacao ?t . FILTER (?t IN (olbv:interpreta, olbv:aplica))
+            { $this olb:origem ?o . FILTER NOT EXISTS { ?o a olb:DecisaoJudicial } }
+            UNION { $this olb:destino ?d . FILTER NOT EXISTS { ?d a ?k . ?k rdfs:subClassOf* olb:Dispositivo } }
+            UNION { $this olb:origem ?o2 . FILTER NOT EXISTS { $this olb:versaoInterpretada ?v0 } }
+            UNION { $this olb:versaoInterpretada ?v ; olb:destino ?d . FILTER NOT EXISTS { ?v olb:versaoDe ?d } }
+            UNION { $this olb:versaoInterpretada ?v ; olb:origem ?o . ?o olb:dataJulgamento ?dj . ?v olb:inicioVigencia ?i .
+                    OPTIONAL { ?v olb:fimVigencia ?f }
+                    FILTER (?dj < ?i || (BOUND(?f) && ?dj >= ?f)) }
+        }""" ] .
+
+olbs:DistingueSuperaShape a sh:NodeShape ; sh:targetClass olb:RelacaoNormativa ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R79. A relação distingue ou supera liga uma decisão judicial a outra decisão judicial."@pt ;
+        sh:select """SELECT $this WHERE {
+            $this olb:tipoRelacao ?t . FILTER (?t IN (olbv:distingue, olbv:supera))
+            { $this olb:origem ?o . FILTER NOT EXISTS { ?o a olb:DecisaoJudicial } }
+            UNION { $this olb:destino ?d . FILTER NOT EXISTS { ?d a olb:DecisaoJudicial } }
+        }""" ] .
+
+olbs:TeseSumulaShape a sh:NodeShape ; sh:targetClass olb:Tese ;
+    sh:property [ sh:path olb:textoDaTese ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:message "R80. A tese é recorte verbatim e pertence a uma decisão; a súmula tem número, tribunal emissor e texto."@pt ] ;
+    sh:property [ sh:path [ sh:inversePath olb:temTese ] ; sh:minCount 1 ;
+        sh:message "R80. A tese é recorte verbatim e pertence a uma decisão; a súmula tem número, tribunal emissor e texto."@pt ] .
+olbs:SumulaShape a sh:NodeShape ; sh:targetClass olb:Sumula ;
+    sh:property [ sh:path olb:numeroSumula ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:message "R80. A tese é recorte verbatim e pertence a uma decisão; a súmula tem número, tribunal emissor e texto."@pt ] ;
+    sh:property [ sh:path olb:tribunalEmissor ; sh:minCount 1 ; sh:maxCount 1 ; sh:class olb:Orgao ;
+        sh:message "R80. A tese é recorte verbatim e pertence a uma decisão; a súmula tem número, tribunal emissor e texto."@pt ] ;
+    sh:property [ sh:path olb:textoDaSumula ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:message "R80. A tese é recorte verbatim e pertence a uma decisão; a súmula tem número, tribunal emissor e texto."@pt ] .
+
+olbs:ObservanciaShape a sh:NodeShape ; sh:targetClass olb:DecisaoJudicial ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R81. Precedente de observância obrigatória registra o dispositivo que a impõe; sem fundamento, o precedente é persuasivo."@pt ;
+        sh:select """SELECT $this WHERE {
+            $this olb:forcaDoPrecedente olbv:observanciaObrigatoria .
+            FILTER NOT EXISTS { $this olb:fundamentoDaForca ?f }
+        }""" ] .
+
+olbs:PrecedenteSobreRedacaoSuperadaShape a sh:NodeShape ; sh:severity sh:Warning ; sh:targetClass olb:RelacaoNormativa ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ; sh:severity sh:Warning ;
+        sh:message "R82. Alerta de precedente sobre redação superada: a versão interpretada ou aplicada já não está em vigor. Não invalida a decisão; pede que a pessoa confira se o entendimento subsiste."@pt ;
+        sh:select """SELECT $this ?value WHERE {
+            $this olb:tipoRelacao ?t . FILTER (?t IN (olbv:interpreta, olbv:aplica))
+            $this olb:versaoInterpretada ?v . ?v olb:fimVigencia ?value .
+        }""" ] .
+
+olbs:SuperacaoCronologicaShape a sh:NodeShape ; sh:targetClass olb:RelacaoNormativa ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R83. A decisão que supera é posterior, no julgamento, à decisão superada."@pt ;
+        sh:select """SELECT $this WHERE {
+            $this olb:tipoRelacao olbv:supera ; olb:origem ?o ; olb:destino ?d .
+            ?o olb:dataJulgamento ?a . ?d olb:dataJulgamento ?b . FILTER (?a <= ?b)
+        }""" ] .
+
+olbs:DecisaoNaoENormaShape a sh:NodeShape ; sh:targetClass olb:RelacaoNormativa ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R84. Decisão judicial não altera, revoga nem regulamenta norma: só interpreta, aplica, distingue, supera ou declara a inconstitucionalidade."@pt ;
+        sh:select """SELECT $this WHERE {
+            $this olb:origem ?o ; olb:tipoRelacao ?t . ?o a olb:DecisaoJudicial .
+            FILTER (?t NOT IN (olbv:interpreta, olbv:aplica, olbv:distingue, olbv:supera,
+                               olbv:declara_inconstitucional, olbv:declara_inconstitucional_dispositivo))
         }""" ] .

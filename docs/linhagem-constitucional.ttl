@@ -1,5 +1,4 @@
-# Licença: CC0 1.0 (ver LICENSE.md). Autores: Gerson Rolim e Sueli Rolim.
-# OLB-CF · ABox · linhagem constitucional brasileira
+# LEX-ABX-CF · ABox · linhagem constitucional brasileira
 # OLB · v0.1 · 3 de outubro de 2026 · Gerson Rolim e Sueli Rolim · documento de trabalho
 # DADOS REAIS A CONFERIR. Datas de outorga ou promulgação conforme a lista reunida pelos autores
 # com fontes do Supremo Tribunal Federal; URNs no formato do LexML a conferir no portal.

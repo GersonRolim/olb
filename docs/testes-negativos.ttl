@@ -1,6 +1,5 @@
-# Licença: CC0 1.0 (ver LICENSE.md). Autores: Gerson Rolim e Sueli Rolim.
-# OLB-Testes · ABox de testes negativos · cada bloco viola de propósito uma regra do OLB-Shapes
-# OLB · v0.9 · 17 de outubro de 2026 · Gerson Rolim e Sueli Rolim · dados 38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95bs
+# LEX-ABX-T · ABox de testes negativos · cada bloco viola de propósito uma regra do LEX-SHP
+# OLB · v0.9 · 17 de outubro de 2026 (nome de arquivo mantido) · Gerson Rolim e Sueli Rolim · dados 38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95bs
 # O comentário de cada bloco indica a regra que deve disparar.
 
 @prefix olb:  <https://w3id.org/olb#> .
@@ -240,3 +239,43 @@ t:T42 a olb:RelacaoNormativa ; olb:origem t:MPT42_cpt ; olb:destino t:X_art1_cpt
 
 # T43 · R76 · versão de duração zero sem a marca de versão nula
 t:vT43 a olb:Versao ; olb:versaoDe t:X_art2_cpt ; olb:inicioVigencia "2020-02-02"^^xsd:date ; olb:fimVigencia "2020-02-02"^^xsd:date ; olb:textoVerbatim "Duração zero sem marca." .
+
+
+# ============================================================ v0.10 · MÓDULO DE DECISÕES JUDICIAIS (T44 a T51)
+t:TribT a olb:OrgaoColegiado ; olb:rotulo "Tribunal T (38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b)" .
+t:J_art1 a olb:Artigo ; olb:idFragmento "art1" ; olb:temPaiImediato t:LeiX .
+t:J_art1_cpt a olb:Caput ; olb:idFragmento "art1_cpt" ; olb:temPaiImediato t:J_art1 .
+t:vJ1 a olb:Versao ; olb:versaoDe t:J_art1_cpt ; olb:inicioVigencia "2020-01-10"^^xsd:date ; olb:fimVigencia "2021-01-01"^^xsd:date ; olb:textoVerbatim "Redação antiga do caput." .
+t:DecA a olb:DecisaoJudicial ; olb:tipoDecisaoJudicial olbv:acordao ; olb:orgaoJulgador t:TribT ; olb:identificadorDecisao "Dec A" ; olb:dataJulgamento "2020-06-01"^^xsd:date .
+t:DecB a olb:DecisaoJudicial ; olb:tipoDecisaoJudicial olbv:acordao ; olb:orgaoJulgador t:TribT ; olb:identificadorDecisao "Dec B" ; olb:dataJulgamento "2021-06-01"^^xsd:date .
+t:DecC a olb:DecisaoJudicial ; olb:tipoDecisaoJudicial olbv:acordao ; olb:orgaoJulgador t:TribT ; olb:identificadorDecisao "Dec C" ; olb:dataJulgamento "2022-02-02"^^xsd:date .
+
+# T44 · R77 · decisão judicial sem data de julgamento
+t:T44 a olb:DecisaoJudicial ; olb:tipoDecisaoJudicial olbv:acordao ; olb:orgaoJulgador t:TribT ; olb:identificadorDecisao "Dec sem data" .
+
+# T45 · R78 · a versão interpretada não vigia na data do julgamento (julgado em 2022; versão encerrada em 2021)
+t:T45 a olb:RelacaoNormativa ; olb:origem t:DecC ; olb:destino t:J_art1_cpt ; olb:tipoRelacao olbv:interpreta ; olb:versaoInterpretada t:vJ1 ;
+    olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:declarada ; olb:fundamentoLegal "ementa" .
+
+# T46 · R79 · supera cujo destino é um dispositivo, e não uma decisão
+t:T46 a olb:RelacaoNormativa ; olb:origem t:DecB ; olb:destino t:J_art1_cpt ; olb:tipoRelacao olbv:supera ;
+    olb:camadaOrigem olbv:camadaInferidaIA ; olb:estado olbv:proposta ; olb:evidencia "trecho" ; olb:fundamentoLegal "CPC, art. 489, § 1º, VI" .
+
+# T47 · R80 · tese sem texto
+t:T47 a olb:Tese .
+
+# T48 · R81 · precedente de observância obrigatória sem o dispositivo que a impõe
+t:T48 a olb:DecisaoJudicial ; olb:tipoDecisaoJudicial olbv:acordao ; olb:orgaoJulgador t:TribT ; olb:identificadorDecisao "Dec obrigatória" ;
+    olb:dataJulgamento "2021-03-03"^^xsd:date ; olb:forcaDoPrecedente olbv:observanciaObrigatoria .
+
+# T49 · R82 · precedente sobre redação superada (aviso): interpretou a versão que depois foi encerrada
+t:T49 a olb:RelacaoNormativa ; olb:origem t:DecA ; olb:destino t:J_art1_cpt ; olb:tipoRelacao olbv:interpreta ; olb:versaoInterpretada t:vJ1 ;
+    olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:declarada ; olb:fundamentoLegal "ementa" .
+
+# T50 · R83 · a decisão que supera é anterior à superada
+t:T50 a olb:RelacaoNormativa ; olb:origem t:DecA ; olb:destino t:DecB ; olb:tipoRelacao olbv:supera ;
+    olb:camadaOrigem olbv:camadaInferidaIA ; olb:estado olbv:proposta ; olb:evidencia "trecho" ; olb:fundamentoLegal "CPC, art. 489, § 1º, VI" .
+
+# T51 · R84 · decisão judicial que pretende alterar norma
+t:T51 a olb:RelacaoNormativa ; olb:origem t:DecC ; olb:destino t:J_art1_cpt ; olb:tipoRelacao olbv:altera ; olb:inicioEfeito "2022-02-02"^^xsd:date ;
+    olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:declarada ; olb:fundamentoLegal "ementa" .

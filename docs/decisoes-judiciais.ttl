@@ -1,0 +1,72 @@
+# LEX-ABX-DJ · ABox do módulo de decisões judiciais · caso fictício
+# Ontologia da Legislação Brasileira (OLB) · v0.1 · 22 de outubro de 2026 · Gerson Rolim e Sueli Rolim
+# CASO FICTÍCIO: tribunal, acórdãos, teses, súmula, datas e textos inventados. Aproveita as normas e as versões do caso
+# fictício principal (Lei A, art. 5º, caput: cinco anos até 18/09/2022, oito anos depois). É o caso do Capítulo 12.
+# Resultado esperado: a ABox conforma com um único aviso, R82, no Acórdão 1, que interpretou a redação já superada.
+
+@prefix olb:  <https://w3id.org/olb#> .
+@prefix olbv: <https://w3id.org/olb/vocab#> .
+@prefix ex:   <https://w3id.org/olb/caso#> .
+@prefix dj:   <https://w3id.org/olb/decisoes#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+dj:TribunalF a olb:OrgaoColegiado ; olb:rotulo "Tribunal F (fictício)" .
+
+# ============================================================ DECISÕES
+dj:Ac1 a olb:DecisaoJudicial ; olb:rotulo "Acórdão 1/2020 (fictício)" ;
+    olb:tipoDecisaoJudicial olbv:acordao ; olb:orgaoJulgador dj:TribunalF ; olb:identificadorDecisao "Acórdão fictício 1/2020" ;
+    olb:dataJulgamento "2020-08-12"^^xsd:date ; olb:dataPublicacaoDecisao "2020-08-20"^^xsd:date ; olb:dataTransito "2020-09-15"^^xsd:date ;
+    olb:ementaDecisao "Registro de embarcação de recreio. Validade de cinco anos, contada da emissão (art. 5º da Lei A). Texto fictício." ;
+    olb:forcaDoPrecedente olbv:persuasivo .
+
+dj:Ac2 a olb:DecisaoJudicial ; olb:rotulo "Acórdão 2/2023 (fictício)" ;
+    olb:tipoDecisaoJudicial olbv:acordao ; olb:orgaoJulgador dj:TribunalF ; olb:identificadorDecisao "Acórdão fictício 2/2023, incidente de resolução de demandas repetitivas" ;
+    olb:dataJulgamento "2023-04-18"^^xsd:date ; olb:dataPublicacaoDecisao "2023-04-26"^^xsd:date ;
+    olb:ementaDecisao "Validade do registro. Aplicação da redação da Lei B ao art. 5º da Lei A. Texto fictício." ;
+    olb:forcaDoPrecedente olbv:observanciaObrigatoria ; olb:fundamentoDaForca "CPC, art. 927, III (a conferir)" ;
+    olb:temTese dj:Tese1 .
+
+dj:Ac3 a olb:DecisaoJudicial ; olb:rotulo "Acórdão 3/2024 (fictício)" ;
+    olb:tipoDecisaoJudicial olbv:acordao ; olb:orgaoJulgador dj:TribunalF ; olb:identificadorDecisao "Acórdão fictício 3/2024" ;
+    olb:dataJulgamento "2024-02-20"^^xsd:date ; olb:dataPublicacaoDecisao "2024-02-28"^^xsd:date ;
+    olb:ementaDecisao "Registro emitido antes de 18/09/2022. O entendimento do Acórdão 1/2020 não subsiste diante da nova redação. Texto fictício." ;
+    olb:forcaDoPrecedente olbv:persuasivo .
+
+dj:Dec4 a olb:DecisaoJudicial ; olb:rotulo "Decisão 4/2024 (fictícia)" ;
+    olb:tipoDecisaoJudicial olbv:decisaoMonocratica ; olb:orgaoJulgador dj:TribunalF ; olb:identificadorDecisao "Decisão monocrática fictícia 4/2024" ;
+    olb:dataJulgamento "2024-06-03"^^xsd:date ; olb:dataPublicacaoDecisao "2024-06-05"^^xsd:date ;
+    olb:ementaDecisao "Embarcação de pesca artesanal, regida por cadastro próprio: o caso difere do Acórdão 2/2023. Texto fictício." ;
+    olb:forcaDoPrecedente olbv:persuasivo .
+
+dj:Tese1 a olb:Tese ;
+    olb:textoDaTese "O prazo de validade do registro, contado da emissão, é o fixado pela redação vigente na data da emissão (tese fictícia)." .
+
+dj:Sumula100 a olb:Sumula ; olb:rotulo "Súmula 100 do Tribunal F (fictícia)" ;
+    olb:tribunalEmissor dj:TribunalF ; olb:numeroSumula 100 ;
+    olb:textoDaSumula "O registro de embarcação de recreio não depende de prova de quitação de tributos municipais (súmula fictícia)." .
+
+# ============================================================ RELAÇÕES DECLARADAS: o acórdão cita o dispositivo
+dj:R_Ac1_interpreta_art5 a olb:RelacaoNormativa ;
+    olb:origem dj:Ac1 ; olb:destino ex:LeiA_art5_cpt ; olb:tipoRelacao olbv:interpreta ;
+    olb:versaoInterpretada ex:v_art5_cpt_1 ;
+    olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:declarada ;
+    olb:fundamentoLegal "Ementa do Acórdão 1/2020 (fictício)" .
+
+dj:R_Ac2_interpreta_art5 a olb:RelacaoNormativa ;
+    olb:origem dj:Ac2 ; olb:destino ex:LeiA_art5_cpt ; olb:tipoRelacao olbv:interpreta ;
+    olb:versaoInterpretada ex:v_art5_cpt_2 ;
+    olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:declarada ;
+    olb:fundamentoLegal "Ementa do Acórdão 2/2023 (fictício)" .
+
+# ============================================================ RELAÇÕES PROPOSTAS: distinguir e superar
+dj:R_Ac3_supera_Ac1 a olb:RelacaoNormativa ;
+    olb:origem dj:Ac3 ; olb:destino dj:Ac1 ; olb:tipoRelacao olbv:supera ;
+    olb:camadaOrigem olbv:camadaInferidaIA ; olb:estado olbv:proposta ; olb:confianca 0.74 ;
+    olb:evidencia "Acórdão 3/2024: \"O entendimento do Acórdão 1/2020 não subsiste diante da nova redação.\" | Acórdão 1/2020: \"Validade de cinco anos, contada da emissão.\"" ;
+    olb:fundamentoLegal "CPC, art. 489, § 1º, VI (a conferir)" .
+
+dj:R_Dec4_distingue_Ac2 a olb:RelacaoNormativa ;
+    olb:origem dj:Dec4 ; olb:destino dj:Ac2 ; olb:tipoRelacao olbv:distingue ;
+    olb:camadaOrigem olbv:camadaInferidaIA ; olb:estado olbv:proposta ; olb:confianca 0.81 ;
+    olb:evidencia "Decisão 4/2024: \"Embarcação de pesca artesanal, regida por cadastro próprio: o caso difere.\" | Acórdão 2/2023: \"Aplicação da redação da Lei B ao art. 5º da Lei A.\"" ;
+    olb:fundamentoLegal "CPC, art. 489, § 1º, VI (a conferir)" .
