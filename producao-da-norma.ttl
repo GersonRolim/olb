@@ -1,0 +1,49 @@
+# LEX-ABX-PR · ABox · produção da norma: o caso real da LGPD (conversão, alteração provisória e permanente, alteração vetada)
+# OLB · v0.1 · 7 de novembro de 2026 · Gerson Rolim e Sueli Rolim · documento de trabalho
+# DADOS REAIS, conferidos pelo Opus em 7 de novembro de 2026 no portal da Presidência da República e no sistema de legislação do Senado Federal.
+# Só a data da epígrafe é registrada. Publicação, vigência e início de efeito ficam como pendência (regra R49 e R30): nenhuma data é estimada.
+
+@prefix olb:  <https://w3id.org/olb#> .
+@prefix olbv: <https://w3id.org/olb/vocab#> .
+@prefix pr:   <https://w3id.org/olb/pr#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+pr:LGPD a olb:LeiOrdinaria ; olb:rotulo "Lei nº 13.709/2018 (Lei Geral de Proteção de Dados Pessoais)" ;
+    olb:urn "urn:lex:br:federal:lei:2018-08-14;13709" ; olb:dataEpigrafe "2018-08-14"^^xsd:date ;
+    olb:pendenciaData "Publicação e vigência não conferidas na fonte" .
+pr:MP1317 a olb:MedidaProvisoria ; olb:rotulo "Medida Provisória nº 1.317/2025" ;
+    olb:urn "urn:lex:br:federal:medida.provisoria:2025-09-17;1317" ; olb:dataEpigrafe "2025-09-17"^^xsd:date ;
+    olb:pendenciaData "Publicação e vigência não conferidas na fonte" .
+pr:Lei15352 a olb:LeiOrdinaria ; olb:rotulo "Lei nº 15.352/2026 (conversão da MP nº 1.317/2025, conforme a epígrafe da lei no Planalto)" ;
+    olb:urn "urn:lex:br:federal:lei:2026-02-25;15352" ; olb:dataEpigrafe "2026-02-25"^^xsd:date ;
+    olb:pendenciaData "Publicação e vigência não conferidas na fonte" .
+pr:Lei15134 a olb:LeiOrdinaria ; olb:rotulo "Lei nº 15.134/2025 (arts. 9º e 10 do projeto vetados, Mensagem de veto nº 552/2025)" ;
+    olb:urn "urn:lex:br:federal:lei:2025-05-06;15134" ; olb:dataEpigrafe "2025-05-06"^^xsd:date ;
+    olb:pendenciaData "Publicação e vigência não conferidas na fonte" .
+
+# A lei de conversão converte a medida provisória. Sem olb:comAlteracao: a alteração do texto da MP pela lei não foi conferida.
+pr:R_conversao a olb:RelacaoNormativa ; olb:origem pr:Lei15352 ; olb:destino pr:MP1317 ; olb:tipoRelacao olbv:converte_em_lei ;
+    olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:declarada ;
+    olb:fundamentoLegal "Epígrafe da Lei nº 15.352/2026 no portal da Presidência da República" ;
+    olb:pendenciaData "Publicação, vigência e início de efeito não conferidos na fonte" .
+
+# A medida provisória altera a LGPD, com efeito provisório.
+pr:R_mp_altera a olb:RelacaoNormativa ; olb:origem pr:MP1317 ; olb:destino pr:LGPD ; olb:tipoRelacao olbv:altera ;
+    olb:caraterEfeito olbv:efeitoProvisorio ;
+    olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:declarada ;
+    olb:fundamentoLegal "Nota de redação do art. 55-A da LGPD compilada e ficha da norma no Senado Federal" ;
+    olb:pendenciaData "Publicação, vigência e início de efeito não conferidos na fonte" .
+
+# A lei de conversão altera a LGPD, com efeito permanente.
+pr:R_lei_altera a olb:RelacaoNormativa ; olb:origem pr:Lei15352 ; olb:destino pr:LGPD ; olb:tipoRelacao olbv:altera ;
+    olb:caraterEfeito olbv:efeitoPermanente ;
+    olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:declarada ;
+    olb:fundamentoLegal "Ficha da norma no Senado Federal: art. 55-A, caput, com a Lei nº 15.352/2026" ;
+    olb:pendenciaData "Publicação, vigência e início de efeito não conferidos na fonte" .
+
+# A alteração anunciada pela Lei nº 15.134/2025 foi vetada: o fato fica registrado, sem efeito sobre a LGPD.
+pr:R_vetada a olb:RelacaoNormativa ; olb:origem pr:Lei15134 ; olb:destino pr:LGPD ; olb:tipoRelacao olbv:alteracao_vetada ;
+    olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:declarada ;
+    olb:fundamentoLegal "Mensagem de veto nº 552, de 6 de maio de 2025, arts. 9º e 10 do projeto" ;
+    olb:pendenciaData "Publicação, vigência e início de efeito não conferidos na fonte" .
