@@ -1,7 +1,7 @@
 # LEX-TBX · TBox em OWL 2 · Ontologia da Legislação Brasileira (OLB)
-# v0.10 · 22 de outubro de 2026 (nome de arquivo mantido) · Gerson Rolim e Sueli Rolim · documento de trabalho
+# v0.12 · 7 de novembro de 2026 (produção da norma: olb:comAlteracao e olb:caraterEfeito; nome de arquivo mantido) · Gerson Rolim e Sueli Rolim · documento de trabalho
 # Camada 1 do modelo em três camadas: o que pode existir.
-# Namespace persistente https://w3id.org/olb (registrado em 23 out. 2026). A licença é a indicada na página de entrada.
+# Namespace provisório (example.org): decisão 5 do plano (abertura e licença).
 # Convenção de intervalo: inicioVigencia inclusivo, fimVigencia exclusivo.
 
 @prefix olb:  <https://w3id.org/olb#> .
@@ -15,7 +15,7 @@
 
 <https://w3id.org/olb> a owl:Ontology ;
     rdfs:label "Ontologia da Legislação Brasileira (OLB), TBox"@pt ;
-    owl:versionInfo "0.10" ;
+    owl:versionInfo "0.12" ;
     owl:imports <https://w3id.org/olb/vocab> ;
     dcterms:created "2026-10-02"^^xsd:date ;
     dcterms:creator "Gerson Rolim", "Sueli Rolim" ;
@@ -135,7 +135,7 @@ olb:decididaPor a owl:ObjectProperty ; rdfs:label "decidida por"@pt ; rdfs:range
 
 olb:fundamentoLegal a owl:DatatypeProperty ; rdfs:label "fundamento legal"@pt ; rdfs:domain olb:RelacaoNormativa ; rdfs:range xsd:string .
 olb:evidencia a owl:DatatypeProperty ; rdfs:label "evidência"@pt ; rdfs:domain olb:RelacaoNormativa ; rdfs:range xsd:string ;
-    rdfs:comment "Trecho verbatim de cada lado que gerou a proposta."@pt .
+    rdfs:comment "Trecho literal de cada lado que gerou a proposta."@pt .
 olb:confianca a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "confiança"@pt ; rdfs:domain olb:RelacaoNormativa ; rdfs:range xsd:decimal ;
     rdfs:comment "Informação secundária. Nunca aprova nada (Capítulo 23, regra 1)."@pt .
 olb:inicioEfeito a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "início de efeito"@pt ; rdfs:domain olb:RelacaoNormativa ; rdfs:range xsd:date .
@@ -183,7 +183,7 @@ olb:inicioVigencia a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label 
 olb:fimVigencia a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "fim de vigência (exclusivo)"@pt ; rdfs:range xsd:date .
 olb:dataCompilacao a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "data de compilação"@pt ; rdfs:domain olb:Documento ; rdfs:range xsd:date .
 olb:fonte a owl:DatatypeProperty ; rdfs:label "fonte"@pt ; rdfs:range xsd:string .
-olb:textoVerbatim a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "texto verbatim"@pt ; rdfs:domain olb:Versao ; rdfs:range xsd:string ;
+olb:textoLiteral a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "texto literal"@pt ; rdfs:domain olb:Versao ; rdfs:range xsd:string ;
     rdfs:comment "Recorte literal da fonte. Nunca redigido nem parafraseado pelo sistema."@pt .
 
 # ============================================================ v0.2 · 3 de outubro de 2026 · LÍNGUA (Capítulo 8A)
@@ -192,7 +192,7 @@ olb:regimeOrtografico a owl:ObjectProperty , owl:FunctionalProperty ; rdfs:label
     rdfs:comment "Sistema ortográfico em que a versão foi publicada. A grafia é dado da versão: uma reforma ortográfica não cria versão nova do dispositivo."@pt .
 olb:textoModernizado a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "texto modernizado"@pt ;
     rdfs:domain olb:Versao ; rdfs:range xsd:string ;
-    rdfs:comment "Grafia atualizada para comparação e busca. Gerado por procedimento determinístico, nunca por paráfrase; nunca substitui o texto verbatim; não é texto oficial."@pt .
+    rdfs:comment "Grafia atualizada para comparação e busca. Gerado por procedimento determinístico, nunca por paráfrase; nunca substitui o texto literal; não é texto oficial."@pt .
 olb:formaEdicao a owl:ObjectProperty , owl:FunctionalProperty ; rdfs:label "forma de edição"@pt ;
     rdfs:domain olb:Constituicao ; rdfs:range skos:Concept .
 olb:pendenciaData a owl:DatatypeProperty ; rdfs:label "pendência de data"@pt ; rdfs:range xsd:string ;
@@ -320,7 +320,7 @@ olb:geradaEm a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "gerad
     olb:dimensao olbv:dimTempo ;
     rdfs:comment "Data do estado do grafo a partir do qual a comunidade e o resumo foram gerados."@pt .
 olb:resumoGerado a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "resumo gerado"@pt ; rdfs:domain olb:Comunidade ; rdfs:range xsd:string ;
-    rdfs:comment "Texto gerado, não oficial. Nunca substitui o texto verbatim das versões citadas."@pt .
+    rdfs:comment "Texto gerado, não oficial. Nunca substitui o texto literal das versões citadas."@pt .
 olb:resumoCita a owl:ObjectProperty ; rdfs:label "resumo cita"@pt ; rdfs:domain olb:Comunidade ; rdfs:range olb:Versao ;
     rdfs:comment "Versão de dispositivo em que o resumo se apoia. Só pode citar versão de membro (R66)."@pt .
 olb:revelaProposta a owl:ObjectProperty ; rdfs:label "revela proposta"@pt ; rdfs:domain olb:Comunidade ; rdfs:range olb:RelacaoNormativa ;
@@ -340,7 +340,7 @@ olb:sucedeComunidade a owl:ObjectProperty ; rdfs:label "sucede a comunidade"@pt 
 # Sem blockchain e sem certificação externa: SHA-384, carimbo de tempo do próprio sistema e assinatura pós-quântica do projeto.
 olb:hashTexto a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "hash do texto"@pt ; rdfs:domain olb:Versao ; rdfs:range xsd:string ;
     olb:dominio olbv:domDecisao ;
-    rdfs:comment "SHA-384, em hexadecimal, do texto verbatim em UTF-8. Qualquer pessoa pode recalcular a partir da fonte (R70)."@pt .
+    rdfs:comment "SHA-384, em hexadecimal, do texto literal em UTF-8. Qualquer pessoa pode recalcular a partir da fonte (R70)."@pt .
 olb:decisaoAnterior a owl:ObjectProperty , owl:FunctionalProperty ; rdfs:label "decisão anterior na cadeia"@pt ; rdfs:domain olb:Decisao ; rdfs:range olb:Decisao .
 olb:hashAnterior a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "hash da decisão anterior"@pt ; rdfs:domain olb:Decisao ; rdfs:range xsd:string .
 olb:hashDecisao a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "hash da decisão"@pt ; rdfs:domain olb:Decisao ; rdfs:range xsd:string ;
@@ -369,9 +369,9 @@ olb:assinatura a owl:DatatypeProperty ; rdfs:label "assinatura"@pt ; rdfs:domain
 olb:DecisaoJudicial a owl:Class ; rdfs:label "Decisão judicial"@pt ;
     rdfs:comment "Ato do Judiciário: acórdão, sentença ou decisão monocrática. Tem órgão julgador, data de julgamento e identificador. Não é norma jurídica e não é a decisão humana que aprova uma relação (olb:Decisao)."@pt .
 olb:Tese a owl:Class ; rdfs:label "Tese"@pt ;
-    rdfs:comment "Enunciado de tese fixada oficialmente em precedente qualificado. Entra como recorte verbatim; a obra não extrai tese de decisão que não a fixou."@pt .
+    rdfs:comment "Enunciado de tese fixada oficialmente em precedente qualificado. Entra como recorte literal; a obra não extrai tese de decisão que não a fixou."@pt .
 olb:Sumula a owl:Class ; rdfs:label "Súmula"@pt ;
-    rdfs:comment "Enunciado de súmula, vinculante ou não, de um tribunal. Tem número, tribunal emissor e texto verbatim."@pt .
+    rdfs:comment "Enunciado de súmula, vinculante ou não, de um tribunal. Tem número, tribunal emissor e texto literal."@pt .
 
 olb:orgaoJulgador a owl:ObjectProperty , owl:FunctionalProperty ; rdfs:label "órgão julgador"@pt ;
     rdfs:domain olb:DecisaoJudicial ; rdfs:range olb:Orgao .
@@ -391,7 +391,7 @@ olb:identificadorDecisao a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:
 olb:tipoDecisaoJudicial a owl:ObjectProperty , owl:FunctionalProperty ; rdfs:label "tipo de decisão judicial"@pt ;
     rdfs:domain olb:DecisaoJudicial ; rdfs:range skos:Concept .
 olb:ementaDecisao a owl:DatatypeProperty ; rdfs:label "ementa da decisão"@pt ; rdfs:domain olb:DecisaoJudicial ; rdfs:range xsd:string ;
-    rdfs:comment "Recorte verbatim. A ementa não é a decisão nem a tese."@pt .
+    rdfs:comment "Recorte literal. A ementa não é a decisão nem a tese."@pt .
 olb:forcaDoPrecedente a owl:ObjectProperty , owl:FunctionalProperty ; rdfs:label "força do precedente"@pt ;
     rdfs:domain olb:DecisaoJudicial ; rdfs:range skos:Concept .
 olb:fundamentoDaForca a owl:DatatypeProperty ; rdfs:label "fundamento da força"@pt ; rdfs:domain olb:DecisaoJudicial ; rdfs:range xsd:string ;
@@ -403,3 +403,9 @@ olb:textoDaSumula a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "
 olb:versaoInterpretada a owl:ObjectProperty , owl:FunctionalProperty ; rdfs:label "versão interpretada"@pt ;
     rdfs:domain olb:RelacaoNormativa ; rdfs:range olb:Versao ;
     rdfs:comment "Redação do dispositivo que a decisão interpretou ou aplicou. É o que permite dizer, depois, que o precedente trata de redação superada."@pt .
+
+# ============================================================ v0.12 · PRODUÇÃO DA NORMA (Capítulo 6, seção 6.3, e Capítulo 8, seção 8.2)
+olb:comAlteracao a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "com alteração"@pt ; rdfs:domain olb:RelacaoNormativa ; rdfs:range xsd:boolean ;
+    rdfs:comment "Na relação converte_em_lei, verdadeiro quando a lei de conversão alterou o texto da medida provisória. Registrar só quando conferido na fonte."@pt .
+olb:caraterEfeito a owl:ObjectProperty , owl:FunctionalProperty ; rdfs:label "caráter do efeito"@pt ; rdfs:domain olb:RelacaoNormativa ; rdfs:range skos:Concept ;
+    rdfs:comment "Provisório, quando a origem é medida provisória, cujo efeito depende da conversão. Permanente, quando a origem é lei (Capítulo 6, seção 6.3)."@pt .

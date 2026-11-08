@@ -1,6 +1,7 @@
 # LEX-SHP · Regras em SHACL · Ontologia da Legislação Brasileira (OLB)
-# v0.10 · 22 de outubro de 2026 (nome de arquivo mantido) · Gerson Rolim e Sueli Rolim · documento de trabalho
+# v0.12 · 7 de novembro de 2026 (produção da norma: R85 a R87; nome de arquivo mantido) · Gerson Rolim e Sueli Rolim · documento de trabalho
 # Camada 2 do modelo em três camadas: o que é aceitável (mundo fechado).
+# 86 regras numeradas, R01 a R87, com R57 reservada, oito delas de aviso (R36, R37, R63, R68, R74, R75, R82 e R87).
 # Severidade Violation bloqueia; Warning alerta sem bloquear.
 
 @prefix sh:   <http://www.w3.org/ns/shacl#> .
@@ -14,7 +15,7 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 
 <https://w3id.org/olb/shapes> a owl:Ontology ;
-    rdfs:label "OLB, regras SHACL"@pt ; owl:versionInfo "0.10" ;
+    rdfs:label "OLB, regras SHACL"@pt ; owl:versionInfo "0.12" ;
     sh:declare
         [ sh:prefix "olb" ;  sh:namespace "https://w3id.org/olb#"^^xsd:anyURI ] ,
         [ sh:prefix "olbv" ; sh:namespace "https://w3id.org/olb/vocab#"^^xsd:anyURI ] ,
@@ -95,8 +96,8 @@ olbs:VersaoShape a sh:NodeShape ; sh:targetClass olb:Versao ;
         sh:lessThanOrEquals olb:fimVigencia ;
         sh:message "R19. A versão tem um início de vigência não posterior ao fim, quando houver fim. Início igual ao fim só com versão nula (R76)."@pt ] ;
     sh:property [ sh:path olb:fimVigencia ; sh:maxCount 1 ; sh:datatype xsd:date ] ;
-    sh:property [ sh:path olb:textoVerbatim ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ;
-        sh:message "R20. Toda versão tem texto verbatim."@pt ] ;
+    sh:property [ sh:path olb:textoLiteral ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ;
+        sh:message "R20. Toda versão tem texto literal."@pt ] ;
     sh:property [ sh:path olb:situacao ; sh:maxCount 1 ;
         sh:in ( olbv:revogado olbv:vetado olbv:declaradoInconstitucional olbv:execucaoSuspensa olbv:suspenso olbv:superado olbv:omissis ) ;
         sh:message "R21. A situação vem do vocabulário controlado."@pt ] .
@@ -130,7 +131,8 @@ olbs:RelacaoShape a sh:NodeShape ; sh:targetClass olb:RelacaoNormativa ;
         sh:in ( olbv:revoga olbv:revoga_dispositivo olbv:altera olbv:regulamenta olbv:referencia olbv:correlato_a
                 olbv:parte_de olbv:membro_de olbv:equivalente_a olbv:sucessor_logico_de olbv:declara_inconstitucional
                 olbv:declara_inconstitucional_dispositivo olbv:conflita_com olbv:revoga_tacitamente
-                olbv:interpreta olbv:aplica olbv:distingue olbv:supera ) ;
+                olbv:interpreta olbv:aplica olbv:distingue olbv:supera
+                olbv:converte_em_lei olbv:alteracao_vetada ) ;
         sh:message "R26. O tipo vem do catálogo LEX-CAT."@pt ] ;
     sh:property [ sh:path olb:camadaOrigem ; sh:minCount 1 ; sh:maxCount 1 ;
         sh:in ( olbv:camadaDeclarada olbv:camadaInferidaRegra olbv:camadaInferidaIA olbv:camadaMista olbv:camadaDoutrinaria olbv:camadaComunidade ) ;
@@ -178,7 +180,7 @@ olbs:ImplicitaShape a sh:NodeShape ; sh:targetClass olb:RelacaoNormativa ;
 
 olbs:EvidenciaShape a sh:NodeShape ; sh:targetClass olb:RelacaoNormativa ;
     sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
-        sh:message "R34. Relação inferida carrega evidência verbatim."@pt ;
+        sh:message "R34. Relação inferida carrega evidência literal."@pt ;
         sh:select """SELECT $this WHERE {
             $this olb:camadaOrigem ?c . FILTER (?c != olbv:camadaDeclarada)
             FILTER NOT EXISTS { $this olb:evidencia ?e }
@@ -205,7 +207,7 @@ olbs:AlertaHierarquicoShape a sh:NodeShape ; sh:targetClass olb:RelacaoNormativa
 
 olbs:EfeitoAntesDaVigenciaShape a sh:NodeShape ; sh:targetClass olb:RelacaoNormativa ;
     sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ; sh:severity sh:Warning ;
-        sh:message "R37. O efeito começa antes da vigência da norma que comanda (regra geral a confirmar em doutrina). Não dispara se a relação declara efeito retroativo, como a inconstitucionalidade."@pt ;
+        sh:message "R37. O efeito começa antes da vigência da norma que comanda. Em regra, o início de efeito de uma revogação ou de uma alteração coincide com o início de vigência do dispositivo que a comanda, e não com a publicação. Base legal: LINDB (Decreto-Lei nº 4.657/1942), arts. 1º e 2º, e Lei Complementar nº 95/1998, art. 8º, sobre a indicação expressa da vigência. A própria lei pode fixar vigências diferentes para partes do seu texto, como faz a Lei nº 13.709/2018, art. 65. Não dispara se a relação declara efeito retroativo, como a inconstitucionalidade."@pt ;
         sh:select """SELECT $this ?value WHERE {
             $this olb:inicioEfeito ?e ; olb:origem ?o .
             ?o olb:temPaiImediato* ?n . ?n olb:inicioVigencia ?value .
@@ -241,13 +243,13 @@ olbs:MaterializadoShape a sh:NodeShape ; sh:targetClass olb:ComandoAlteracao ;
             FILTER NOT EXISTS { $this olb:materializa ?v . ?v olb:versaoDe ?a }
         }""" ] .
 
-olbs:VerbatimShape a sh:NodeShape ; sh:targetClass olb:ComandoAlteracao ;
+olbs:LiteralShape a sh:NodeShape ; sh:targetClass olb:ComandoAlteracao ;
     sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
-        sh:message "R43. Recorte verbatim: o texto da versão materializada é idêntico ao texto citado no comando."@pt ;
+        sh:message "R43. Recorte literal: o texto da versão materializada é idêntico ao texto citado no comando."@pt ;
         sh:select """SELECT $this ?value WHERE {
             $this olb:verbo ?vb ; olb:textoCitado ?t ; olb:materializa ?value .
             FILTER (?vb IN (olbv:daNovaRedacao, olbv:acrescenta))
-            ?value olb:textoVerbatim ?tv . FILTER (STR(?tv) != STR(?t))
+            ?value olb:textoLiteral ?tv . FILTER (STR(?tv) != STR(?t))
         }""" ] .
 
 # ============================================================ DECISÃO (Capítulo 23)
@@ -269,10 +271,10 @@ olbs:RegimeOrtograficoShape a sh:NodeShape ; sh:targetClass olb:Versao ;
 
 olbs:ModernizadoShape a sh:NodeShape ; sh:targetClass olb:Versao ;
     sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
-        sh:message "R51. Texto modernizado só existe ao lado do verbatim e com o regime ortográfico de origem declarado."@pt ;
+        sh:message "R51. Texto modernizado só existe ao lado do literal e com o regime ortográfico de origem declarado."@pt ;
         sh:select """SELECT $this WHERE {
             $this olb:textoModernizado ?m .
-            FILTER (NOT EXISTS { $this olb:regimeOrtografico ?r } || NOT EXISTS { $this olb:textoVerbatim ?t })
+            FILTER (NOT EXISTS { $this olb:regimeOrtografico ?r } || NOT EXISTS { $this olb:textoLiteral ?t })
         }""" ] .
 
 olbs:FormaEdicaoShape a sh:NodeShape ; sh:targetClass olb:Constituicao ;
@@ -440,9 +442,9 @@ olbs:SubcomunidadeShape a sh:NodeShape ; sh:targetClass olb:Comunidade ;
 # ============================================================ v0.8 · INTEGRIDADE (decisão 51)
 olbs:HashTextoShape a sh:NodeShape ; sh:targetClass olb:Versao ;
     sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
-        sh:message "R70. O hash registrado não corresponde ao texto verbatim: o texto foi alterado depois de registrado."@pt ;
+        sh:message "R70. O hash registrado não corresponde ao texto literal: o texto foi alterado depois de registrado."@pt ;
         sh:select """SELECT $this ?value WHERE {
-            $this olb:hashTexto ?value ; olb:textoVerbatim ?t .
+            $this olb:hashTexto ?value ; olb:textoLiteral ?t .
             FILTER (LCASE(STR(?value)) != SHA384(STR(?t)))
         }""" ] .
 
@@ -492,8 +494,8 @@ olbs:RepristinacaoShape a sh:NodeShape ; sh:targetClass olb:Versao ;
     sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ; sh:severity sh:Warning ;
         sh:message "R74. Versão que repete o texto de versão anterior já encerrada do mesmo dispositivo parece restauração. Sem cláusula expressa ou declaração de inconstitucionalidade da norma revogadora, a lei revogada não se restaura (LINDB, art. 2º, § 3º)."@pt ;
         sh:select """SELECT $this ?value WHERE {
-            $this olb:versaoDe ?d ; olb:inicioVigencia ?i ; olb:textoVerbatim ?t .
-            ?value olb:versaoDe ?d ; olb:fimVigencia ?f ; olb:textoVerbatim ?t .
+            $this olb:versaoDe ?d ; olb:inicioVigencia ?i ; olb:textoLiteral ?t .
+            ?value olb:versaoDe ?d ; olb:fimVigencia ?f ; olb:textoLiteral ?t .
             FILTER ($this != ?value && ?f <= ?i)
             FILTER NOT EXISTS { ?r a olb:RelacaoNormativa ; olb:destino ?d ; olb:clausulaRevogatoria olbv:repristinacaoExpressa }
             FILTER NOT EXISTS {
@@ -560,16 +562,16 @@ olbs:DistingueSuperaShape a sh:NodeShape ; sh:targetClass olb:RelacaoNormativa ;
 
 olbs:TeseSumulaShape a sh:NodeShape ; sh:targetClass olb:Tese ;
     sh:property [ sh:path olb:textoDaTese ; sh:minCount 1 ; sh:maxCount 1 ;
-        sh:message "R80. A tese é recorte verbatim e pertence a uma decisão; a súmula tem número, tribunal emissor e texto."@pt ] ;
+        sh:message "R80. A tese é recorte literal e pertence a uma decisão; a súmula tem número, tribunal emissor e texto."@pt ] ;
     sh:property [ sh:path [ sh:inversePath olb:temTese ] ; sh:minCount 1 ;
-        sh:message "R80. A tese é recorte verbatim e pertence a uma decisão; a súmula tem número, tribunal emissor e texto."@pt ] .
+        sh:message "R80. A tese é recorte literal e pertence a uma decisão; a súmula tem número, tribunal emissor e texto."@pt ] .
 olbs:SumulaShape a sh:NodeShape ; sh:targetClass olb:Sumula ;
     sh:property [ sh:path olb:numeroSumula ; sh:minCount 1 ; sh:maxCount 1 ;
-        sh:message "R80. A tese é recorte verbatim e pertence a uma decisão; a súmula tem número, tribunal emissor e texto."@pt ] ;
+        sh:message "R80. A tese é recorte literal e pertence a uma decisão; a súmula tem número, tribunal emissor e texto."@pt ] ;
     sh:property [ sh:path olb:tribunalEmissor ; sh:minCount 1 ; sh:maxCount 1 ; sh:class olb:Orgao ;
-        sh:message "R80. A tese é recorte verbatim e pertence a uma decisão; a súmula tem número, tribunal emissor e texto."@pt ] ;
+        sh:message "R80. A tese é recorte literal e pertence a uma decisão; a súmula tem número, tribunal emissor e texto."@pt ] ;
     sh:property [ sh:path olb:textoDaSumula ; sh:minCount 1 ; sh:maxCount 1 ;
-        sh:message "R80. A tese é recorte verbatim e pertence a uma decisão; a súmula tem número, tribunal emissor e texto."@pt ] .
+        sh:message "R80. A tese é recorte literal e pertence a uma decisão; a súmula tem número, tribunal emissor e texto."@pt ] .
 
 olbs:ObservanciaShape a sh:NodeShape ; sh:targetClass olb:DecisaoJudicial ;
     sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
@@ -602,4 +604,31 @@ olbs:DecisaoNaoENormaShape a sh:NodeShape ; sh:targetClass olb:RelacaoNormativa 
             $this olb:origem ?o ; olb:tipoRelacao ?t . ?o a olb:DecisaoJudicial .
             FILTER (?t NOT IN (olbv:interpreta, olbv:aplica, olbv:distingue, olbv:supera,
                                olbv:declara_inconstitucional, olbv:declara_inconstitucional_dispositivo))
+        }""" ] .
+
+# ============================================================ PRODUÇÃO DA NORMA (Capítulo 6, seção 6.3) · v0.12 · regras R85 a R87
+olbs:ConversaoShape a sh:NodeShape ; sh:targetClass olb:RelacaoNormativa ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R85. A conversão em lei liga uma lei ordinária (origem) a uma medida provisória (destino), e a lei não é publicada antes da medida."@pt ;
+        sh:select """SELECT $this WHERE {
+            $this olb:tipoRelacao olbv:converte_em_lei ; olb:origem ?o ; olb:destino ?d .
+            OPTIONAL { ?o olb:dataPublicacao ?po } OPTIONAL { ?d olb:dataPublicacao ?pd }
+            FILTER ( NOT EXISTS { ?o a olb:LeiOrdinaria } || NOT EXISTS { ?d a olb:MedidaProvisoria } || ( BOUND(?po) && BOUND(?pd) && ?po < ?pd ) )
+        }""" ] .
+
+olbs:AlteracaoVetadaShape a sh:NodeShape ; sh:targetClass olb:RelacaoNormativa ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R86. Alteração vetada não produz efeito: não tem início de efeito e não deriva de comando materializado."@pt ;
+        sh:select """SELECT $this WHERE {
+            $this olb:tipoRelacao olbv:alteracao_vetada .
+            { $this olb:inicioEfeito ?e } UNION { $this olb:derivadaDe ?c . ?c olb:estado olbv:cmdMaterializado }
+        }""" ] .
+
+olbs:CaraterProvisorioShape a sh:NodeShape ; sh:severity sh:Warning ; sh:targetClass olb:RelacaoNormativa ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ;
+        sh:message "R87. Relação que altera ou revoga, com origem em medida provisória, sem caráter provisório declarado: o efeito depende da conversão. Não bloqueia; pede revisão."@pt ;
+        sh:select """SELECT $this ?value WHERE {
+            $this olb:tipoRelacao ?t . FILTER (?t IN (olbv:altera, olbv:revoga, olbv:revoga_dispositivo))
+            $this olb:origem ?o . ?o olb:temPaiImediato* ?value . ?value a olb:MedidaProvisoria .
+            FILTER NOT EXISTS { $this olb:caraterEfeito olbv:efeitoProvisorio }
         }""" ] .

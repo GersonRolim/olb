@@ -68,27 +68,27 @@ ex:LeiA_art7_cpt a olb:Caput ; olb:idFragmento "art7_cpt" ; olb:temPaiImediato e
 # ============================================================ LEI A: VERSÕES
 ex:v_art5_cpt_1 a olb:Versao ; olb:versaoDe ex:LeiA_art5_cpt ;
     olb:inicioVigencia "2015-05-12"^^xsd:date ; olb:fimVigencia "2022-09-18"^^xsd:date ;
-    olb:textoVerbatim "O registro terá validade de cinco anos, contados da data de sua emissão." .
+    olb:textoLiteral "O registro terá validade de cinco anos, contados da data de sua emissão." .
 ex:v_art5_cpt_2 a olb:Versao ; olb:versaoDe ex:LeiA_art5_cpt ;
     olb:inicioVigencia "2022-09-18"^^xsd:date ;
-    olb:textoVerbatim "O registro terá validade de oito anos, contados da data de sua emissão." .
+    olb:textoLiteral "O registro terá validade de oito anos, contados da data de sua emissão." .
 ex:v_art5_par1u_1 a olb:Versao ; olb:versaoDe ex:LeiA_art5_par1u ; olb:inicioVigencia "2015-05-12"^^xsd:date ;
-    olb:textoVerbatim "A renovação do registro dependerá de comprovação de:" .
+    olb:textoLiteral "A renovação do registro dependerá de comprovação de:" .
 ex:v_art5_inc1_1 a olb:Versao ; olb:versaoDe ex:LeiA_art5_par1u_inc1 ; olb:inicioVigencia "2015-05-12"^^xsd:date ;
-    olb:textoVerbatim "inscrição no cadastro nacional;" .
+    olb:textoLiteral "inscrição no cadastro nacional;" .
 ex:v_art5_inc2_1 a olb:Versao ; olb:versaoDe ex:LeiA_art5_par1u_inc2 ; olb:inicioVigencia "2015-05-12"^^xsd:date ;
-    olb:textoVerbatim "regularidade das seguintes obrigações:" .
+    olb:textoLiteral "regularidade das seguintes obrigações:" .
 ex:v_art5_ali1_1 a olb:Versao ; olb:versaoDe ex:LeiA_art5_par1u_inc2_ali1 ; olb:inicioVigencia "2015-05-12"^^xsd:date ;
-    olb:textoVerbatim "tributárias;" .
+    olb:textoLiteral "tributárias;" .
 ex:v_art5_ali2_1 a olb:Versao ; olb:versaoDe ex:LeiA_art5_par1u_inc2_ali2 ; olb:inicioVigencia "2015-05-12"^^xsd:date ;
-    olb:textoVerbatim "trabalhistas." .
+    olb:textoLiteral "trabalhistas." .
 ex:v_art6_cpt_1 a olb:Versao ; olb:versaoDe ex:LeiA_art6_cpt ; olb:inicioVigencia "2015-05-12"^^xsd:date ;
-    olb:textoVerbatim "Compete ao órgão responsável manter o cadastro de que trata o art. 5º." .
+    olb:textoLiteral "Compete ao órgão responsável manter o cadastro de que trata o art. 5º." .
 ex:v_art7_cpt_1 a olb:Versao ; olb:versaoDe ex:LeiA_art7_cpt ;
     olb:inicioVigencia "2015-05-12"^^xsd:date ; olb:fimVigencia "2022-09-18"^^xsd:date ;
-    olb:textoVerbatim "O registro poderá ser suspenso nos casos previstos em regulamento." .
+    olb:textoLiteral "O registro poderá ser suspenso nos casos previstos em regulamento." .
 ex:v_art7_cpt_2 a olb:Versao ; olb:versaoDe ex:LeiA_art7_cpt ; olb:inicioVigencia "2022-09-18"^^xsd:date ;
-    olb:situacao olbv:revogado ; olb:textoVerbatim "(Revogado)." .
+    olb:situacao olbv:revogado ; olb:textoLiteral "(Revogado)." .
 
 # ============================================================ LEI B: DISPOSITIVOS E VERSÕES
 ex:LeiB_art1 a olb:Artigo ; olb:idFragmento "art1" ; olb:rotulo "Art. 1º" ; olb:temPaiImediato ex:LeiB .
@@ -101,29 +101,29 @@ ex:LeiB_art4 a olb:Artigo ; olb:idFragmento "art4" ; olb:rotulo "Art. 4º" ; olb
 ex:LeiB_art4_cpt a olb:Caput ; olb:idFragmento "art4_cpt" ; olb:temPaiImediato ex:LeiB_art4 .
 
 ex:v_B_art1 a olb:Versao ; olb:versaoDe ex:LeiB_art1_cpt ; olb:inicioVigencia "2022-09-18"^^xsd:date ;
-    olb:textoVerbatim "O art. 5º da Lei A passa a vigorar com a seguinte redação: “Art. 5º O registro terá validade de oito anos, contados da data de sua emissão.” (NR)" .
+    olb:textoLiteral "O art. 5º da Lei A passa a vigorar com a seguinte redação: “Art. 5º O registro terá validade de oito anos, contados da data de sua emissão.” (NR)" .
 ex:v_B_art2 a olb:Versao ; olb:versaoDe ex:LeiB_art2_cpt ; olb:inicioVigencia "2022-09-18"^^xsd:date ;
-    olb:textoVerbatim "Fica revogado o art. 7º da Lei A." .
+    olb:textoLiteral "Fica revogado o art. 7º da Lei A." .
 ex:v_B_art3 a olb:Versao ; olb:versaoDe ex:LeiB_art3_cpt ; olb:inicioVigencia "2022-09-18"^^xsd:date ;
-    olb:textoVerbatim "O art. 9º da Lei C passa a vigorar acrescido do seguinte parágrafo único: “Parágrafo único. O cadastro será público.”" .
+    olb:textoLiteral "O art. 9º da Lei C passa a vigorar acrescido do seguinte parágrafo único: “Parágrafo único. O cadastro será público.”" .
 ex:v_B_art4 a olb:Versao ; olb:versaoDe ex:LeiB_art4_cpt ; olb:inicioVigencia "2022-09-18"^^xsd:date ;
-    olb:textoVerbatim "Esta Lei entra em vigor após decorridos noventa dias de sua publicação oficial." .
+    olb:textoLiteral "Esta Lei entra em vigor após decorridos noventa dias de sua publicação oficial." .
 
 # ============================================================ LEI C E DECRETO D
 ex:LeiC_art4 a olb:Artigo ; olb:idFragmento "art4" ; olb:rotulo "Art. 4º" ; olb:temPaiImediato ex:LeiC .
 ex:LeiC_art4_cpt a olb:Caput ; olb:idFragmento "art4_cpt" ; olb:temPaiImediato ex:LeiC_art4 .
 ex:v_C_art4 a olb:Versao ; olb:versaoDe ex:LeiC_art4_cpt ; olb:inicioVigencia "2010-03-03"^^xsd:date ;
-    olb:textoVerbatim "As embarcações de pesca artesanal serão inscritas em cadastro próprio." .
+    olb:textoLiteral "As embarcações de pesca artesanal serão inscritas em cadastro próprio." .
 ex:LeiC_art9 a olb:Artigo ; olb:idFragmento "art9" ; olb:rotulo "Art. 9º" ; olb:temPaiImediato ex:LeiC .
 
 ex:DecD_art1 a olb:Artigo ; olb:idFragmento "art1" ; olb:rotulo "Art. 1º" ; olb:temPaiImediato ex:DecretoD .
 ex:DecD_art1_cpt a olb:Caput ; olb:idFragmento "art1_cpt" ; olb:temPaiImediato ex:DecD_art1 .
 ex:v_D_art1 a olb:Versao ; olb:versaoDe ex:DecD_art1_cpt ; olb:inicioVigencia "2016-03-02"^^xsd:date ;
-    olb:textoVerbatim "Este Decreto regulamenta a Lei A." .
+    olb:textoLiteral "Este Decreto regulamenta a Lei A." .
 ex:DecD_art2 a olb:Artigo ; olb:idFragmento "art2" ; olb:rotulo "Art. 2º" ; olb:temPaiImediato ex:DecretoD .
 ex:DecD_art2_cpt a olb:Caput ; olb:idFragmento "art2_cpt" ; olb:temPaiImediato ex:DecD_art2 .
 ex:v_D_art2 a olb:Versao ; olb:versaoDe ex:DecD_art2_cpt ; olb:inicioVigencia "2016-03-02"^^xsd:date ;
-    olb:textoVerbatim "O certificado de registro de que trata a Lei A indicará prazo de validade de cinco anos." .
+    olb:textoLiteral "O certificado de registro de que trata a Lei A indicará prazo de validade de cinco anos." .
 
 # ============================================================ COMANDOS DE ALTERAÇÃO
 ex:C1 a olb:ComandoAlteracao ; olb:enunciadoEm ex:LeiB_art1_cpt ; olb:alvo ex:LeiA_art5_cpt ;

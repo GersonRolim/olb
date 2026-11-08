@@ -46,11 +46,11 @@ mh:Aurea_art2 a olb:Artigo ; olb:idFragmento "art2" ; olb:rotulo "Art. 2º" ; ol
 mh:Aurea_art2_cpt a olb:Caput ; olb:idFragmento "art2_cpt" ; olb:temPaiImediato mh:Aurea_art2 ; olb:clausulaRevogatoria olbv:clausulaGenerica .
 mh:v_aurea1 a olb:Versao ; olb:versaoDe mh:Aurea_art1_cpt ; olb:inicioVigencia "1888-05-13"^^xsd:date ;
     olb:regimeOrtografico olbv:regimeEtimologico ;
-    olb:textoVerbatim "E' declarada extincta, desde a data desta Lei, a escravidão no Brazil." ;
+    olb:textoLiteral "E' declarada extincta, desde a data desta Lei, a escravidão no Brazil." ;
     olb:textoModernizado "É declarada extinta, desde a data desta Lei, a escravidão no Brasil." .
 mh:v_aurea2 a olb:Versao ; olb:versaoDe mh:Aurea_art2_cpt ; olb:inicioVigencia "1888-05-13"^^xsd:date ;
     olb:regimeOrtografico olbv:regimeEtimologico ;
-    olb:textoVerbatim "Revogam-se as disposições em contrario." .
+    olb:textoLiteral "Revogam-se as disposições em contrario." .
 
 mh:CC1916 a olb:LeiOrdinaria ; olb:rotulo "Lei nº 3.071, de 1º de janeiro de 1916 (Código Civil)" ;
     olb:urn "urn:lex:br:federal:lei:1916-01-01;3071" ; olb:dataEpigrafe "1916-01-01"^^xsd:date ;
@@ -71,9 +71,9 @@ mh:CLT_art1_cpt a olb:Caput ; olb:idFragmento "art1_cpt" ; olb:temPaiImediato mh
 mh:CLT_art2 a olb:Artigo ; olb:idFragmento "art2" ; olb:rotulo "Art. 2º" ; olb:temPaiImediato mh:DL5452_1943 .
 mh:CLT_art2_cpt a olb:Caput ; olb:idFragmento "art2_cpt" ; olb:temPaiImediato mh:CLT_art2 .
 mh:v_clt1 a olb:Versao ; olb:versaoDe mh:CLT_art1_cpt ; olb:inicioVigencia "1943-11-10"^^xsd:date ;
-    olb:textoVerbatim "Fica aprovada a Consolidação das Leis do Trabalho, que a este decreto-lei acompanha, com as alterações por ela introduzidas na legislação vigente." .
+    olb:textoLiteral "Fica aprovada a Consolidação das Leis do Trabalho, que a este decreto-lei acompanha, com as alterações por ela introduzidas na legislação vigente." .
 mh:v_clt2 a olb:Versao ; olb:versaoDe mh:CLT_art2_cpt ; olb:inicioVigencia "1943-11-10"^^xsd:date ;
-    olb:textoVerbatim "O presente decreto-lei entrará em vigor em 10 de novembro de 1943." .
+    olb:textoLiteral "O presente decreto-lei entrará em vigor em 10 de novembro de 1943." .
 
 mh:Lei2874_1956 a olb:LeiOrdinaria ; olb:rotulo "Lei nº 2.874, de 19 de setembro de 1956 (Novacap)" ;
     olb:urn "urn:lex:br:federal:lei:1956-09-19;2874" ; olb:dataEpigrafe "1956-09-19"^^xsd:date ;
@@ -97,9 +97,9 @@ mh:AI5_art1_cpt a olb:Caput ; olb:idFragmento "art1_cpt" ; olb:temPaiImediato mh
 mh:AI5_art12 a olb:Artigo ; olb:idFragmento "art12" ; olb:rotulo "Art. 12" ; olb:temPaiImediato mh:AI5_1968 .
 mh:AI5_art12_cpt a olb:Caput ; olb:idFragmento "art12_cpt" ; olb:temPaiImediato mh:AI5_art12 ; olb:clausulaRevogatoria olbv:clausulaGenerica .
 mh:v_ai5_1 a olb:Versao ; olb:versaoDe mh:AI5_art1_cpt ; olb:inicioVigencia "1968-12-13"^^xsd:date ; olb:regimeOrtografico olbv:regimeFormulario1943 ;
-    olb:textoVerbatim "São mantidas a Constituição de 24 de janeiro de 1967 e as Constituições estaduais, com as modificações constantes deste Ato Institucional." .
+    olb:textoLiteral "São mantidas a Constituição de 24 de janeiro de 1967 e as Constituições estaduais, com as modificações constantes deste Ato Institucional." .
 mh:v_ai5_12 a olb:Versao ; olb:versaoDe mh:AI5_art12_cpt ; olb:inicioVigencia "1968-12-13"^^xsd:date ; olb:regimeOrtografico olbv:regimeFormulario1943 ;
-    olb:textoVerbatim "O presente Ato Institucional entra em vigor nesta data, revogadas as disposições em contrário." .
+    olb:textoLiteral "O presente Ato Institucional entra em vigor nesta data, revogadas as disposições em contrário." .
 
 mh:EC11_1978 a olb:EmendaConstitucional ; olb:rotulo "Emenda Constitucional nº 11, de 13 de outubro de 1978" ;
     olb:urn "urn:lex:br:federal:emenda.constitucional:1978-10-13;11" ; olb:dataEpigrafe "1978-10-13"^^xsd:date ;

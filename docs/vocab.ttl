@@ -1,10 +1,17 @@
 # LEX-CAT · Catálogo de relações normativas e vocabulários controlados
-# Ontologia da Legislação Brasileira (OLB) · v0.8 · 22 de outubro de 2026 (nome de arquivo mantido)
+# Ontologia da Legislação Brasileira (OLB) · v0.12 · 7 de novembro de 2026 (nome de arquivo mantido)
 # Gerson Rolim e Sueli Rolim · documento de trabalho
-# Namespace persistente https://w3id.org/olb/vocab (registrado em 23 out. 2026). A licença é a indicada na página de entrada.
+# Namespace provisório (example.org): a definição do namespace e da licença é a decisão 5 do plano.
 # Os doze tipos marcados como vocabulário oficial reproduzem valores do TipoRelacionamentoType do esquema
 # oficial oai_lexml.xsd (dezessete valores; arquivo conferido em 16 de outubro de 2026, com histórico até 2013).
 # Ficam fora do catálogo publicacao.oficial, emenda.de, parecer.de, peticao.inicial.de e sucessivo.ou.precedente.de.
+# v0.11 · 7 de novembro de 2026 · equivalências com o vocabulário de declarações do sistema de legislação do Senado Federal (SIGEN),
+# conferido na API de dados abertos (legislacao/tiposVide e legislacao/tiposdeclaracao/detalhe) em 7 nov. 2026.
+# Os IRIs do SIGEN funcionam como identificadores: o endereço http://www.lexml.gov.br/sigen não resolvia (HTTP 404) na mesma data.
+# Usa-se skos:closeMatch, e não exactMatch, porque o Senado publica o nome de cada tipo, mas não a definição.
+# O vocabulário do SIGEN não tem licença declarada no conjunto de dados (Capítulo 17, seção 17.5).
+# v0.12 · 7 de novembro de 2026 · produção da norma: dois tipos de relação (converte_em_lei e alteracao_vetada) e o caráter do efeito, como extensões dos autores em esquemas à parte.
+# Os catorze tipos do esquema base não mudam.
 
 @prefix olb:  <https://w3id.org/olb#> .
 @prefix olbv: <https://w3id.org/olb/vocab#> .
@@ -13,10 +20,11 @@
 @prefix owl:  <http://www.w3.org/2002/07/owl#> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix sigen: <http://www.lexml.gov.br/sigen#> .
 
 <https://w3id.org/olb/vocab> a owl:Ontology ;
     rdfs:label "OLB, catálogo de relações e vocabulários controlados"@pt ;
-    owl:versionInfo "0.8" ;
+    owl:versionInfo "0.12" ;
     dcterms:created "2026-10-02"^^xsd:date ;
     dcterms:creator "Gerson Rolim", "Sueli Rolim" .
 
@@ -34,7 +42,7 @@ olbv:extensaoDosAutores a skos:Concept ; skos:prefLabel "extensão declarada dos
 # ---------------------------------------------------------------- tipos de relação (14)
 olbv:esquemaTipoRelacao a skos:ConceptScheme ;
     skos:prefLabel "Tipos de relação normativa"@pt ;
-    skos:definition "Doze valores do vocabulário oficial do LexML e duas extensões para relações implícitas (LINDB, art. 2º, § 1º, a verificar)."@pt .
+    skos:definition "Doze valores do vocabulário oficial do LexML e duas extensões para relações implícitas (LINDB, art. 2º, § 1º)."@pt .
 
 olbv:revoga a skos:Concept ; skos:inScheme olbv:esquemaTipoRelacao ; skos:notation "revoga" ;
     skos:prefLabel "revoga"@pt ; skos:definition "A origem revoga integralmente a norma de destino."@pt ;
@@ -78,11 +86,11 @@ olbv:declara_inconstitucional_dispositivo a skos:Concept ; skos:inScheme olbv:es
 olbv:conflita_com a skos:Concept ; skos:inScheme olbv:esquemaTipoRelacao ; skos:notation "conflita_com" ;
     skos:prefLabel "conflita com (antinomia)"@pt ; skos:definition "Duas normas vigentes tratam do mesmo objeto de forma incompatível, sem que uma revogue a outra. Exige critério de solução."@pt ;
     olb:origemVocabulario olbv:extensaoDosAutores ; olb:exigeProposta true ; olb:sujeitoAAlertaHierarquico false ;
-    olb:fundamentoTipico "Critérios hierárquico, de especialidade e cronológico (doutrina, a referenciar)" .
+    olb:fundamentoTipico "Critérios hierárquico, de especialidade e cronológico (Bobbio, Teoria do ordenamento jurídico, Cap. 3)" .
 olbv:revoga_tacitamente a skos:Concept ; skos:inScheme olbv:esquemaTipoRelacao ; skos:notation "revoga_tacitamente" ;
     skos:prefLabel "revoga tacitamente (candidata)"@pt ; skos:definition "Revogação por incompatibilidade ou por regulação integral da matéria, sem cláusula expressa."@pt ;
     olb:origemVocabulario olbv:extensaoDosAutores ; olb:exigeProposta true ; olb:sujeitoAAlertaHierarquico true ;
-    olb:fundamentoTipico "LINDB, art. 2º, § 1º (a verificar no texto autêntico)" .
+    olb:fundamentoTipico "LINDB, art. 2º, § 1º" .
 
 # ---------------------------------------------------------------- estado da relação (Capítulo 23)
 olbv:esquemaEstado a skos:ConceptScheme ; skos:prefLabel "Estado da relação normativa"@pt .
@@ -112,7 +120,7 @@ olbv:esquemaEstadoComando a skos:ConceptScheme ; skos:prefLabel "Estado do coman
 olbv:cmdPendente a skos:Concept ; skos:inScheme olbv:esquemaEstadoComando ; skos:prefLabel "pendente"@pt ;
     skos:definition "Texto anterior do alvo indisponível ou alvo não resolvido. Nenhuma versão é gerada."@pt .
 olbv:cmdMaterializado a skos:Concept ; skos:inScheme olbv:esquemaEstadoComando ; skos:prefLabel "materializado"@pt ;
-    skos:definition "A nova versão do alvo foi gerada a partir do texto citado, verbatim."@pt .
+    skos:definition "A nova versão do alvo foi gerada a partir do texto citado, literal."@pt .
 olbv:cmdJaAplicado a skos:Concept ; skos:inScheme olbv:esquemaEstadoComando ; skos:prefLabel "já aplicado pela fonte"@pt ;
     skos:definition "O texto carregado já incorpora a alteração (compilação do portal); o comando é conferido, não reaplicado."@pt .
 
@@ -377,3 +385,48 @@ olbv:observanciaObrigatoria a skos:Concept ; skos:inScheme olbv:esquemaForcaPrec
     skos:definition "Precedente que juízes e tribunais devem observar por força de dispositivo expresso (CPC, art. 927, a conferir). Exige o fundamento registrado (R81)."@pt .
 olbv:persuasivo a skos:Concept ; skos:inScheme olbv:esquemaForcaPrecedente ; skos:prefLabel "persuasivo"@pt ;
     skos:definition "Precedente que pode ser invocado como argumento, sem obrigar."@pt .
+
+# ---------------------------------------------------------------- v0.11 · equivalências com o SIGEN
+olbv:revoga skos:closeMatch sigen:DeclaracaoDeRevogacaoDaNormaNoTodo .
+olbv:revoga_dispositivo skos:closeMatch sigen:RelacaoDeclaracaoItemVideAnteriorRevogado .
+olbv:altera skos:closeMatch sigen:DeclaracaoDeAlteracao , sigen:RelacaoDeclaracaoItemVideAnteriorAlterado .
+olbv:regulamenta skos:closeMatch sigen:DeclaracaoDeRegulamentacaoDeNorma .
+olbv:referencia skos:closeMatch sigen:DeclaracaoDeLegislacaoCitada .
+olbv:correlato_a skos:closeMatch sigen:DeclaracaoDeLegislacaoCorrelata .
+olbv:sucessor_logico_de skos:closeMatch sigen:DeclaracaoDeSucessaoDaNormaNoTodo .
+olbv:declara_inconstitucional skos:closeMatch sigen:DeclaracaoDeInconstitucionalidade .
+olbv:declara_inconstitucional_dispositivo skos:closeMatch sigen:RelacaoDeclaracaoItemVideAnteriorInconstitucional .
+# relatedMatch, e não closeMatch: no SIGEN, o novo tratamento da matéria é declaração informativa, e não revogação.
+olbv:revoga_tacitamente skos:relatedMatch sigen:DeclaracaoDeNovoTratamentoDaMateria .
+olbv:clausulaGenerica skos:closeMatch sigen:DeclaracaoDeRevogacaoDasDisposicoesEmContrarioDaNormaNoTodo .
+olbv:repristinacaoExpressa skos:closeMatch sigen:DeclaracaoDeRepristinacao .
+olbv:daNovaRedacao skos:closeMatch sigen:RelacaoDeclaracaoItemVideAnteriorAlterado .
+olbv:acrescenta skos:closeMatch sigen:RelacaoDeclaracaoItemVideAnteriorAcrescentado .
+olbv:revogaVerbo skos:closeMatch sigen:RelacaoDeclaracaoItemVideAnteriorRevogado .
+olbv:vetado skos:closeMatch sigen:RelacaoDeclaracaoItemVideAnteriorVetado .
+olbv:declaradoInconstitucional skos:closeMatch sigen:RelacaoDeclaracaoItemVideAnteriorInconstitucional .
+olbv:execucaoSuspensa skos:closeMatch sigen:RelacaoDeclaracaoItemVideAnteriorComSuspensaoPorInconstitucionalidade .
+olbv:suspenso skos:closeMatch sigen:RelacaoDeclaracaoItemVideAnteriorComSuspensao .
+
+# ---------------------------------------------------------------- v0.12 · produção da norma
+olbv:esquemaTipoRelacaoProducao a skos:ConceptScheme ;
+    skos:prefLabel "Tipos de relação da produção da norma"@pt ;
+    skos:definition "Dois valores, extensões dos autores, para o que acontece entre a edição e a consolidação de uma norma. Os catorze tipos do esquema base não mudam."@pt .
+olbv:converte_em_lei a skos:Concept ; skos:inScheme olbv:esquemaTipoRelacaoProducao ; skos:notation "converte_em_lei" ;
+    skos:prefLabel "converte em lei"@pt ; skos:definition "A lei de conversão (origem) converte a medida provisória (destino). As duas são normas distintas, com nomes próprios (Capítulo 6, seção 6.3)."@pt ;
+    olb:origemVocabulario olbv:extensaoDosAutores ; olb:exigeProposta false ; olb:sujeitoAAlertaHierarquico false ;
+    olb:fundamentoTipico "Constituição, art. 62, e epígrafe da lei de conversão" ;
+    skos:closeMatch sigen:DeclaracaoDeConversaoEmLei .
+olbv:alteracao_vetada a skos:Concept ; skos:inScheme olbv:esquemaTipoRelacaoProducao ; skos:notation "alteracao_vetada" ;
+    skos:prefLabel "alteração vetada"@pt ; skos:definition "A norma de origem anunciava alterar, acrescentar ou revogar conteúdo do destino, e o veto impediu. Registra o fato, sem efeito sobre o destino."@pt ;
+    olb:origemVocabulario olbv:extensaoDosAutores ; olb:exigeProposta false ; olb:sujeitoAAlertaHierarquico false ;
+    olb:fundamentoTipico "Mensagem de veto e texto publicado da lei, com os dispositivos vetados" ;
+    skos:closeMatch sigen:DeclaracaoDeAlteracaoVetada , sigen:DeclaracaoDeAcrescimoVetado , sigen:RelacaoDeclaracaoItemVideAnteriorRevogacaoVetada .
+olbv:esquemaCaraterEfeito a skos:ConceptScheme ; skos:prefLabel "Caráter do efeito da relação"@pt .
+olbv:efeitoProvisorio a skos:Concept ; skos:inScheme olbv:esquemaCaraterEfeito ; skos:prefLabel "provisório"@pt ;
+    skos:definition "Efeito de medida provisória, que se consolida com a conversão ou cai desde a edição (Constituição, art. 62, § 3º)."@pt ;
+    skos:closeMatch sigen:DeclaracaoDeAlteracaoProvisoria .
+olbv:efeitoPermanente a skos:Concept ; skos:inScheme olbv:esquemaCaraterEfeito ; skos:prefLabel "permanente"@pt ;
+    skos:closeMatch sigen:DeclaracaoDeAlteracaoPermanente .
+# A não recepção é revogação tácita com emissor constitucional (Capítulo 8, seção 8.6), e por isso não ganha tipo próprio. A recepção, que não muda a norma anterior, também não.
+olbv:revoga_tacitamente skos:relatedMatch sigen:RelacaoDeclaracaoItemVideAnteriorNaoRecepcionadoPelaConstituicao .

@@ -43,43 +43,43 @@ cm:ResolucaoP a olb:Resolucao ; olb:urn "urn:lex:br:agencia.q:resolucao:2024-05-
 cm:E_art1 a olb:Artigo ; olb:idFragmento "art1" ; olb:temPaiImediato cm:LeiE .
 cm:E_art1_cpt a olb:Caput ; olb:idFragmento "art1_cpt" ; olb:temPaiImediato cm:E_art1 .
 cm:vE1 a olb:Versao ; olb:versaoDe cm:E_art1_cpt ; olb:inicioVigencia "2018-01-11"^^xsd:date ;
-    olb:textoVerbatim "Compete ao Ministério M disciplinar a metrologia dos instrumentos de medição de que trata esta Lei." .
+    olb:textoLiteral "Compete ao Ministério M disciplinar a metrologia dos instrumentos de medição de que trata esta Lei." .
 cm:E_art2 a olb:Artigo ; olb:idFragmento "art2" ; olb:temPaiImediato cm:LeiE .
 cm:E_art2_cpt a olb:Caput ; olb:idFragmento "art2_cpt" ; olb:temPaiImediato cm:E_art2 .
 cm:vE2a a olb:Versao ; olb:versaoDe cm:E_art2_cpt ; olb:inicioVigencia "2018-01-11"^^xsd:date ; olb:fimVigencia "2020-06-02"^^xsd:date ;
-    olb:textoVerbatim "A verificação periódica dos instrumentos será anual." .
+    olb:textoLiteral "A verificação periódica dos instrumentos será anual." .
 cm:vE2b a olb:Versao ; olb:versaoDe cm:E_art2_cpt ; olb:inicioVigencia "2020-06-02"^^xsd:date ; olb:fimVigencia "2022-08-02"^^xsd:date ;
-    olb:textoVerbatim "A verificação periódica dos instrumentos será bienal." .
+    olb:textoLiteral "A verificação periódica dos instrumentos será bienal." .
 cm:vE2c a olb:Versao ; olb:versaoDe cm:E_art2_cpt ; olb:inicioVigencia "2022-08-02"^^xsd:date ;
-    olb:textoVerbatim "A verificação periódica dos instrumentos será bienal, salvo regulamento que fixe prazo menor." .
+    olb:textoLiteral "A verificação periódica dos instrumentos será bienal, salvo regulamento que fixe prazo menor." .
 cm:E_art3 a olb:Artigo ; olb:idFragmento "art3" ; olb:temPaiImediato cm:LeiE .
 cm:E_art3_cpt a olb:Caput ; olb:idFragmento "art3_cpt" ; olb:temPaiImediato cm:E_art3 .
 cm:vE3 a olb:Versao ; olb:versaoDe cm:E_art3_cpt ; olb:inicioVigencia "2018-01-11"^^xsd:date ;
-    olb:textoVerbatim "Os critérios técnicos serão definidos em regulamento, observado o art. 2º." .
+    olb:textoLiteral "Os critérios técnicos serão definidos em regulamento, observado o art. 2º." .
 cm:F_art1 a olb:Artigo ; olb:idFragmento "art1" ; olb:temPaiImediato cm:DecretoF .
 cm:F_art1_cpt a olb:Caput ; olb:idFragmento "art1_cpt" ; olb:temPaiImediato cm:F_art1 .
 cm:vF1 a olb:Versao ; olb:versaoDe cm:F_art1_cpt ; olb:inicioVigencia "2019-02-05"^^xsd:date ;
-    olb:textoVerbatim "Os critérios técnicos de que trata o art. 3º da Lei E serão detalhados por portaria do Ministério M." .
+    olb:textoLiteral "Os critérios técnicos de que trata o art. 3º da Lei E serão detalhados por portaria do Ministério M." .
 cm:G_art1 a olb:Artigo ; olb:idFragmento "art1" ; olb:temPaiImediato cm:PortariaG .
 cm:G_art1_cpt a olb:Caput ; olb:idFragmento "art1_cpt" ; olb:temPaiImediato cm:G_art1 .
 cm:vG1 a olb:Versao ; olb:versaoDe cm:G_art1_cpt ; olb:inicioVigencia "2020-03-03"^^xsd:date ;
-    olb:textoVerbatim "Ficam aprovados os critérios técnicos previstos no art. 1º do Decreto F." .
+    olb:textoLiteral "Ficam aprovados os critérios técnicos previstos no art. 1º do Decreto F." .
 cm:H_art1 a olb:Artigo ; olb:idFragmento "art1" ; olb:temPaiImediato cm:InH .
 cm:H_art1_cpt a olb:Caput ; olb:idFragmento "art1_cpt" ; olb:temPaiImediato cm:H_art1 .
 cm:vH1 a olb:Versao ; olb:versaoDe cm:H_art1_cpt ; olb:inicioVigencia "2021-04-06"^^xsd:date ;
-    olb:textoVerbatim "O registro da verificação seguirá o formulário do Anexo." .
+    olb:textoLiteral "O registro da verificação seguirá o formulário do Anexo." .
 cm:J_art1 a olb:Artigo ; olb:idFragmento "art1" ; olb:temPaiImediato cm:LeiJ .
 cm:J_art1_cpt a olb:Caput ; olb:idFragmento "art1_cpt" ; olb:temPaiImediato cm:J_art1 .
 cm:vJ1 a olb:Versao ; olb:versaoDe cm:J_art1_cpt ; olb:inicioVigencia "2020-06-02"^^xsd:date ;
-    olb:textoVerbatim "O art. 2º da Lei E passa a vigorar com a seguinte redação: “A verificação periódica dos instrumentos será bienal.”" .
+    olb:textoLiteral "O art. 2º da Lei E passa a vigorar com a seguinte redação: “A verificação periódica dos instrumentos será bienal.”" .
 cm:K_art1 a olb:Artigo ; olb:idFragmento "art1" ; olb:temPaiImediato cm:LeiK .
 cm:K_art1_cpt a olb:Caput ; olb:idFragmento "art1_cpt" ; olb:temPaiImediato cm:K_art1 .
 cm:vK1 a olb:Versao ; olb:versaoDe cm:K_art1_cpt ; olb:inicioVigencia "2022-08-02"^^xsd:date ;
-    olb:textoVerbatim "O art. 2º da Lei E passa a vigorar com a seguinte redação: “A verificação periódica dos instrumentos será bienal, salvo regulamento que fixe prazo menor.”" .
+    olb:textoLiteral "O art. 2º da Lei E passa a vigorar com a seguinte redação: “A verificação periódica dos instrumentos será bienal, salvo regulamento que fixe prazo menor.”" .
 cm:P_art1 a olb:Artigo ; olb:idFragmento "art1" ; olb:temPaiImediato cm:ResolucaoP .
 cm:P_art1_cpt a olb:Caput ; olb:idFragmento "art1_cpt" ; olb:temPaiImediato cm:P_art1 .
 cm:vP1 a olb:Versao ; olb:versaoDe cm:P_art1_cpt ; olb:inicioVigencia "2024-05-07"^^xsd:date ;
-    olb:textoVerbatim "A verificação dos medidores de consumo será trienal." .
+    olb:textoLiteral "A verificação dos medidores de consumo será trienal." .
 
 # ============================================================ COMPETÊNCIA
 cm:CompM a olb:Competencia ; olb:orgaoCompetente cm:MinisterioM ; olb:materiaCompetencia olbv:matMetrologia ;
