@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: "Se usar estes artefatos, cite-os como abaixo."
+message: "Para citar estes artefatos, use o DOI de conceito 10.5281/zenodo.24085121."
 title: "OLB, Ontologia da Legislação Brasileira: artefatos do livro Do Barro ao Significado"
 type: dataset
 authors:
@@ -11,6 +11,7 @@ authors:
 version: "0.13"
 date-released: "2026-11-09"
 license: CC-BY-4.0
+doi: "10.5281/zenodo.24085121"
 url: "https://w3id.org/olb"
 repository-code: "https://github.com/GersonRolim/olb"
 abstract: "TBox em OWL 2, regras SHACL, catálogo de relações em SKOS e conjuntos de dados de exemplo da Ontologia da Legislação Brasileira. Vocabulário e regras sob CC BY 4.0, dados de exemplo sob CC0 1.0."
