@@ -8,8 +8,8 @@ authors:
    orcid: "https://orcid.org/0009-0009-8108-5280"
  - family-names: Rolim
    given-names: Sueli
-version: "0.13"
-date-released: "2026-11-09"
+version: "0.14"
+date-released: "2026-11-11"
 license: CC-BY-4.0
 doi: "10.5281/zenodo.24085121"
 url: "https://w3id.org/olb"
