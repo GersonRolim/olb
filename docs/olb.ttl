@@ -1,7 +1,7 @@
 # LEX-TBX · TBox em OWL 2 · Ontologia da Legislação Brasileira (OLB)
-# v0.12 · 7 de novembro de 2026 (produção da norma: olb:comAlteracao e olb:caraterEfeito; nome de arquivo mantido) · Gerson Rolim e Sueli Rolim · documento de trabalho
+# v0.14 · 11 de novembro de 2026 (hierarquia infralegal entre emissores: olb:precedeNormativamente e olb:tornadaPublicaPor, sobre a v0.12 publicada) · Gerson Rolim e Sueli Rolim · documento de trabalho
 # Camada 1 do modelo em três camadas: o que pode existir.
-# Namespace provisório (example.org): decisão 5 do plano (abertura e licença).
+# Namespace: https://w3id.org/olb# (decisão 5 do plano). Licença: CC BY 4.0. O motor e a gramática têm licença separada, ainda em aberto.
 # Convenção de intervalo: inicioVigencia inclusivo, fimVigencia exclusivo.
 
 @prefix olb:  <https://w3id.org/olb#> .
@@ -15,11 +15,12 @@
 
 <https://w3id.org/olb> a owl:Ontology ;
     rdfs:label "Ontologia da Legislação Brasileira (OLB), TBox"@pt ;
-    owl:versionInfo "0.12" ;
+    owl:versionInfo "0.14" ;
     owl:imports <https://w3id.org/olb/vocab> ;
     dcterms:created "2026-10-02"^^xsd:date ;
     dcterms:creator "Gerson Rolim", "Sueli Rolim" ;
-    rdfs:comment "Classes e propriedades das cinco distinções da obra: norma, documento e versão; dispositivo; relação; tempo; genealogia e hierarquia. Licença a decidir."@pt .
+    rdfs:comment "Classes e propriedades das cinco distinções da obra: norma, documento e versão; dispositivo; relação; tempo; genealogia e hierarquia. Licença: CC BY 4.0 para o vocabulário e as regras. A licença do motor e da gramática (LEX-MOT e LEX-GRM) é decisão separada e continua aberta."@pt ;
+    dcterms:license <https://creativecommons.org/licenses/by/4.0/> .
 
 olb:nivelHierarquico a owl:AnnotationProperty ;
     rdfs:label "nível hierárquico"@pt ;
@@ -234,7 +235,7 @@ olb:Resolucao a owl:Class ; rdfs:subClassOf olb:AtoInfralegal ; rdfs:label "Reso
     rdfs:comment "Ato de órgão colegiado (Decreto 12.002/2024, a conferir artigo), inclusive diretorias colegiadas de agências reguladoras."@pt .
 olb:InstrucaoNormativa a owl:Class ; rdfs:subClassOf olb:AtoInfralegal ; rdfs:label "Instrução Normativa"@pt ; olb:nivelHierarquico 4 ;
     rdfs:comment "Ato de autoridade singular que orienta a execução de norma superior."@pt .
-olb:AtoInfralegal olb:notaNivel "Portaria, resolução e instrução normativa compartilham o nível 4. Mesmo nível significa que a hierarquia nada decide entre elas: entre órgãos pares, o conflito se resolve por competência (olb:Competencia), não por espécie."@pt .
+olb:AtoInfralegal olb:notaNivel "Portaria, resolução e instrução normativa compartilham o nível 4. Mesmo nível significa que a espécie nada decide entre elas. Quando um emissor precede normativamente o outro (olb:precedeNormativamente, como o CNSP em relação à SUSEP), a precedência entre emissores decide antes da competência. Só entre órgãos pares, sem precedência, o conflito se resolve por competência (olb:Competencia), não por espécie."@pt .
 olb:notaNivel a owl:AnnotationProperty ; rdfs:label "nota sobre o nível"@pt .
 
 [] a owl:AllDisjointClasses ; owl:members ( olb:Constituicao olb:EmendaConstitucional olb:LeiComplementar
@@ -260,6 +261,13 @@ olb:vinculadoA a owl:ObjectProperty ; rdfs:label "vinculado a"@pt ; rdfs:domain 
 olb:orgaoDe a owl:ObjectProperty , owl:FunctionalProperty ; rdfs:label "órgão de"@pt ; rdfs:domain olb:Orgao ; rdfs:range olb:EnteFederativo .
 olb:emitidaPor a owl:ObjectProperty ; rdfs:label "emitida por"@pt ; rdfs:domain olb:NormaJuridica ; rdfs:range olb:Orgao ;
     olb:dimensao olbv:dimEmissor ; olb:dominio olbv:domInstituicao .
+olb:precedeNormativamente a owl:ObjectProperty , owl:AsymmetricProperty , owl:IrreflexiveProperty ;
+    rdfs:label "precede normativamente"@pt ; rdfs:domain olb:Orgao ; rdfs:range olb:Orgao ;
+    olb:dimensao olbv:dimEmissor ; olb:dominio olbv:domInstituicao ;
+    rdfs:comment "O emissor do sujeito fixa diretrizes e normas que o emissor do objeto executa: entre atos de mesmo nível hierárquico, a norma do que precede prevalece sobre a do que executa antes de se recorrer à competência. Distinta de olb:vinculadoA, que é vinculação administrativa (secretaria a ministério) e nada diz sobre precedência normativa. Assimétrica e irreflexiva. Declarada só entre pares diretos. A precedência sobre um órgão interno que edita atos, como o Conselho Diretor da SUSEP, se declara explicitamente, com seu fundamento, e não se deduz de olb:vinculadoA. Se surgirem muitos órgãos internos, a saída é uma propriedade própria (por exemplo, olb:orgaoInternoDe), nunca o reaproveitamento de olb:vinculadoA. A precedência indireta se obtém por caminho de propriedade (olb:precedeNormativamente+), pois a propriedade transitiva deixaria de ser simples e não poderia levar essas duas características em OWL 2 DL. Fundamento do exemplo CNSP e SUSEP: Decreto-Lei 73/1966, art. 32, I e II (CNSP fixa diretrizes e normas, regula e fiscaliza) e art. 36, caput, na redação da Lei Complementar 213/2025 (a SUSEP atua na qualidade de executora das diretrizes estabelecidas pelo CNSP). Conferido no texto compilado do Planalto em 11 nov. 2026."@pt .
+olb:tornadaPublicaPor a owl:ObjectProperty ; rdfs:label "tornada pública por"@pt ; rdfs:domain olb:NormaJuridica ; rdfs:range olb:Orgao ;
+    olb:dimensao olbv:dimEmissor ; olb:dominio olbv:domInstituicao ;
+    rdfs:comment "Órgão que publica o ato quando não é o seu emissor. Distinta de olb:emitidaPor: autoria e publicação separadas. Exemplos: a Resolução CNSP 496/2026 é emitida pelo CNSP e o preâmbulo vem do Superintendente da SUSEP, que torna público o que o Conselho resolveu em sessão. A Resolução SUSEP 081/2026 é emitida pelo Conselho Diretor da SUSEP e o Superintendente a torna pública. Fundamento expresso do exemplo da Resolução CNSP 496/2026, conforme o preâmbulo no DOU: Regimento Interno da SUSEP (Resolução CNSP 490/2026), art. 48, XI, c/c Decreto 60.459/1967, art. 34, XI. Quando as duas coincidem, não se registra olb:tornadaPublicaPor."@pt .
 olb:ambitoTerritorial a owl:ObjectProperty ; rdfs:label "âmbito territorial"@pt ; rdfs:domain olb:NormaJuridica ; rdfs:range olb:EnteFederativo ;
     olb:dimensao olbv:dimEspaco ; olb:dominio olbv:domInstituicao ;
     rdfs:comment "Onde a norma vale. Em regra, o território do ente emissor; a lei federal pode ter âmbito nacional ou só da União."@pt .
@@ -395,7 +403,7 @@ olb:ementaDecisao a owl:DatatypeProperty ; rdfs:label "ementa da decisão"@pt ; 
 olb:forcaDoPrecedente a owl:ObjectProperty , owl:FunctionalProperty ; rdfs:label "força do precedente"@pt ;
     rdfs:domain olb:DecisaoJudicial ; rdfs:range skos:Concept .
 olb:fundamentoDaForca a owl:DatatypeProperty ; rdfs:label "fundamento da força"@pt ; rdfs:domain olb:DecisaoJudicial ; rdfs:range xsd:string ;
-    rdfs:comment "Dispositivo que torna a observância obrigatória (por exemplo, CPC, art. 927, I a V). Sem fundamento, o precedente é persuasivo."@pt .
+    rdfs:comment "Dispositivo que torna a observância obrigatória (por exemplo, CPC, art. 927, I a V, incluído o III-A: Lei 15.484/2026, vigência a conferir. Texto compilado do Planalto, acessado em 11 nov. 2026). Sem fundamento, o precedente é persuasivo."@pt .
 olb:temTese a owl:ObjectProperty ; rdfs:label "tem tese"@pt ; rdfs:domain olb:DecisaoJudicial ; rdfs:range olb:Tese .
 olb:textoDaTese a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "texto da tese"@pt ; rdfs:domain olb:Tese ; rdfs:range xsd:string .
 olb:numeroSumula a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "número da súmula"@pt ; rdfs:domain olb:Sumula ; rdfs:range xsd:integer .

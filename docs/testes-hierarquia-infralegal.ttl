@@ -1,0 +1,54 @@
+# LEX-ABX-HIT · testes da R88 · hierarquia infralegal entre emissores
+# CASO FICTÍCIO: órgãos, atos, números e datas inventados. Nada aqui é afirmação sobre norma real.
+# Espelha a estrutura real: Conselho X precede Agência Y, e a Resolução da Agência Y é editada por uma diretoria colegiada vinculada a ela.
+# HT1 dispara R88 (precedência ignorada, critério de competência), com o emissor sendo o órgão interno, por precedência explícita.
+# HT2 não dispara (critério hierárquico). HT3 não dispara (emissores sem precedência).
+# HT4 não dispara R88 (níveis diferentes, relação de outro tipo) e dispara R36, o alerta de nível inferior que revoga superior.
+# Nenhum teste dispara R63, porque todas as Resoluções vêm de órgãos colegiados.
+
+@prefix olb:  <https://w3id.org/olb#> .
+@prefix olbv: <https://w3id.org/olb/vocab#> .
+@prefix ht:   <https://w3id.org/olb/ht#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+ht:Uniao a olb:EnteFederativo ; olb:esfera olbv:esferaFederal ; olb:rotulo "União" .
+ht:ConselhoX a olb:OrgaoColegiado ; olb:orgaoDe ht:Uniao ; olb:rotulo "Conselho X (fictício)" .
+ht:AgenciaY a olb:Orgao ; olb:orgaoDe ht:Uniao ; olb:rotulo "Agência Y (fictícia)" .
+ht:DiretoriaY a olb:OrgaoColegiado ; olb:orgaoDe ht:Uniao ; olb:vinculadoA ht:AgenciaY ; olb:rotulo "Diretoria colegiada da Agência Y (fictícia)" .
+ht:AgenciaZ a olb:OrgaoColegiado ; olb:orgaoDe ht:Uniao ; olb:rotulo "Diretoria colegiada da Agência Z (fictícia)" .
+ht:CongressoFicticio a olb:OrgaoColegiado ; olb:orgaoDe ht:Uniao ; olb:rotulo "Congresso fictício" .
+ht:ConselhoX olb:precedeNormativamente ht:AgenciaY .
+# Precedência explícita sobre o órgão interno que edita a Resolução Y.
+ht:ConselhoX olb:precedeNormativamente ht:DiretoriaY .
+
+ht:ResX a olb:Resolucao ; olb:emitidaPor ht:ConselhoX ; olb:urn "urn:lex:br:federal:resolucao:2025-03-01;1001" ;
+    olb:dataEpigrafe "2025-03-01"^^xsd:date ; olb:dataPublicacao "2025-03-03"^^xsd:date ; olb:inicioVigencia "2025-03-03"^^xsd:date .
+ht:ResY a olb:Resolucao ; olb:emitidaPor ht:DiretoriaY ; olb:tornadaPublicaPor ht:AgenciaY ; olb:urn "urn:lex:br:federal:resolucao:2025-06-01;2002" ;
+    olb:dataEpigrafe "2025-06-01"^^xsd:date ; olb:dataPublicacao "2025-06-02"^^xsd:date ; olb:inicioVigencia "2025-06-02"^^xsd:date .
+ht:ResZ a olb:Resolucao ; olb:emitidaPor ht:AgenciaZ ; olb:urn "urn:lex:br:federal:resolucao:2025-06-05;3003" ;
+    olb:dataEpigrafe "2025-06-05"^^xsd:date ; olb:dataPublicacao "2025-06-06"^^xsd:date ; olb:inicioVigencia "2025-06-06"^^xsd:date .
+ht:LeiW a olb:LeiOrdinaria ; olb:emitidaPor ht:CongressoFicticio ; olb:urn "urn:lex:br:federal:lei:2024-01-10;9009" ;
+    olb:dataEpigrafe "2024-01-10"^^xsd:date ; olb:dataPublicacao "2024-01-11"^^xsd:date ; olb:inicioVigencia "2024-01-11"^^xsd:date .
+ht:CompY a olb:Competencia ; olb:orgaoCompetente ht:AgenciaY ; olb:materiaCompetencia olbv:matMetrologia ;
+    olb:espacoCompetencia ht:Uniao ; olb:fundamentoCompetencia ht:ResY ; olb:tipoCompetencia olbv:compPrivativa ;
+    olb:inicioVigencia "2025-06-02"^^xsd:date .
+
+# HT1 · R88
+ht:HT1 a olb:RelacaoNormativa ; olb:origem ht:ResY ; olb:destino ht:ResX ; olb:tipoRelacao olbv:conflita_com ;
+    olb:camadaOrigem olbv:camadaInferidaRegra ; olb:estado olbv:proposta ; olb:criterio olbv:criterioCompetencia ;
+    olb:competenciaInvocada ht:CompY ; olb:inicioEfeito "2025-06-02"^^xsd:date ; olb:fundamentoLegal "fictício" ;
+    olb:evidencia "Texto inventado do ato, apenas para o teste." .
+# HT2 · sem alerta
+ht:HT2 a olb:RelacaoNormativa ; olb:origem ht:ResY ; olb:destino ht:ResX ; olb:tipoRelacao olbv:conflita_com ;
+    olb:camadaOrigem olbv:camadaInferidaRegra ; olb:estado olbv:proposta ; olb:criterio olbv:criterioHierarquico ;
+    olb:inicioEfeito "2025-06-02"^^xsd:date ; olb:fundamentoLegal "fictício" ;
+    olb:evidencia "Texto inventado do ato, apenas para o teste." .
+# HT3 · sem alerta
+ht:HT3 a olb:RelacaoNormativa ; olb:origem ht:ResY ; olb:destino ht:ResZ ; olb:tipoRelacao olbv:conflita_com ;
+    olb:camadaOrigem olbv:camadaInferidaRegra ; olb:estado olbv:proposta ; olb:criterio olbv:criterioCronologico ;
+    olb:inicioEfeito "2025-06-06"^^xsd:date ; olb:fundamentoLegal "fictício" ;
+    olb:evidencia "Texto inventado do ato, apenas para o teste." .
+# HT4 · R36, sem R88: Resolução (nível 4) revoga Lei (nível 2)
+ht:HT4 a olb:RelacaoNormativa ; olb:origem ht:ResY ; olb:destino ht:LeiW ; olb:tipoRelacao olbv:revoga ;
+    olb:camadaOrigem olbv:camadaDeclarada ; olb:estado olbv:declarada ;
+    olb:inicioEfeito "2025-06-02"^^xsd:date ; olb:fundamentoLegal "Resolução Y fictícia" .

@@ -1,7 +1,7 @@
 # LEX-SHP · Regras em SHACL · Ontologia da Legislação Brasileira (OLB)
-# v0.12 · 7 de novembro de 2026 (produção da norma: R85 a R87; nome de arquivo mantido) · Gerson Rolim e Sueli Rolim · documento de trabalho
+# v0.14 · 11 de novembro de 2026 (hierarquia infralegal entre emissores: R88, sobre a v0.12 publicada) · Gerson Rolim e Sueli Rolim · documento de trabalho
 # Camada 2 do modelo em três camadas: o que é aceitável (mundo fechado).
-# 86 regras numeradas, R01 a R87, com R57 reservada, oito delas de aviso (R36, R37, R63, R68, R74, R75, R82 e R87).
+# 87 regras numeradas, R01 a R88, com R57 reservada, nove delas de aviso (R36, R37, R63, R68, R74, R75, R82, R87 e R88).
 # Severidade Violation bloqueia; Warning alerta sem bloquear.
 
 @prefix sh:   <http://www.w3.org/ns/shacl#> .
@@ -13,9 +13,11 @@
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
 @prefix owl:  <http://www.w3.org/2002/07/owl#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
 
 <https://w3id.org/olb/shapes> a owl:Ontology ;
-    rdfs:label "OLB, regras SHACL"@pt ; owl:versionInfo "0.12" ;
+    rdfs:label "OLB, regras SHACL"@pt ; owl:versionInfo "0.14" ;
+    dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
     sh:declare
         [ sh:prefix "olb" ;  sh:namespace "https://w3id.org/olb#"^^xsd:anyURI ] ,
         [ sh:prefix "olbv" ; sh:namespace "https://w3id.org/olb/vocab#"^^xsd:anyURI ] ,
@@ -631,4 +633,18 @@ olbs:CaraterProvisorioShape a sh:NodeShape ; sh:severity sh:Warning ; sh:targetC
             $this olb:tipoRelacao ?t . FILTER (?t IN (olbv:altera, olbv:revoga, olbv:revoga_dispositivo))
             $this olb:origem ?o . ?o olb:temPaiImediato* ?value . ?value a olb:MedidaProvisoria .
             FILTER NOT EXISTS { $this olb:caraterEfeito olbv:efeitoProvisorio }
+        }""" ] .
+
+# ============================================================ v0.14 · HIERARQUIA INFRALEGAL ENTRE EMISSORES
+olbs:PrecedenciaEmissorShape a sh:NodeShape ; sh:severity sh:Warning ; sh:targetClass olb:RelacaoNormativa ;
+    sh:sparql [ sh:prefixes <https://w3id.org/olb/shapes> ; sh:severity sh:Warning ;
+        sh:message "R88. Conflito entre atos do mesmo nível em que um emissor precede normativamente o outro: a precedência entre emissores decide antes da competência. Registre o critério hierárquico ou justifique. Não bloqueia, pede revisão."@pt ;
+        sh:select """SELECT $this ?value WHERE {
+            $this olb:tipoRelacao olbv:conflita_com ; olb:origem ?o ; olb:destino ?x .
+            ?o olb:temPaiImediato* ?no . ?no a ?co . ?co olb:nivelHierarquico ?n .
+            ?x olb:temPaiImediato* ?nx . ?nx a ?cx . ?cx olb:nivelHierarquico ?n .
+            ?no olb:emitidaPor ?e1 . ?nx olb:emitidaPor ?e2 .
+            { ?e1 olb:precedeNormativamente+ ?e2 } UNION { ?e2 olb:precedeNormativamente+ ?e1 }
+            FILTER NOT EXISTS { $this olb:criterio olbv:criterioHierarquico }
+            BIND (?e2 AS ?value)
         }""" ] .

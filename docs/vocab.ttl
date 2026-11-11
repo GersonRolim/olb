@@ -1,7 +1,7 @@
 # LEX-CAT · Catálogo de relações normativas e vocabulários controlados
-# Ontologia da Legislação Brasileira (OLB) · v0.12 · 7 de novembro de 2026 (nome de arquivo mantido)
+# Ontologia da Legislação Brasileira (OLB) · v0.14 · 11 de novembro de 2026 (nome de arquivo mantido)
 # Gerson Rolim e Sueli Rolim · documento de trabalho
-# Namespace provisório (example.org): a definição do namespace e da licença é a decisão 5 do plano.
+# Namespace: https://w3id.org/olb/vocab# (decisão 5 do plano). Licença: CC BY 4.0.
 # Os doze tipos marcados como vocabulário oficial reproduzem valores do TipoRelacionamentoType do esquema
 # oficial oai_lexml.xsd (dezessete valores; arquivo conferido em 16 de outubro de 2026, com histórico até 2013).
 # Ficam fora do catálogo publicacao.oficial, emenda.de, parecer.de, peticao.inicial.de e sucessivo.ou.precedente.de.
@@ -24,9 +24,10 @@
 
 <https://w3id.org/olb/vocab> a owl:Ontology ;
     rdfs:label "OLB, catálogo de relações e vocabulários controlados"@pt ;
-    owl:versionInfo "0.12" ;
+    owl:versionInfo "0.14" ;
     dcterms:created "2026-10-02"^^xsd:date ;
-    dcterms:creator "Gerson Rolim", "Sueli Rolim" .
+    dcterms:creator "Gerson Rolim", "Sueli Rolim" ;
+    dcterms:license <https://creativecommons.org/licenses/by/4.0/> .
 
 # Propriedades de anotação do catálogo
 olb:origemVocabulario a owl:AnnotationProperty ; rdfs:label "origem do vocabulário"@pt .
@@ -47,7 +48,7 @@ olbv:esquemaTipoRelacao a skos:ConceptScheme ;
 olbv:revoga a skos:Concept ; skos:inScheme olbv:esquemaTipoRelacao ; skos:notation "revoga" ;
     skos:prefLabel "revoga"@pt ; skos:definition "A origem revoga integralmente a norma de destino."@pt ;
     olb:origemVocabulario olbv:vocabularioOficialLexML ; olb:exigeProposta false ; olb:sujeitoAAlertaHierarquico true ;
-    olb:fundamentoTipico "Cláusula revogatória expressa (LC 95/1998, art. 9º, a verificar)" .
+    olb:fundamentoTipico "Cláusula revogatória expressa (LC 95/1998, art. 9º, com a redação da LC 107/2001: a cláusula enumera expressamente as leis ou disposições revogadas. Texto compilado do Planalto, conferido em 11 nov. 2026)" .
 olbv:revoga_dispositivo a skos:Concept ; skos:inScheme olbv:esquemaTipoRelacao ; skos:notation "revoga.dispositivo" ;
     skos:prefLabel "revoga dispositivo"@pt ; skos:definition "A origem revoga um dispositivo determinado, ou um agrupador (parte, livro ou título), da norma de destino."@pt ;
     olb:origemVocabulario olbv:vocabularioOficialLexML ; olb:exigeProposta false ; olb:sujeitoAAlertaHierarquico true ;
@@ -55,7 +56,7 @@ olbv:revoga_dispositivo a skos:Concept ; skos:inScheme olbv:esquemaTipoRelacao ;
 olbv:altera a skos:Concept ; skos:inScheme olbv:esquemaTipoRelacao ; skos:notation "altera" ;
     skos:prefLabel "altera"@pt ; skos:definition "A origem dá nova redação, acrescenta ou suprime conteúdo no destino."@pt ;
     olb:origemVocabulario olbv:vocabularioOficialLexML ; olb:exigeProposta false ; olb:sujeitoAAlertaHierarquico true ;
-    olb:fundamentoTipico "Comando de alteração (LC 95/1998, art. 12, a verificar)" .
+    olb:fundamentoTipico "Comando de alteração (LC 95/1998, art. 12, I e III: reprodução integral em novo texto, substituição do dispositivo ou acréscimo de dispositivo novo. Texto compilado do Planalto, conferido em 11 nov. 2026)" .
 olbv:regulamenta a skos:Concept ; skos:inScheme olbv:esquemaTipoRelacao ; skos:notation "regulamenta" ;
     skos:prefLabel "regulamenta"@pt ; skos:definition "A origem regulamenta a norma de destino."@pt ;
     olb:origemVocabulario olbv:vocabularioOficialLexML ; olb:exigeProposta false ; olb:sujeitoAAlertaHierarquico false .
@@ -134,9 +135,9 @@ olbv:revogado a skos:Concept ; skos:inScheme olbv:esquemaSituacao ; skos:prefLab
 olbv:vetado a skos:Concept ; skos:inScheme olbv:esquemaSituacao ; skos:prefLabel "vetado"@pt ;
     skos:note "LC 95/1998, art. 12, III, c, e TipoSituacao do LexML."@pt .
 olbv:declaradoInconstitucional a skos:Concept ; skos:inScheme olbv:esquemaSituacao ; skos:prefLabel "declarado inconstitucional"@pt ;
-    skos:note "LC 95/1998, art. 12, III, c. Sem correspondente direto no TipoSituacao: a conferir."@pt .
+    skos:note "LC 95/1998, art. 12, III, c, conferido no texto compilado do Planalto em 11 nov. 2026. A expressão do texto é 'declarado inconstitucional, em controle concentrado, pelo Supremo Tribunal Federal'. No controle difuso o dispositivo não sai do texto, e o caminho é a suspensão pelo Senado Federal (olbv:execucaoSuspensa). Sem correspondente direto no TipoSituacao, que no esquema LexML enumera omissis, revogado, suspenso, vetado e superado."@pt .
 olbv:execucaoSuspensa a skos:Concept ; skos:inScheme olbv:esquemaSituacao ; skos:prefLabel "execução suspensa pelo Senado Federal"@pt ;
-    skos:note "LC 95/1998, art. 12, III, c. Possível correspondência com 'suspenso' do TipoSituacao: a conferir."@pt .
+    skos:note "LC 95/1998, art. 12, III, c, conferido no texto compilado do Planalto em 11 nov. 2026. A expressão do texto é 'execução suspensa pelo Senado Federal, na forma do art. 52, X, da Constituição Federal'. Possível correspondência com 'suspenso' do TipoSituacao: a conferir, porque o esquema LexML lista o valor sem defini-lo."@pt .
 olbv:suspenso a skos:Concept ; skos:inScheme olbv:esquemaSituacao ; skos:prefLabel "suspenso"@pt ; skos:note "TipoSituacao do LexML."@pt .
 olbv:superado a skos:Concept ; skos:inScheme olbv:esquemaSituacao ; skos:prefLabel "superado"@pt ; skos:note "TipoSituacao do LexML."@pt .
 olbv:omissis a skos:Concept ; skos:inScheme olbv:esquemaSituacao ; skos:prefLabel "omissis"@pt ;
@@ -217,7 +218,7 @@ olbv:camadaDoutrinaria a skos:Concept ; skos:inScheme olbv:esquemaCamada ;
 # ================================================================ v0.3 · cláusula de revogação (Capítulo 8B)
 olbv:esquemaClausulaRevogatoria a skos:ConceptScheme ; skos:prefLabel "Forma da cláusula de revogação"@pt .
 olbv:clausulaEnumerada a skos:Concept ; skos:inScheme olbv:esquemaClausulaRevogatoria ; skos:prefLabel "enumerada"@pt ;
-    skos:definition "A cláusula indica as normas ou dispositivos revogados. É a forma que a Lei Complementar nº 95/1998 pede (art. 9º, a conferir)."@pt .
+    skos:definition "A cláusula indica as normas ou dispositivos revogados. É a forma que a Lei Complementar nº 95/1998 pede (art. 9º, conferido no texto compilado do Planalto em 11 nov. 2026)."@pt .
 olbv:clausulaGenerica a skos:Concept ; skos:inScheme olbv:esquemaClausulaRevogatoria ; skos:prefLabel "genérica"@pt ;
     skos:definition "Fórmula 'revogam-se as disposições em contrário'. Não indica destino: o que ela revoga só se descobre por comparação, e toda relação derivada dela nasce como proposta."@pt .
 
@@ -273,22 +274,22 @@ olbv:esferaEstadual a skos:Concept ; skos:inScheme olbv:esquemaEsfera ; skos:pre
 olbv:esferaDistrital a skos:Concept ; skos:inScheme olbv:esquemaEsfera ; skos:prefLabel "distrital"@pt .
 olbv:esferaMunicipal a skos:Concept ; skos:inScheme olbv:esquemaEsfera ; skos:prefLabel "municipal"@pt .
 
-# ---------------------------------------------------------------- tipo de competência (CF, arts. 21 a 24 e 30, a conferir)
+# ---------------------------------------------------------------- tipo de competência (CF, arts. 21 a 24 e 30, conferidos no texto do Planalto em 11 nov. 2026)
 olbv:esquemaTipoCompetencia a skos:ConceptScheme ; skos:prefLabel "Tipo de competência"@pt .
 olb:compartilhada a owl:AnnotationProperty ; rdfs:label "competência compartilhada"@pt ;
     rdfs:comment "Verdadeiro quando mais de um órgão ou ente pode atuar na matéria: o conflito nasce como proposta (R62)."@pt .
 olbv:compPrivativa a skos:Concept ; skos:inScheme olbv:esquemaTipoCompetencia ; skos:prefLabel "privativa"@pt ; olb:compartilhada false ;
-    skos:note "CF, art. 22 (legislativa da União), a conferir."@pt .
+    skos:note "CF, art. 22 (legislativa da União, 'compete privativamente'), conferido em 11 nov. 2026."@pt .
 olbv:compExclusiva a skos:Concept ; skos:inScheme olbv:esquemaTipoCompetencia ; skos:prefLabel "exclusiva"@pt ; olb:compartilhada false ;
-    skos:note "CF, art. 21 (material da União), a conferir."@pt .
+    skos:note "CF, art. 21 (material da União), conferido em 11 nov. 2026. O texto diz 'compete à União', e a qualificação 'exclusiva' é da doutrina. O rótulo se mantém por ser o termo consagrado."@pt .
 olbv:compComum a skos:Concept ; skos:inScheme olbv:esquemaTipoCompetencia ; skos:prefLabel "comum"@pt ; olb:compartilhada true ;
-    skos:note "CF, art. 23, a conferir."@pt .
+    skos:note "CF, art. 23 (competência comum), conferido em 11 nov. 2026."@pt .
 olbv:compConcorrente a skos:Concept ; skos:inScheme olbv:esquemaTipoCompetencia ; skos:prefLabel "concorrente"@pt ; olb:compartilhada true ;
-    skos:note "CF, art. 24. Exceção do § 4º: a lei federal superveniente sobre normas gerais suspende a eficácia da lei estadual no que lhe for contrário (a conferir)."@pt .
+    skos:note "CF, art. 24. Exceção do § 4º: a lei federal superveniente sobre normas gerais suspende a eficácia da lei estadual no que lhe for contrário (conferido em 11 nov. 2026)."@pt .
 olbv:compSuplementar a skos:Concept ; skos:inScheme olbv:esquemaTipoCompetencia ; skos:prefLabel "suplementar"@pt ; olb:compartilhada true ;
-    skos:note "CF, art. 24, § 2º, e art. 30, II, a conferir."@pt .
+    skos:note "CF, art. 24, § 2º, e art. 30, II, conferidos em 11 nov. 2026."@pt .
 olbv:compLocal a skos:Concept ; skos:inScheme olbv:esquemaTipoCompetencia ; skos:prefLabel "interesse local"@pt ; olb:compartilhada false ;
-    skos:note "CF, art. 30, I, a conferir."@pt .
+    skos:note "CF, art. 30, I, conferido em 11 nov. 2026."@pt .
 
 # ---------------------------------------------------------------- matéria (semente; alinhamento a tesauro oficial a decidir)
 olbv:esquemaMateria a skos:ConceptScheme ; skos:prefLabel "Matéria"@pt ;
@@ -367,13 +368,13 @@ olbv:aplica a skos:Concept ; skos:inScheme olbv:esquemaTipoRelacaoJudicial ; sko
     olb:origemVocabulario olbv:extensaoDosAutores ; olb:exigeProposta false ; olb:sujeitoAAlertaHierarquico false ;
     olb:fundamentoTipico "Citação do dispositivo na fundamentação da decisão" .
 olbv:distingue a skos:Concept ; skos:inScheme olbv:esquemaTipoRelacaoJudicial ; skos:notation "distingue" ;
-    skos:prefLabel "distingue"@pt ; skos:definition "A decisão afasta um precedente por demonstrar que o caso julgado difere dos seus fundamentos determinantes (CPC, art. 489, § 1º, VI, a conferir)."@pt ;
+    skos:prefLabel "distingue"@pt ; skos:definition "A decisão afasta um precedente por demonstrar que o caso julgado difere dos seus fundamentos determinantes (CPC, art. 489, § 1º, VI, conferido no texto compilado do Planalto em 11 nov. 2026)."@pt ;
     olb:origemVocabulario olbv:extensaoDosAutores ; olb:exigeProposta true ; olb:sujeitoAAlertaHierarquico false ;
-    olb:fundamentoTipico "Demonstração de distinção feita na fundamentação, a verificar por pessoa" .
+    olb:fundamentoTipico "Demonstração de distinção feita na fundamentação, a verificar por pessoa (decisão humana, regra R31)" .
 olbv:supera a skos:Concept ; skos:inScheme olbv:esquemaTipoRelacaoJudicial ; skos:notation "supera" ;
-    skos:prefLabel "supera"@pt ; skos:definition "A decisão supera o entendimento firmado em decisão anterior (CPC, art. 489, § 1º, VI, a conferir)."@pt ;
+    skos:prefLabel "supera"@pt ; skos:definition "A decisão supera o entendimento firmado em decisão anterior (CPC, art. 489, § 1º, VI, conferido no texto compilado do Planalto em 11 nov. 2026)."@pt ;
     olb:origemVocabulario olbv:extensaoDosAutores ; olb:exigeProposta true ; olb:sujeitoAAlertaHierarquico false ;
-    olb:fundamentoTipico "Declaração de superação na fundamentação, a verificar por pessoa" .
+    olb:fundamentoTipico "Declaração de superação na fundamentação, a verificar por pessoa (decisão humana, regra R31)" .
 
 # ---------------------------------------------------------------- v0.8 · vocabulários da decisão judicial
 olbv:esquemaTipoDecisaoJudicial a skos:ConceptScheme ; skos:prefLabel "Tipo de decisão judicial"@pt .
@@ -382,7 +383,7 @@ olbv:sentenca a skos:Concept ; skos:inScheme olbv:esquemaTipoDecisaoJudicial ; s
 olbv:decisaoMonocratica a skos:Concept ; skos:inScheme olbv:esquemaTipoDecisaoJudicial ; skos:prefLabel "decisão monocrática"@pt .
 olbv:esquemaForcaPrecedente a skos:ConceptScheme ; skos:prefLabel "Força do precedente"@pt .
 olbv:observanciaObrigatoria a skos:Concept ; skos:inScheme olbv:esquemaForcaPrecedente ; skos:prefLabel "observância obrigatória"@pt ;
-    skos:definition "Precedente que juízes e tribunais devem observar por força de dispositivo expresso (CPC, art. 927, a conferir). Exige o fundamento registrado (R81)."@pt .
+    skos:definition "Precedente que juízes e tribunais devem observar por força de dispositivo expresso (CPC, art. 927, conferido no texto compilado do Planalto em 11 nov. 2026). Exige o fundamento registrado (R81)."@pt .
 olbv:persuasivo a skos:Concept ; skos:inScheme olbv:esquemaForcaPrecedente ; skos:prefLabel "persuasivo"@pt ;
     skos:definition "Precedente que pode ser invocado como argumento, sem obrigar."@pt .
 

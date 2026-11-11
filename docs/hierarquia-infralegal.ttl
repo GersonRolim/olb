@@ -1,0 +1,46 @@
+# LEX-ABX-HI · ABox de exemplo · hierarquia infralegal entre emissores (CNSP e SUSEP)
+# OLB · v0.14 · 11 de novembro de 2026 · Gerson Rolim e Sueli Rolim
+# DADOS REAIS, de exemplo. Fundamento da precedência: Decreto-Lei 73/1966, art. 32, I, II e IV, e art. 36, caput (redação da LC 213/2025).
+# Os incisos I e II e o art. 36 foram conferidos no texto compilado do Planalto em 11 nov. 2026. O inciso IV consta do preâmbulo da Resolução CNSP 496/2026 no DOU.
+# Resolução CNSP 496/2026 e Resolução SUSEP 081/2026: conferidas no DOU em 11 nov. 2026, em PDF das páginas do in.gov.br.
+# Resolução CNSP 496/2026: DOU de 18.08.2026, Edição 155-B, Seção 1 Extra B, a partir da pág. 7. SHA-256 do PDF: 6dd6bbded4d5da37bd0893677d82d0c4facb2d98591f5b0eecde18a5173aa0f7.
+# Resolução SUSEP 081/2026: DOU de 30.03.2026, Edição 60, Seção 1, a partir da pág. 98. SHA-256 do PDF: 79deee698d086f532b86d3c0b9b4349361f1c9ae73a3a582e0fd436d8c8193cf.
+# Órgão no DOU das duas: Ministério da Fazenda/Superintendência de Seguros Privados.
+
+@prefix olb:  <https://w3id.org/olb#> .
+@prefix olbv: <https://w3id.org/olb/vocab#> .
+@prefix hi:   <https://w3id.org/olb/hi#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+hi:Uniao a olb:EnteFederativo ; olb:esfera olbv:esferaFederal ; olb:rotulo "União" .
+hi:CNSP a olb:OrgaoColegiado ; olb:orgaoDe hi:Uniao ; olb:rotulo "Conselho Nacional de Seguros Privados (CNSP)" .
+hi:SUSEP a olb:Orgao ; olb:orgaoDe hi:Uniao ; olb:rotulo "Superintendência de Seguros Privados (SUSEP)" .
+# O Conselho Diretor decide em reunião e o Superintendente torna público o ato (preâmbulo da Resolução SUSEP 081/2026).
+hi:ConselhoDiretorSUSEP a olb:OrgaoColegiado ; olb:orgaoDe hi:Uniao ; olb:vinculadoA hi:SUSEP ;
+    olb:rotulo "Conselho Diretor da Superintendência de Seguros Privados (SUSEP)" .
+
+# CNSP fixa diretrizes e normas (DL 73/1966, art. 32, I, II e IV). A SUSEP é executora (art. 36, caput).
+hi:CNSP olb:precedeNormativamente hi:SUSEP .
+# Precedência explícita sobre o órgão interno que edita as Resoluções da SUSEP. Fundamento: DL 73/1966, art. 36, caput (a SUSEP executa as
+# diretrizes do CNSP) e preâmbulo da Resolução SUSEP 081/2026 (o Conselho Diretor decide em nome da SUSEP, e o Superintendente torna público).
+hi:CNSP olb:precedeNormativamente hi:ConselhoDiretorSUSEP .
+
+hi:ResCNSP496_2026 a olb:Resolucao ;
+    olb:urn "urn:lex:br:conselho.nacional.seguros.privados:resolucao:2026-08-17;496" ;
+    olb:rotulo "Resolução CNSP nº 496, de 17.08.2026" ; olb:ambitoTerritorial hi:Uniao ;
+    olb:emitidaPor hi:CNSP ; olb:tornadaPublicaPor hi:SUSEP ;
+    olb:dataEpigrafe "2026-08-17"^^xsd:date ; olb:dataPublicacao "2026-08-18"^^xsd:date ;
+    olb:inicioVigencia "2026-08-18"^^xsd:date .
+# Início de vigência: art. 54 da Resolução CNSP 496/2026, "entra em vigor na data de sua publicação". O art. 53 revoga a Resolução CNSP 407/2021.
+# Preâmbulo: o Superintendente da SUSEP, com base no art. 48, XI, do Regimento Interno da SUSEP (Resolução CNSP 490/2026) c/c o art. 34, XI, do Decreto 60.459/1967,
+# torna público o que o CNSP decidiu em sessão extraordinária de 17.08.2026. Conferido no DOU em 11 nov. 2026.
+
+hi:ResSUSEP081_2026 a olb:Resolucao ;
+    olb:urn "urn:lex:br:superintendencia.seguros.privados:resolucao:2026-03-26;81" ;
+    olb:rotulo "Resolução SUSEP nº 081, de 26.03.2026 (estrutura da DISUC)" ; olb:ambitoTerritorial hi:Uniao ;
+    olb:emitidaPor hi:ConselhoDiretorSUSEP ; olb:tornadaPublicaPor hi:SUSEP ;
+    olb:dataEpigrafe "2026-03-26"^^xsd:date ; olb:dataPublicacao "2026-03-30"^^xsd:date ;
+    olb:inicioVigencia "2026-04-01"^^xsd:date .
+# Início de vigência: art. 18 da Resolução SUSEP 081/2026, "entra em vigor em 1º de abril de 2026". O art. 17 revoga a Resolução SUSEP 67/2025.
+# Preâmbulo: o Superintendente torna público o que o Conselho Diretor decidiu em reunião ordinária de 25.03.2026, com base no art. 8º, caput, V e XI,
+# do Anexo I da Resolução CNSP 483/2025. Conferido no DOU em 11 nov. 2026.
